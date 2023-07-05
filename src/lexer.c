@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/07/05 17:24:46 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:36:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	tokener(char *str, t_list *list)
 	//state = 0;
 	while (str[i])
 	{
+		while (str[i] == ' ' && str[i])
+			++i;
 		start = i;
 		while (str[i] != ' ' && str[i])
 			++i;
