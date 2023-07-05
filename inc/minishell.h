@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/07/05 17:20:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/07/05 20:20:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ typedef struct s_cmdtoken
 	int		type;
 }		t_cmdtoken;
 
+//lexer
+
 t_list	*lexer(char	*str);
+
+//lexer_utils
+
+void	state_quote_delimiter(char *str, int *i, char delim);
 
 //debug only
 

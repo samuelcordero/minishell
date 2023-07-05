@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/07/05 17:17:39 by sacorder         ###   ########.fr        #
+#    Updated: 2023/07/05 20:12:35 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ LIB = -L libft -lft -lreadline
 NAME = minishell
 FLAGS = -Wall -Wextra -Werror
 INCLUDE = inc/fdf.h 
-SRC = src/minishell.c src/lexer.c
+SRC = src/minishell.c src/lexer.c src/lexer_utils.c
 OBJ = $(SRC:.c=.o)
 RM=/bin/rm -f
 CC = gcc

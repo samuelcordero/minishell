@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/07/05 17:36:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/07/05 20:29:19 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,54 @@ static void	*get_token(char *str, int start, int end)
 	return ((void *) token);
 }
 
+static void	skip_spaces(char *str, int *i, int *start)
+{
+	while (str[*i] == ' ' && str[*i])
+		++(*i);
+	*start = *i;
+}
+
+static void	*get_next_token(char *str, int start, int *i)
+{
+	int		exit;
+
+	exit = 0;
+	while (str[*i] && !exit)
+	{
+		if (str[*i] == ' ')
+			exit = 1;
+		else if (str[*i] == '\'')
+			state_quote_delimiter(str, i, '\'');
+		else if (str[*i] == '\"')
+			state_quote_delimiter(str, i, '\"');
+		if (str[*i] && str[*i] != ' ')
+			++(*i);
+	}
+	return (get_token(str, start, *i));
+}
+
 static void	tokener(char *str, t_list *list)
 {
 	t_list	*current;
+	t_list	*last;
 	int		i;
 	int		start;
-	//int		state;
 
 	i = 0;
 	current = list;
-	//state = 0;
 	while (str[i])
 	{
-		while (str[i] == ' ' && str[i])
-			++i;
-		start = i;
-		while (str[i] != ' ' && str[i])
-			++i;
-		if (start != i)
-		{
-			current->content = get_token(str, start, i);
-			current->next = malloc(sizeof(t_list));
-			//if (!current->next) memory error
-			current = current->next;
-			current->content = NULL;
-			current->next = NULL;
-		}
+		skip_spaces(str, &i, & start);
+		last = current;
+		current->content = get_next_token(str, start, &i);
+		current->next = malloc(sizeof(t_list));
+		//if (!current->next) memory error
+		current = current->next;
+		current->content = NULL;
+		current->next = NULL;
 	}
+	free(last->next);
+	last->next = NULL;
 }
 
 t_list	*lexer(char	*str)
@@ -63,23 +84,4 @@ t_list	*lexer(char	*str)
 	list->next = NULL;
 	tokener(str, list);
 	return (list);
-}
-
-void	print_tokens(t_list *tokens)
-{
-	t_list		*current;
-	t_cmdtoken	*ccontent;
-	int	counter;
-
-	current = tokens;
-	counter = 0;
-	while (current)
-	{
-		ccontent = (t_cmdtoken *)current->content;
-		printf("Token %i\n\n", counter);
-		if (ccontent)
-			printf("Content: %s \nType: %i\n\n", ccontent->str, ccontent->type);
-		counter++;
-		current = current->next;
-	}
 }
