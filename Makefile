@@ -11,9 +11,9 @@
 # **************************************************************************** #
 
 LIBFT = libft/libft.a
-LIB = -L libft -lft -lreadline
+LDFLAGS = -L libft -lft -lreadline
 NAME = minishell
-FLAGS = -Wall -Wextra -Werror -O3 -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -O3
 INCLUDE = inc/fdf.h 
 SRC = src/minishell.c src/lexer.c src/lexer_utils.c src/expander.c
 OBJ = $(SRC:.c=.o)
@@ -23,13 +23,13 @@ CC = gcc
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(LIB)
+	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 $(LIBFT):
 	@make bonus -C ./libft
 
 %.o: %.c
-	$(CC) $(FLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	@make clean -C ./libft

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/07/05 20:29:19 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/01 17:05:38 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,31 @@ static void	skip_spaces(char *str, int *i, int *start)
 	*start = *i;
 }
 
+static char	ft_istoken(char c)
+{
+	if (c != '|' && c != ';' && c != '<' && c != '>' && c != '&')
+		return (0);
+	return (1);
+}
+
 static void	*get_next_token(char *str, int start, int *i)
 {
-	int		exit;
-
-	exit = 0;
-	while (str[*i] && !exit)
+	while (str[*i] && str[*i] != ' ')
 	{
-		if (str[*i] == ' ')
-			exit = 1;
-		else if (str[*i] == '\'')
+		if (str[*i] == '\'')
 			state_quote_delimiter(str, i, '\'');
 		else if (str[*i] == '\"')
 			state_quote_delimiter(str, i, '\"');
+		if (ft_istoken(str[*i]))
+			break ;
 		if (str[*i] && str[*i] != ' ')
 			++(*i);
+	}
+	if (ft_istoken(str[*i]) && start == *i)
+	{
+		++(*i);
+		if (str[*i] == str[(*i) - 1])
+			(*i) += 1;
 	}
 	return (get_token(str, start, *i));
 }
