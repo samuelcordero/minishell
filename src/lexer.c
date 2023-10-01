@@ -58,6 +58,7 @@ static void	tokener(char *str, t_list *list)
 
 	i = 0;
 	current = list;
+	last = NULL;
 	while (str[i])
 	{
 		skip_spaces(str, &i, & start);
@@ -69,8 +70,11 @@ static void	tokener(char *str, t_list *list)
 		current->content = NULL;
 		current->next = NULL;
 	}
-	free(last->next);
-	last->next = NULL;
+	if (last)
+	{
+		free(last->next);
+		last->next = NULL;
+	}
 }
 
 t_list	*lexer(char	*str)

@@ -13,9 +13,9 @@
 LIBFT = libft/libft.a
 LIB = -L libft -lft -lreadline
 NAME = minishell
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -O3 -g3 -fsanitize=address
 INCLUDE = inc/fdf.h 
-SRC = src/minishell.c src/lexer.c src/lexer_utils.c
+SRC = src/minishell.c src/lexer.c src/lexer_utils.c src/expander.c
 OBJ = $(SRC:.c=.o)
 RM=/bin/rm -f
 CC = gcc
@@ -42,7 +42,8 @@ fclean:
 	$(RM) $(OBJ)
 	$(RM) $(OBJBONUS)
 
-re: fclean all
+re:: fclean 
+re:: all
 
 rebonus: fclean bonus
 
