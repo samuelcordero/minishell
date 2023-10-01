@@ -6,11 +6,11 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/01 17:05:38 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/01 21:03:04 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 static void	*get_token(char *str, int start, int end)
 {
@@ -30,7 +30,7 @@ static void	skip_spaces(char *str, int *i, int *start)
 	*start = *i;
 }
 
-static char	ft_istoken(char c)
+static char	ft_isreserved(char c)
 {
 	if (c != '|' && c != ';' && c != '<' && c != '>' && c != '&')
 		return (0);
@@ -45,12 +45,12 @@ static void	*get_next_token(char *str, int start, int *i)
 			state_quote_delimiter(str, i, '\'');
 		else if (str[*i] == '\"')
 			state_quote_delimiter(str, i, '\"');
-		if (ft_istoken(str[*i]))
+		if (ft_isreserved(str[*i]))
 			break ;
 		if (str[*i] && str[*i] != ' ')
 			++(*i);
 	}
-	if (ft_istoken(str[*i]) && start == *i)
+	if (ft_isreserved(str[*i]) && start == *i)
 	{
 		++(*i);
 		if (str[*i] == str[(*i) - 1])
@@ -74,6 +74,7 @@ static void	tokener(char *str, t_list *list)
 		skip_spaces(str, &i, & start);
 		last = current;
 		current->content = get_next_token(str, start, &i);
+		//IF current->content = NULL error
 		current->next = malloc(sizeof(t_list));
 		//if (!current->next) memory error
 		current = current->next;

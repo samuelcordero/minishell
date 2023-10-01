@@ -6,14 +6,11 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/01 13:24:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/01 21:04:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <readline/rltypedefs.h>
+#include "minishell.h"
 
 void	free_cmd_tok(void *tok)
 {
@@ -49,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*cmd_tokens;
 
 	rl_initialize();
+	//init();
 	while (1)
 	{
 		line = get_command_str();

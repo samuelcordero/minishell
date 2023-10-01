@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/01 13:21:07 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/01 20:58:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <stdlib.h>
 
 typedef struct s_cmdtoken
 {
 	char	*str;
 	int		type;
 }		t_cmdtoken;
+
+//init
+
+void	init(void);
 
 //lexer
 

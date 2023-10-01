@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 static char	*get_needle(char *str, int needle_tip)
 {
