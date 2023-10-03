@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/01 21:03:23 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/02 16:21:47 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,9 @@ SRC =	src/minishell.c \
 		src/lexer.c \
 		src/lexer_utils.c \
 		src/expander.c \
-		src/init.c
+		src/init.c \
+		src/redirect_utils.c \
+		src/redirect_utils2.c
 OBJ = $(SRC:.c=.o)
 RM=/bin/rm -f
 CC = gcc

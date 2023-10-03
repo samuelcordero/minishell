@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/01 21:04:52 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:50:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char	*get_command_str(void)
 		add_history(res);
 		return (res);
 	}
-	free(res);
+	if (res)
+		free(res);
 	return (NULL);
 }
 
