@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/02 16:50:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:28:11 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) envp;
 	(void) argv;
-	char	*line;
-	t_list	*cmd_tokens;
+	char		*line;
+	t_list		*cmd_tokens;
+	t_cmdtree	*cmd_tree;
 
 	rl_initialize();
 	//init();
@@ -55,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			printf("Read: %s\n\n", line);
 			cmd_tokens = lexer(line);
+			ft_parse_tree(&cmd_tree, cmd_tokens);
 			print_tokens(cmd_tokens);
 			expand(cmd_tokens->content, envp);
 			free(line);
