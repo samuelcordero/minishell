@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/01 21:03:48 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/08 22:24:16 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@ static void	ft_sigint_handler(int signum)
 	(void) signum;
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	printf("\n");
 	rl_redisplay();
 }
 
-void	init(void)
+void	init(t_mshell_sack *sack, char **envp)
 {
-	signal(SIGINT, ft_sigint_handler);
+	ft_bzero(sack, sizeof(t_mshell_sack));
+	sack->envp = envp;
+	sack->cmd_tree = NULL;
+	
+	//signal(SIGINT, ft_sigint_handler);
 }

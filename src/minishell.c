@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/05 18:28:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/08 22:29:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_cmd_tok(void *tok)
 
 	tofree = tok;
 	free(tofree->str);
+	free(tofree);
 }
 
 char	*get_command_str(void)
@@ -41,27 +42,26 @@ char	*get_command_str(void)
 int	main(int argc, char **argv, char **envp)
 {
 	(void) argc;
-	(void) envp;
 	(void) argv;
-	char		*line;
-	t_list		*cmd_tokens;
-	t_cmdtree	*cmd_tree;
+	t_mshell_sack	m_sack;
 
 	rl_initialize();
-	//init();
+	init(&m_sack, envp);
 	while (1)
 	{
-		line = get_command_str();
-		if (line)
+		m_sack.line = get_command_str();
+		if (m_sack.line)
 		{
-			printf("Read: %s\n\n", line);
-			cmd_tokens = lexer(line);
-			ft_parse_tree(&cmd_tree, cmd_tokens);
-			print_tokens(cmd_tokens);
-			expand(cmd_tokens->content, envp);
-			free(line);
+			printf("Read: %s\n\n", m_sack.line);
+			m_sack.cmd_tokens = lexer(m_sack.line);
+			print_tokens(m_sack.cmd_tokens);
+			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
+			if (!ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens))
+				execute_tree(&m_sack.cmd_tree);
+			free(m_sack.line);
 			//free de los tokens!!!
-			ft_lstclear(&cmd_tokens, free_cmd_tok);
+			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
+			//free del arbol!!!
 		}
 	}
 	return (0);
