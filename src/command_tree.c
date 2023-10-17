@@ -6,85 +6,55 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/10 14:26:52 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:56:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_set_exec_args(t_list *bg, t_list *end, t_cmd *curr)
+static int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
 {
 	t_cmdtoken	*tkn;
-	int			ctr;
-	t_list		*tmp;
+	t_cmd_node	*current;
+	t_cmd_node	*p_curr;
+	int			i;
 
-	ctr = 0;
-	tmp = bg;
-	while (bg)
-	{
-		tkn = bg->content;
-		if (!tkn->type)
-			ctr++;
-		bg = bg->next;
-	}
-	if (ctr)
-		curr->args = ft_calloc(ctr + 1, sizeof(char *));
-	ctr = 0;
-	while (tmp)
-	{
-		tkn = tmp->content;
-		if (!tkn->type)
-			curr->args[ctr++] = tkn->str;
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-static int	ft_check_redirects(t_list *bg, t_list *end, t_cmd *curr)
-{
-	t_cmdtoken	*tkn;
-
-	while (bg)
-	{
-		tkn = bg->content;
-		if (tkn->type == 1)
-			return (tkn->type);
-		if (tkn->type == 2)
-		{
-			
-			return (2);
-		}
-		bg = bg->next;
-	}
-	return (0);
-}
-
-static int	ft_cmd_constructor(t_list *begin, t_list *end, t_cmdtree **tree)
-{
-	t_list		*tmp;
-	t_cmdtoken	*tkn;
-	int			chained;
-	t_cmd		*current;
-
-
-	chained = 0;
-	tmp = begin;
+	current = ft_calloc(1, sizeof(t_cmd_node)); //memory error handling!
+	p_curr = current;
 	tkn = begin->content;
-	current = ft_calloc(1, sizeof(t_cmd));
-	if (tkn->type == 2)
-	{	
-		tmp = tmp->next;
-		current->pipe_in = 1;
-	}
-	else if (tkn->type == 3)
+	tree_node->cmd_list = current;
+	current->args = ft_calloc(100, sizeof(char *)); //maybe count args???? 100 is just eyeballing + error handling
+	if (tkn->type == 2) //pipe in check
 	{
-		//handle tree priority with token
-		(void) end;
-		tmp = tmp->next;
+		current->pipe_in = 1;
+		begin = begin->next;
 	}
-	current->next = NULL;
-	current->redirect_type = ft_check_redirects(tmp, end);
-	ft_set_exec_args(tmp, end, current);
+	i = 0;
+	while (begin != end)
+	{
+		tkn = begin->content;
+		if (tkn->type == 0)
+			current->args[i++] = tkn->str; // having problems freeing? strdup'it!
+		else if (tkn->type == 1) // file in check
+		{
+			current->file_redirect += 1; //extract it from tkn->str
+			if (!begin->next)
+				//bad syntax
+			begin = begin->next;
+			tkn = begin->content;
+			//current->if_name; || current->of_name = tkn->str;
+		}
+		else if (tkn->type == 2) // pipeout check, allocation for next list item
+		{
+			current->pipe_out = 1;
+			current = ft_calloc(1, sizeof(t_cmd_node)); //error handling
+			p_curr->next = current;
+			p_curr = current;
+			i = 0;
+			current->args = ft_calloc(100, sizeof(char *)); //same shit sherlock, eyeballing + error handling
+		}
+		begin = begin->next;
+	}
 	return (0);
 }
 
@@ -101,10 +71,6 @@ int	ft_parse_tree(t_cmdtree **tree, t_list *tokenlist)
 		return (1);
 	while (tokenlist)
 	{
-		if (!(*tree)->cmd_list)
-			(*tree)->cmd_list = ft_calloc(1, sizeof(t_cmd));
-		if (!(*tree)->cmd_list)
-			return (1);
 		needle = tokenlist;
 		while (needle)
 		{
@@ -113,7 +79,7 @@ int	ft_parse_tree(t_cmdtree **tree, t_list *tokenlist)
 				break ;
 			needle = needle->next;
 		}
-		if (ft_cmd_constructor(tokenlist, needle, tree))
+		if (ft_fill_cmdlist(tokenlist, needle, *tree))
 			return (1);
 		tokenlist = needle;
 	}

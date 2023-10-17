@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/10 13:59:39 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:10:36 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,24 @@ typedef struct s_cmdtoken
 	int		type;
 }	t_cmdtoken;
 
-typedef struct s_cmd
+typedef struct s_cmd_node
 {
-	char			**args;
-	int				pipe_in;
-	int				redirect_type;
-	char			*file_name;
-	struct s_cmd	*next;
-}	t_cmd;
+	char				**args;
+	char				pipe_in;
+	char				pipe_out;
+	char				file_redirect;
+	char				*if_name;
+	char				*of_name;
+	struct s_cmd_node	*next;
+}	t_cmd_node;
 
 typedef struct s_cmdtree
 {
 	struct s_cmdtree	*left;
 	struct s_cmdtree	*right;
-	t_cmd				*cmd_list;
-	char				type;
+	t_cmd_node			*cmd_list;
+	char				is_logic;
+	char				logic_op;
 }	t_cmdtree;
 
 typedef struct s_mshell_sack

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/08 21:58:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:24:01 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	*get_token(char *str, int start, int end)
 	if (!ft_strncmp(token->str, "<", 2) || !ft_strncmp(token->str, "<<", 3)
 		|| !ft_strncmp(token->str, ">", 2) || !ft_strncmp(token->str, ">>", 3))
 		token->type = 1;
-	if (!ft_strncmp(token->str, "|", 2))
+	else if (!ft_strncmp(token->str, "|", 2))
 		token->type = 2;
 	else if (!ft_strncmp(token->str, "&&", 3) || !ft_strncmp(token->str, "||", 3)
 		|| !ft_strncmp(token->str, ";", 2))
