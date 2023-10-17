@@ -6,12 +6,12 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/05 18:16:11 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/17 11:41:38 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT = libft/libft.a
-LDFLAGS = -L libft -lft -lreadline
+LDFLAGS = -L libft -lft
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -O3 -Iinc -Ilibft
 SRC =	src/minishell.c \
@@ -26,6 +26,16 @@ SRC =	src/minishell.c \
 		src/executer.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
+UNAME := $(shell uname -s)
+
+ifeq ($(UNAME), Darwin)
+	# mac
+    LDFLAGS += -L/System/Volumes/Data/sgoinfre/students/sacorder/homebrew/opt/readline/lib -lreadline
+	CFLAGS += -I/System/Volumes/Data/sgoinfre/students/sacorder/homebrew/opt/readline/include
+else
+	#Linux and others...
+    LDFLAGS += -lreadline
+endif
 
 all: $(NAME)
 
