@@ -56,8 +56,9 @@ int	main(int argc, char **argv, char **envp)
 			m_sack.cmd_tokens = lexer(m_sack.line);
 			print_tokens(m_sack.cmd_tokens);
 			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
-			if (!ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens))
-				execute_tree(&m_sack.cmd_tree);
+			ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens);
+			/*if (!ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens))
+				execute_tree(&m_sack.cmd_tree);*/
 			free(m_sack.line);
 			//free de los tokens!!!
 			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);

@@ -29,9 +29,11 @@ CC = gcc
 UNAME := $(shell uname -s)
 
 ifeq ($(UNAME), Darwin)
-	# mac
+	# mac, you may need to change flags in order to compile inside the clusters (checkwhere your readline brew installation is)
+    LDFLAGS += -L/usr/local/opt/readline/lib
     LDFLAGS += -L/System/Volumes/Data/sgoinfre/students/sacorder/homebrew/opt/readline/lib -lreadline
-	CFLAGS += -I/System/Volumes/Data/sgoinfre/students/sacorder/homebrew/opt/readline/include
+    CFLAGS += -I/usr/local/opt/readline/include
+    CFLAGS += -I/System/Volumes/Data/sgoinfre/students/sacorder/homebrew/opt/readline/include
 else
 	#Linux and others...
     LDFLAGS += -lreadline
