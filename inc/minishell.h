@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 17:48:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/19 18:37:25 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 //command_tree
 
-int		ft_parse_tree(t_cmdtree **tree, t_list *tokenlist);
+int		ft_parse_tree(t_cmdtree **tree, t_list **tokenlist);
 
 //init
 

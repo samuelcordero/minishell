@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 18:15:24 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:05:28 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,24 @@ static void	print_cmdtree(t_cmdtree *head)
 	t_cmd_node	*lst;
 
 	lst = head->cmd_list;
+	if ((int)head->is_logic == OR_MASK)
+		printf("\n-----OR NODE-----\n");
+	else if ((int)head->is_logic == AND_MASK)
+		printf("\n-----AND NODE-----\n");
+	else if ((int)head->is_logic == WAIT_MASK)
+		printf("\n-----WAIT NODE-----\n");
 	if (head->left)
+	{
+		printf("LEFT (MAIN) BRANCH:");
 		print_cmdtree(head->left);
+	}
 	if (head->right)
+	{
+		printf("RIGHT (OPTIONAL) BRANCH:");
 		print_cmdtree(head->right);
-	printf("\n\nPrinting list:\n\n\n");
+	}
+	if (lst)
+		printf("\n\nCommand list:\n\n");
 	while (lst)
 	{
 		printf("Args: %s\nIf, of: %s, %s\nPipe in/out: %i/%i\nFile redir: %i\n\n", lst->args[0], lst->if_name, lst->of_name, (int)lst->pipe_in, (int)lst->pipe_out, (int)lst->file_redirect);
@@ -61,6 +74,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 	t_mshell_sack	m_sack;
+	t_list	*tmp;
 
 	rl_initialize();
 	init(&m_sack, envp);
@@ -73,8 +87,9 @@ int	main(int argc, char **argv, char **envp)
 			m_sack.cmd_tokens = lexer(m_sack.line);
 			print_tokens(m_sack.cmd_tokens);
 			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
-			if (ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens))
-				return (0);
+			tmp = m_sack.cmd_tokens;
+			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
+				return (1);
 			print_cmdtree(m_sack.cmd_tree);
 			free(m_sack.line);
 			//free de los tokens!!!
