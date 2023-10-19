@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 19:05:28 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/19 21:24:31 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*get_command_str(void)
 static void	print_cmdtree(t_cmdtree *head)
 {
 	t_cmd_node	*lst;
+	int			i;
 
 	lst = head->cmd_list;
 	if ((int)head->is_logic == OR_MASK)
@@ -64,7 +65,10 @@ static void	print_cmdtree(t_cmdtree *head)
 		printf("\n\nCommand list:\n\n");
 	while (lst)
 	{
-		printf("Args: %s\nIf, of: %s, %s\nPipe in/out: %i/%i\nFile redir: %i\n\n", lst->args[0], lst->if_name, lst->of_name, (int)lst->pipe_in, (int)lst->pipe_out, (int)lst->file_redirect);
+		i = -1;
+		while (lst->args[++i])
+			printf("Arg %i: %s\n", i, lst->args[i]);
+		printf("If, of: %s, %s\nPipe in/out: %i/%i\nFile redir: %i\n\n", lst->if_name, lst->of_name, (int)lst->pipe_in, (int)lst->pipe_out, (int)lst->file_redirect);
 		lst = lst->next;
 	}
 }
