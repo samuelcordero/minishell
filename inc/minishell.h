@@ -6,56 +6,21 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/17 13:10:36 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:48:25 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define MAX_SIZE 65535
-# define PROMPT "Mini\x1b[32mShell\x1b[0m $> "
 
-# include "../libft/libft.h"
+# include "libft.h"
+# include "minishell_defines.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <fcntl.h>
-
-typedef struct s_cmdtoken
-{
-	char	*str;
-	int		type;
-}	t_cmdtoken;
-
-typedef struct s_cmd_node
-{
-	char				**args;
-	char				pipe_in;
-	char				pipe_out;
-	char				file_redirect;
-	char				*if_name;
-	char				*of_name;
-	struct s_cmd_node	*next;
-}	t_cmd_node;
-
-typedef struct s_cmdtree
-{
-	struct s_cmdtree	*left;
-	struct s_cmdtree	*right;
-	t_cmd_node			*cmd_list;
-	char				is_logic;
-	char				logic_op;
-}	t_cmdtree;
-
-typedef struct s_mshell_sack
-{
-	t_list		*cmd_tokens;
-	t_cmdtree	*cmd_tree;
-	char		*line;
-	char		**envp;
-}	t_mshell_sack;
 
 //command_tree
 

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/08 22:29:06 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/19 18:15:24 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,23 @@ char	*get_command_str(void)
 	return (NULL);
 }
 
+static void	print_cmdtree(t_cmdtree *head)
+{
+	t_cmd_node	*lst;
+
+	lst = head->cmd_list;
+	if (head->left)
+		print_cmdtree(head->left);
+	if (head->right)
+		print_cmdtree(head->right);
+	printf("\n\nPrinting list:\n\n\n");
+	while (lst)
+	{
+		printf("Args: %s\nIf, of: %s, %s\nPipe in/out: %i/%i\nFile redir: %i\n\n", lst->args[0], lst->if_name, lst->of_name, (int)lst->pipe_in, (int)lst->pipe_out, (int)lst->file_redirect);
+		lst = lst->next;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void) argc;
@@ -56,9 +73,9 @@ int	main(int argc, char **argv, char **envp)
 			m_sack.cmd_tokens = lexer(m_sack.line);
 			print_tokens(m_sack.cmd_tokens);
 			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
-			ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens);
-			/*if (!ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens))
-				execute_tree(&m_sack.cmd_tree);*/
+			if (ft_parse_tree(&m_sack.cmd_tree, m_sack.cmd_tokens))
+				return (0);
+			print_cmdtree(m_sack.cmd_tree);
 			free(m_sack.line);
 			//free de los tokens!!!
 			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
@@ -67,3 +84,13 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+/* FOR LEAK TESTING
+
+	atexit(leaks);
+
+void	leaks(void)
+{
+	system("leaks minishell");
+}
+ FOR LEAK TESTING */
+

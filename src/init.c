@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 00:00:00 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:12:54 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void	init(t_mshell_sack *sack, char **envp)
 	sack->envp = envp;
 	sack->cmd_tree = NULL;
 	
-	signal(SIGINT, ft_sigint_handler); //change to SIGINT before eval
+	signal(SIGPIPE, ft_sigint_handler); //change to SIGINT before eval
 }
