@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 21:24:31 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:50:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,11 @@ static void	print_cmdtree(t_cmdtree *head)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void) argc;
-	(void) argv;
 	t_mshell_sack	m_sack;
 	t_list	*tmp;
 
 	rl_initialize();
-	init(&m_sack, envp);
+	init(&m_sack, envp, argc, argv);
 	while (1)
 	{
 		m_sack.line = get_command_str();
@@ -93,8 +91,10 @@ int	main(int argc, char **argv, char **envp)
 			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
 			tmp = m_sack.cmd_tokens;
 			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
-				return (1);
+				return (1); //handle this
 			print_cmdtree(m_sack.cmd_tree);
+			if (execute(m_sack.cmd_tree))
+				return (1); //handle this
 			free(m_sack.line);
 			//free de los tokens!!!
 			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);

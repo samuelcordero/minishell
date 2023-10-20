@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 18:37:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:50:16 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		ft_parse_tree(t_cmdtree **tree, t_list **tokenlist);
 
 //init
 
-void	init(t_mshell_sack *sack, char **envp);
+void	init(t_mshell_sack *sack, char **envp, int argc, char **argv);
 
 //lexer
 
@@ -37,6 +37,10 @@ t_list	*lexer(char	*str);
 //lexer_utils
 
 void	state_quote_delimiter(char *str, int *i, char delim);
+
+//execute
+
+int		execute(t_cmdtree *t_node);
 
 //expander
 
