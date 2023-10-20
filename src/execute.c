@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/20 13:00:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:30:45 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	ft_exec_cmd(t_cmd_node *node)
 			3. Find executable, some builtins may be runned in parent process
 			4. fork if necesary, then execute 
 	*/
+	(void)node;
 	return (0);
 }
 
@@ -31,7 +32,7 @@ static int	ft_execute_lst(t_cmdtree *t_node)
 	lst = t_node->cmd_list;
 	while (lst)
 	{
-		//ft_exec_cmd(lst);
+		ft_exec_cmd(lst);
 		lst = lst->next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 19:04:22 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:34:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,33 @@
 
 static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 {
+	t_list		*tmp;
+
 	if (!tkn_lst->next)
 		return (1);
+	tmp = current->redirs_lst;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	if (tmp)
+	{
+		tmp->next = ft_calloc(1, sizeof(t_list));
+		tmp = tmp->next;
+	}
+	else
+	{
+		current->redirs_lst = ft_calloc(1, sizeof(t_list));
+		tmp = current->redirs_lst;
+	}
+	tmp->content = ft_calloc(1, sizeof(t_redir_tok));
 	if (ft_strncmp("<", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
-	{
-		current->file_redirect += INFILE_MASK;
-		current->if_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
-	}
+		((t_redir_tok *)tmp->content)->redir_type = INFILE_MASK;
 	else if (ft_strncmp(">", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
-	{
-		current->file_redirect += OUTFILE_MASK;
-		current->of_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
-	}
+		((t_redir_tok *)tmp->content)->redir_type = OUTFILE_MASK;
 	else if (ft_strncmp("<<", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
-	{
-		current->file_redirect += HEREDOC_MASK;
-		current->if_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
-	}
+		((t_redir_tok *)tmp->content)->redir_type = HEREDOC_MASK;
 	else if (ft_strncmp(">>", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
-	{
-		current->file_redirect += CONCATOUT_MASK;
-		current->of_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
-	}
+		((t_redir_tok *)tmp->content)->redir_type = CONCATOUT_MASK;
+	((t_redir_tok *)tmp->content)->file_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
 	return (0);
 }
 

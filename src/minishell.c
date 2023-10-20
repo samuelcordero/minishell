@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/20 12:50:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:35:58 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*get_command_str(void)
 static void	print_cmdtree(t_cmdtree *head)
 {
 	t_cmd_node	*lst;
+	t_list		*redirs_lst;
 	int			i;
 
 	lst = head->cmd_list;
@@ -53,12 +54,12 @@ static void	print_cmdtree(t_cmdtree *head)
 		printf("\n-----WAIT NODE-----\n");
 	if (head->left)
 	{
-		printf("LEFT (MAIN) BRANCH:");
+		printf("<LEFT (MAIN) BRANCH:>");
 		print_cmdtree(head->left);
 	}
 	if (head->right)
 	{
-		printf("RIGHT (OPTIONAL) BRANCH:");
+		printf("<RIGHT (OPTIONAL) BRANCH:>");
 		print_cmdtree(head->right);
 	}
 	if (lst)
@@ -68,7 +69,14 @@ static void	print_cmdtree(t_cmdtree *head)
 		i = -1;
 		while (lst->args[++i])
 			printf("Arg %i: %s\n", i, lst->args[i]);
-		printf("If, of: %s, %s\nPipe in/out: %i/%i\nFile redir: %i\n\n", lst->if_name, lst->of_name, (int)lst->pipe_in, (int)lst->pipe_out, (int)lst->file_redirect);
+		printf("Pipe in/out: %i/%i\n", (int)lst->pipe_in, (int)lst->pipe_out);
+		redirs_lst = lst->redirs_lst;
+		while (redirs_lst)
+		{
+			printf("File redir type: %i, filename %s\n", (int)((t_redir_tok *)redirs_lst->content)->redir_type, ((t_redir_tok *)redirs_lst->content)->file_name);
+			redirs_lst = redirs_lst->next;
+		}
+		printf("\n");
 		lst = lst->next;
 	}
 }

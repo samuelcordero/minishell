@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/19 19:04:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:17:31 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,18 @@ typedef struct s_cmdtoken
 	int		type;
 }	t_cmdtoken;
 
+typedef struct s_redir_tok
+{
+	char				*file_name;
+	char				redir_type;
+}	t_redir_tok;
+
 typedef struct s_cmd_node
 {
 	char				**args;
 	char				pipe_in;
 	char				pipe_out;
-	char				file_redirect;
-	char				*if_name;
-	char				*of_name;
+	t_list				*redirs_lst;
 	struct s_cmd_node	*next;
 }	t_cmd_node;
 
