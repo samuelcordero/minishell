@@ -5,115 +5,97 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 16:06:20 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/02 16:37:10 by sacorder         ###   ########.fr       */
+/*   Created: 2023/10/02 16:21:53 by sacorder          #+#    #+#             */
+/*   Updated: 2023/10/21 19:00:21 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_cmd(char *command, char **envp)
+void	ft_perror_exit(char *errmsg, int exitnb)
 {
-	char	*path;
-	char	**split_cmd;
-
-	split_cmd = ft_split(command, ' ');
-	path = extract_exec_path(envp, split_cmd[0]);
-	if (!path)
-	{
-		ft_putstr_fd("pipex: command not found: ", 2);
-		if (split_cmd[0])
-			ft_putendl_fd(split_cmd[0], 2);
-		ft_free_array(split_cmd);
-		exit(127);
-	}
-	if (execve(path, split_cmd, envp) == -1)
-		ft_perror_exit("execve", -1);
+	if (errmsg)
+		perror(errmsg);
+	exit(exitnb);
 }
 
-void	ft_mid_redirect(char *cmd, char **envp)
+int	ft_open(t_redir_tok *f_tok)
 {
-	int	pipe_array[2];
-	int	pid;
-
-	if (pipe(pipe_array) == -1)
-		ft_perror_exit("pipe", 71);
-	pid = fork();
-	if (pid == -1)
-		ft_perror_exit("fork", 71);
-	if (pid)
-	{
-		ft_close(pipe_array[1]);
-		ft_dup2(pipe_array[0], STDIN_FILENO);
-		ft_close(pipe_array[0]);
-	}
-	else
-	{
-		ft_close(pipe_array[0]);
-		ft_dup2(pipe_array[1], STDOUT_FILENO);
-		ft_close(pipe_array[1]);
-		execute_cmd(cmd, envp);
-	}
-}
-
-int	ft_redirect_in(char *cmd, char **envp, char *if_path, int chained)
-{
-	int	pipe_array[2];
-	int	pid;
 	int	fd;
+	int	flags;
 
-	fd = ft_open(if_path, O_RDONLY, 0644);
+	flags = 0;
+	if (f_tok->redir_type == INFILE_MASK)
+		flags = O_RDONLY;
+	else if (f_tok->redir_type == OUTFILE_MASK)
+		flags = O_RDWR | O_CREAT | O_TRUNC;
+	else if (f_tok->redir_type == CONCATOUT_MASK)
+		flags = O_RDWR | O_CREAT | O_APPEND;
+	else if (f_tok->redir_type == HEREDOC_MASK)
+		return (-1); //heredoc(f_tok->file_name)
+	fd = open(f_tok->file_name, flags, 0644);
 	if (fd == -1)
-		return (fd);
-	if (pipe(pipe_array) == -1)
-		ft_perror_exit("pipe", 71);
-	pid = fork();
-	if (pid == -1)
-		ft_perror_exit("fork", 71);
-	if (pid)
-	{
-		ft_close(pipe_array[1]);
-		ft_dup2(pipe_array[0], fd);
-		ft_close(pipe_array[0]);
-	}
-	else
-	{
-		ft_close(pipe_array[0]);
-		if (chained)
-			ft_dup2(pipe_array[1], STDOUT_FILENO);
-		ft_close(pipe_array[1]);
-		execute_cmd(cmd, envp);
-	}
-	return (pid);
+		perror(f_tok->file_name);
+	return (fd);
 }
 
-int	ft_redirect_out(char *cmd, char **envp, char *of_path, int flags, int chained)
+void	ft_close(int fd)
 {
-	int	pipe_array[2];
-	int	pid;
-	int	fd;
+	int	status;
 
-	fd = ft_open(of_path, flags, 0644);
-	if (fd == -1)
-		return (fd);
-	if (pipe(pipe_array) == -1)
-		ft_perror_exit("pipe", 71);
-	pid = fork();
-	if (pid == -1)
-		ft_perror_exit("fork", 71);
-	if (pid)
+	if (fd < 0)
+		return ;
+	status = close(fd);
+	if (status == -1)
+		perror("close");
+}
+
+void	ft_dup2(int oldfd, int newfd)
+{
+	int	status;
+
+	status = dup2(oldfd, newfd);
+	if (status == -1)
+		perror("dup2");
+}
+
+void	ft_free_array(char **array)
+{
+	int	pos;
+
+	pos = 0;
+	if (!array)
+		exit(-1);
+	while (array[pos])
+		free(array[pos++]);
+	free(array);
+}
+
+char	*extract_exec_path(char **envp, char *name)
+{
+	int		pos;
+	char	**split_path;
+	char	*tmp;
+	char	*path_plus_exec;
+
+	if (!name)
+		return (NULL);
+	if (!(access(name, F_OK)))
+		return (name);
+	if (!envp || !*envp)
+		return (NULL);
+	while (*envp && ft_strncmp(*envp, "PATH=", 5))
+		envp++;
+	split_path = ft_split(*envp + 5, ':');
+	pos = 0;
+	while (split_path[pos])
 	{
-		ft_close(pipe_array[1]);
-		if (chained)
-			ft_dup2(pipe_array[0], STDIN_FILENO);
-		ft_close(pipe_array[0]);
+		tmp = ft_strjoin(split_path[pos++], "/");
+		path_plus_exec = ft_strjoin(tmp, name);
+		free(tmp);
+		if (!(access(path_plus_exec, F_OK)))
+			return (ft_free_array(split_path), path_plus_exec);
+		free(path_plus_exec);
 	}
-	else
-	{
-		ft_close(pipe_array[0]);
-		ft_dup2(fd, STDOUT_FILENO);
-		ft_close(pipe_array[1]);
-		execute_cmd(cmd, envp);
-	}
-	return (pid);
+	return (ft_free_array(split_path), NULL);
 }

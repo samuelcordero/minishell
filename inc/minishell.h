@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/20 12:50:16 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/21 19:07:40 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 //command_tree
 
@@ -40,7 +42,7 @@ void	state_quote_delimiter(char *str, int *i, char delim);
 
 //execute
 
-int		execute(t_cmdtree *t_node);
+int		execute(t_cmdtree *t_node, char **envp);
 
 //expander
 
@@ -48,14 +50,8 @@ void	expand(t_cmdtoken *token, char **envp);
 
 //redirect_utils
 
-void	ft_mid_redirect(char *cmd, char **envp);
-int		ft_redirect_in(char *cmd, char **envp, char *if_path, int chained);
-int		ft_redirect_out(char *cmd, char **envp, char *of_path, int flags, int chained);
-
-//redirect_utils2
-
 void	ft_perror_exit(char *errmsg, int exitnb);
-int		ft_open(char *path, int flags, int perms);
+int		ft_open(t_redir_tok *f_tok);
 void	ft_close(int fd);
 void	ft_dup2(int oldfd, int newfd);
 void	ft_free_array(char **array);
