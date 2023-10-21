@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/21 19:42:22 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/21 19:46:24 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ int	main(int argc, char **argv, char **envp)
 			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
 				return (1); //handle this
 			//print_cmdtree(m_sack.cmd_tree);
-			if (execute(m_sack.cmd_tree, m_sack.envp))
-				return (1); //handle this
+			execute(m_sack.cmd_tree, m_sack.envp);
 			free(m_sack.line);
 			//free de los tokens!!!
 			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
