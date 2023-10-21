@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/21 19:34:44 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/21 20:03:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,18 @@ static	int	ft_wait_all(int last_pid)
 int	execute(t_cmdtree *t_node, char **envp)
 {
 	int	last_pid;
+	int	exit_code;
 
 	last_pid = 0;
+	exit_code = 0;
 	if (t_node->left)
-		execute(t_node->left, envp);
+		exit_code = execute(t_node->left, envp);
+	printf("left exited with %i\n", exit_code);
 	if (t_node->right)
-		execute(t_node->right, envp);
+		if ((exit_code == 0 && t_node->is_logic == AND_MASK)
+			|| (exit_code != 0 && t_node->is_logic == OR_MASK)
+			|| (t_node->is_logic == WAIT_MASK))
+			return (execute(t_node->right, envp));
 	ft_execute_lst(t_node, envp, &last_pid);
 	return (ft_wait_all(last_pid));
 }
