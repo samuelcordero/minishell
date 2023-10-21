@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/21 18:47:54 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/21 19:42:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_command_str(void)
 	return (NULL);
 }
 
-static void	print_cmdtree(t_cmdtree *head)
+void	print_cmdtree(t_cmdtree *head)
 {
 	t_cmd_node	*lst;
 	t_list		*redirs_lst;
@@ -93,14 +93,13 @@ int	main(int argc, char **argv, char **envp)
 		m_sack.line = get_command_str();
 		if (m_sack.line)
 		{
-			printf("Read: %s\n\n", m_sack.line);
 			m_sack.cmd_tokens = lexer(m_sack.line);
-			print_tokens(m_sack.cmd_tokens);
+			//print_tokens(m_sack.cmd_tokens);
 			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
 			tmp = m_sack.cmd_tokens;
 			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
 				return (1); //handle this
-			print_cmdtree(m_sack.cmd_tree);
+			//print_cmdtree(m_sack.cmd_tree);
 			if (execute(m_sack.cmd_tree, m_sack.envp))
 				return (1); //handle this
 			free(m_sack.line);
