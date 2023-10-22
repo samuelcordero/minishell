@@ -13,7 +13,7 @@
 #ifndef MINISHELL_DEFINES_H
 # define MINISHELL_DEFINES_H
 # define MAX_SIZE 65535
-# define PROMPT_BASE "\x1b[32mM\x1b[0mini\x1b[32mShell\x1b[0m"
+# define PROMPT_BASE "Mini\x1b[32mShell\x1b[0m"
 # define INFILE_MASK 0b1
 # define OUTFILE_MASK 0b10
 # define HEREDOC_MASK 0b100
