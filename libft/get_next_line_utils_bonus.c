@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:18 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 00:13:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:21:55 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*ft_malloc_len(size_t len, char const *s, unsigned int start)
 {
 	size_t	slen;
 
-	slen = ft_strlen(s);
+	slen = ft_strlen_gnl(s);
 	if (slen - start == 0)
 		return (NULL);
 	else if (start > slen)
@@ -90,8 +90,8 @@ char	*ft_strjoin_gnl(char const *s1, char const *s2)
 	char	*res;
 	size_t	pos;
 
-	s1len = ft_strlen(s1);
-	s2len = ft_strlen(s2);
+	s1len = ft_strlen_gnl(s1);
+	s2len = ft_strlen_gnl(s2);
 	res = (char *) malloc(sizeof(char) * (s1len + s2len + 1));
 	if (res == (void *) 0)
 		return (res);

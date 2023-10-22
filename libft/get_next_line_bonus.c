@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:13:12 by sacorder          #+#    #+#             */
-/*   Updated: 2023/04/26 13:50:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:21:10 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static char	*ft_add_buffer(char *line, const char *buffer)
 	char	*join;
 	char	*tmp;
 
-	tmp = ft_strchr(buffer, '\n');
+	tmp = ft_strchr_gnl(buffer, '\n');
 	if (!tmp)
-		join = ft_strjoin(line, buffer);
+		join = ft_strjoin_gnl(line, buffer);
 	else
 	{
-		tmp = ft_substr(buffer, 0, (tmp - buffer) + 1);
-		join = ft_strjoin(line, tmp);
+		tmp = ft_substr_gnl(buffer, 0, (tmp - buffer) + 1);
+		join = ft_strjoin_gnl(line, tmp);
 		if (tmp)
 			tmp = ft_free(tmp);
 	}
@@ -66,13 +66,13 @@ static t_gnl_data	buffer_line(int fd, char *remain)
 
 	bytes = 1;
 	data.line = NULL;
-	data.buffer = ft_strjoin(remain, "");
+	data.buffer = ft_strjoin_gnl(remain, "");
 	while ((bytes > 0) && data.buffer)
 	{
 		if (data.buffer)
 		{
 			data.line = ft_add_buffer(data.line, data.buffer);
-			if (!ft_strchr(data.buffer, '\n'))
+			if (!ft_strchr_gnl(data.buffer, '\n'))
 			{
 				free(data.buffer);
 				data.buffer = ft_get_buffer(fd, &bytes);
@@ -98,7 +98,7 @@ char	*get_next_line(int fd)
 		remainder[fd] = ft_free(remainder[fd]);
 	if (data.buffer)
 	{
-		remainder[fd] = ft_substr(data.buffer, (ft_strchr(data.buffer, '\n')
+		remainder[fd] = ft_substr_gnl(data.buffer, (ft_strchr_gnl(data.buffer, '\n')
 					- data.buffer) + 1, BUFFER_SIZE + 1);
 		data.buffer = ft_free(data.buffer);
 	}
