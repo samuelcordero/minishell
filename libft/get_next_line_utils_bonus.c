@@ -6,13 +6,13 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:22:18 by sacorder          #+#    #+#             */
-/*   Updated: 2023/04/26 13:50:56 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:13:42 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen_gnl(const char *str)
 {
 	size_t	i;
 
@@ -41,7 +41,7 @@ static char	*ft_malloc_len(size_t len, char const *s, unsigned int start)
 		return ((void *) 0);
 }
 
-char	*ft_strchr(const char*s, int c)
+char	*ft_strchr_gnl(const char*s, int c)
 {
 	if (!s)
 		return ((void *) 0);
@@ -56,7 +56,7 @@ char	*ft_strchr(const char*s, int c)
 	return ((void *) 0);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 {
 	char	*res;
 	size_t	pos_res;
@@ -83,7 +83,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (res);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_gnl(char const *s1, char const *s2)
 {
 	size_t	s1len;
 	size_t	s2len;
