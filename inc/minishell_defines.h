@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/21 19:52:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/22 13:35:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct s_cmd_node
 	char				pipe_out;
 	t_list				*redirs_lst;
 	struct s_cmd_node	*next;
+	int					pid;
+	int					exit_code;
+	int					pipe_fds[2];
 }	t_cmd_node;
 
 typedef struct s_cmdtree

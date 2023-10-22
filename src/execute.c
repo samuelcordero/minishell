@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/21 20:03:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:45:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
 			3. Find executable, some builtins may be runned in parent process
 			4. fork if necesary, then execute 
 	*/
-static int	ft_exec_cmd(t_cmd_node *node, char **envp, int *pid)
+static int	ft_exec_cmd(t_cmd_node *node, char **envp)
 {
 	int		fd;
-	int		pipe_fds[2];
 	t_list	*files;
 	char	*path;
 
@@ -40,53 +39,53 @@ static int	ft_exec_cmd(t_cmd_node *node, char **envp, int *pid)
 		ft_close(fd);
 		files = files->next;
 	}
-	if (pipe(pipe_fds) == -1)
+	if (pipe(node->pipe_fds) == -1)
 		return (perror("pipe"), 1);
 	path = extract_exec_path(envp, node->args[0]);
 	if (!path)
 	{
-		ft_putstr_fd("dash: command not found: ", 2);
+		ft_putstr_fd("MiniShell: command not found: ", 2);
 		if (node->args[0])
 			ft_putendl_fd(node->args[0], 2);
-		return (127);
+		node->exit_code = 127;
+		return (0);
 	}
-	//if it is builtin execute in father
-	*pid = fork();
-	if (*pid < 0)
+	//if it is builtin maybe execute in father (cd, export for example)
+	node->pid = fork();
+	if (node->pid < 0)
 		return (perror("fork"), 1);
-	if (*pid)
+	if (node->pid)
 	{
-		ft_close(pipe_fds[1]);
-		if (node->pipe_in)
-			ft_dup2(STDIN_FILENO, pipe_fds[0]);
-		ft_close(pipe_fds[0]);
+		ft_close(node->pipe_fds[1]);
+		ft_dup2(node->pipe_fds[0], STDIN_FILENO);
+		ft_close(node->pipe_fds[0]);
 	}
 	else
 	{
-		ft_close(pipe_fds[0]);
+		ft_close(node->pipe_fds[0]);
 		if (node->pipe_out)
-			ft_dup2(STDOUT_FILENO, pipe_fds[1]);
-		ft_close(pipe_fds[1]);
+			ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
 		if (execve(path, node->args, envp) == -1)
 			return (perror("execve"), 1);
+		ft_close(node->pipe_fds[1]);
 	}
 	return (0);
 }
 
-static int	ft_execute_lst(t_cmdtree *t_node, char **envp, int *last_pid)
+static t_cmd_node *ft_execute_lst(t_cmdtree *t_node, char **envp, int *last_pid)
 {
 	t_cmd_node	*lst;
-	int			tmp;
 
 	lst = t_node->cmd_list;
-	tmp = 0;
 	while (lst)
 	{
-		if (ft_exec_cmd(lst, envp, &tmp) == 0)
-			*last_pid = tmp;
+		if (ft_exec_cmd(lst, envp) == 0)
+			*last_pid = lst->pid;
+		if (!lst->next)
+			return (lst);
 		lst = lst->next;
 	}
-	return (0);
+	return (lst);
 }
 
 static	int	ft_wait_all(int last_pid)
@@ -113,19 +112,29 @@ static	int	ft_wait_all(int last_pid)
 
 int	execute(t_cmdtree *t_node, char **envp)
 {
-	int	last_pid;
-	int	exit_code;
+	int			last_pid;
+	int			exit_code;
+	t_cmd_node	*last;
+	int			tmp;
+	int			std_backup[2];
 
 	last_pid = 0;
 	exit_code = 0;
 	if (t_node->left)
 		exit_code = execute(t_node->left, envp);
-	printf("left exited with %i\n", exit_code);
+	//printf("left exited with %i\n", exit_code);
 	if (t_node->right)
 		if ((exit_code == 0 && t_node->is_logic == AND_MASK)
 			|| (exit_code != 0 && t_node->is_logic == OR_MASK)
 			|| (t_node->is_logic == WAIT_MASK))
 			return (execute(t_node->right, envp));
-	ft_execute_lst(t_node, envp, &last_pid);
-	return (ft_wait_all(last_pid));
+	std_backup[0] = dup(STDIN_FILENO);
+	std_backup[1] = dup(STDOUT_FILENO);
+	last = ft_execute_lst(t_node, envp, &last_pid);
+	tmp = ft_wait_all(last_pid);
+	dup2(std_backup[0], STDIN_FILENO);
+	dup2(std_backup[1], STDOUT_FILENO);
+	if (last && last->exit_code != tmp)
+		return (last->exit_code);
+	return  (tmp);
 }

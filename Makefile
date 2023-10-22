@@ -6,14 +6,14 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/21 19:01:17 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/22 16:42:23 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT = libft/libft.a
 LDFLAGS = -L libft -lft
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -O3 -Iinc -Ilibft -g3
+CFLAGS = -Wall -Wextra -Werror -O3 -Iinc -Ilibft
 SRC =	src/minishell.c \
 		src/lexer.c \
 		src/lexer_utils.c \
@@ -38,6 +38,8 @@ else
     LDFLAGS += -lreadline
 endif
 
+.PHONY: all clean fclean asan debug re
+
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
@@ -52,21 +54,19 @@ $(LIBFT):
 clean:
 	@make clean -C ./libft
 	$(RM) $(OBJ)
-	$(RM) $(OBJBONUS)
 
 fclean:
 	@make fclean -C ./libft
 	$(RM) $(NAME)
 	$(RM) $(OBJ)
-	$(RM) $(OBJBONUS)
 
 asan:: CFLAGS += -g3 -fsanitize=address
 asan:: LDFLAGS += -g3 -fsanitize=address
 asan:: re
 
+dbg:: CFLAGS += -g3
+dbg:: LDFLAGS += -g3
+dbg:: re
+
 re:: fclean 
 re:: all
-
-rebonus: fclean bonus
-
-.PHONY: all clean fclean re
