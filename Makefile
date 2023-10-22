@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/22 16:42:23 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/22 20:13:36 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,9 @@ UNAME := $(shell uname -s)
 ifeq ($(UNAME), Darwin)
 	# mac, you may need to change flags in order to compile inside the clusters (checkwhere your readline brew installation is)
     LDFLAGS += -L/usr/local/opt/readline/lib
-    LDFLAGS += -L/System/Volumes/Data/sgoinfre/students/sacorder/homebrew/opt/readline/lib -lreadline
+    LDFLAGS += -L/System/Volumes/Data/sgoinfre/students/${USER}/homebrew/opt/readline/lib -lreadline
     CFLAGS += -I/usr/local/opt/readline/include
-    CFLAGS += -I/System/Volumes/Data/sgoinfre/students/sacorder/homebrew/opt/readline/include
+    CFLAGS += -I/System/Volumes/Data/sgoinfre/students/${USER}/homebrew/opt/readline/include
 else
 	#Linux and others...
     LDFLAGS += -lreadline
