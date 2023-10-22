@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/22 23:48:50 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/23 01:01:26 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,17 +47,21 @@ $(NAME): $(LIBFT) $(OBJ)
 	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 $(LIBFT):
-	@make bonus -C ./libft
+	@echo "Compiling libft bonus..."
+	@make bonus -s -C ./libft
+	@echo "Libft done!"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	@make clean -C ./libft
+	@make clean -s -C ./libft
+	@echo "Make clean libft..."
 	$(RM) $(OBJ)
 
 fclean:
-	@make fclean -C ./libft
+	@make fclean -s -C ./libft
+	@echo "Make fclean libft..."
 	$(RM) $(NAME)
 	$(RM) $(OBJ)
 
