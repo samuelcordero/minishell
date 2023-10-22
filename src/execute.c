@@ -6,26 +6,18 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/22 16:45:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:51:16 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-	/*
-		STEPS:
-			1. Try opening files, redirect loops
-			2. Redirect loop for pipes
-			3. Find executable, some builtins may be runned in parent process
-			4. fork if necesary, then execute 
-	*/
-static int	ft_exec_cmd(t_cmd_node *node, char **envp)
+
+static int	ft_file_redirs(t_list *files)
 {
 	int		fd;
-	t_list	*files;
-	char	*path;
-
-	files = node->redirs_lst;
+	
+	fd = 0;
 	while (files)
 	{
 		fd = ft_open((t_redir_tok *)(files->content));
@@ -39,6 +31,22 @@ static int	ft_exec_cmd(t_cmd_node *node, char **envp)
 		ft_close(fd);
 		files = files->next;
 	}
+	return (0);
+}
+
+	/*
+		STEPS:
+			1. Try opening files, redirect loops
+			2. Redirect loop for pipes
+			3. Find executable, some builtins may be runned in parent process
+			4. fork if necesary, then execute 
+	*/
+static int	ft_exec_cmd(t_cmd_node *node, char **envp)
+{
+	char	*path;
+
+	if (ft_file_redirs(node->redirs_lst))
+		return (1);
 	if (pipe(node->pipe_fds) == -1)
 		return (perror("pipe"), 1);
 	path = extract_exec_path(envp, node->args[0]);
