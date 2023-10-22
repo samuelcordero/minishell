@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/22 16:51:16 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:36:43 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ static int	ft_exec_cmd(t_cmd_node *node, char **envp)
 		return (1);
 	if (pipe(node->pipe_fds) == -1)
 		return (perror("pipe"), 1);
-	path = extract_exec_path(envp, node->args[0]);
+	path = extract_exec_path(envp, node);
+	if (!path && node->is_builtin)
+		return (0);
 	if (!path)
 	{
 		ft_putstr_fd("MiniShell: command not found: ", 2);

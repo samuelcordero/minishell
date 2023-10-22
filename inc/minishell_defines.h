@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/22 13:35:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:29:16 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_cmd_node
 	struct s_cmd_node	*next;
 	int					pid;
 	int					exit_code;
+	char				is_builtin;
 	int					pipe_fds[2];
 }	t_cmd_node;
 

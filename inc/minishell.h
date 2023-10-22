@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/21 19:07:40 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:31:58 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+
+//builtins
+
+int		ft_msh_exit(t_cmd_node *node, char **envp);
+int		ft_change_dir(t_cmd_node *node, char **envp);
+int		ft_print_working_dir(t_cmd_node *node, char **envp);
+int		ft_echo(t_cmd_node *node, char **envp);
 
 //command_tree
 
@@ -55,7 +62,7 @@ int		ft_open(t_redir_tok *f_tok);
 void	ft_close(int fd);
 void	ft_dup2(int oldfd, int newfd);
 void	ft_free_array(char **array);
-char	*extract_exec_path(char **envp, char *name);
+char	*extract_exec_path(char **envp, t_cmd_node *node);
 
 //debug only
 
