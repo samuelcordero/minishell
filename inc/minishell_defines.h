@@ -6,14 +6,14 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/22 22:29:16 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:37:21 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_DEFINES_H
 # define MINISHELL_DEFINES_H
 # define MAX_SIZE 65535
-# define PROMPT "\x1b[32mM\x1b[0mini\x1b[32mShell\x1b[0m $> "
+# define PROMPT_BASE "\x1b[32mM\x1b[0mini\x1b[32mShell\x1b[0m"
 # define INFILE_MASK 0b1
 # define OUTFILE_MASK 0b10
 # define HEREDOC_MASK 0b100
@@ -66,6 +66,7 @@ typedef struct s_mshell_sack
 	t_cmdtree	*cmd_tree;
 	char		*line;
 	char		**envp;
+	char		*custom_prompt;
 }	t_mshell_sack;
 
 #endif

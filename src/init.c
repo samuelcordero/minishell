@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/20 12:45:16 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:40:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ static void	ft_sigint_handler(int signum)
 	rl_redisplay();
 }
 
+static char	*ft_custom_prompt(char **envp)
+{
+	char	*tmp;
+	char	*tmp2;
+
+	tmp = ft_strjoin(PROMPT_BASE, " - ");
+	tmp2 = ft_strjoin(tmp, get_from_env(envp, "USER"));
+	free(tmp);
+	tmp = ft_strjoin(tmp2, " $> ");
+	free(tmp2);
+	return (tmp);
+}
+
 void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 {
 	(void)argc;
@@ -28,5 +41,6 @@ void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 	ft_bzero(sack, sizeof(t_mshell_sack));
 	sack->envp = envp;
 	sack->cmd_tree = NULL;
+	sack->custom_prompt = ft_custom_prompt(envp);
 	signal(SIGPIPE, ft_sigint_handler); //change to SIGINT before eval
 }

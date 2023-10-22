@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/21 19:46:24 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:41:11 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	free_cmd_tok(void *tok)
 	free(tofree);
 }
 
-char	*get_command_str(void)
+char	*get_command_str(t_mshell_sack *sack)
 {
 	char	*tmp;
 	char	*res;
 
-	tmp = readline(PROMPT);
+	tmp = readline(sack->custom_prompt);
 	res = ft_strtrim(tmp, " \v\t\n\r");
 	free(tmp);
 	if (res && *res)
@@ -90,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 	init(&m_sack, envp, argc, argv);
 	while (1)
 	{
-		m_sack.line = get_command_str();
+		m_sack.line = get_command_str(&m_sack);
 		if (m_sack.line)
 		{
 			m_sack.cmd_tokens = lexer(m_sack.line);
