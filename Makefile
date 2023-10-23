@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/23 01:01:26 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/23 16:15:53 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC =	src/minishell.c \
 		src/lexer.c \
 		src/lexer_utils.c \
 		src/expander.c \
+		src/heredoc.c \
 		src/init.c \
 		src/redirect_utils.c \
 		src/builtins.c \

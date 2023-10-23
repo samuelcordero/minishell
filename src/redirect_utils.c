@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:21:53 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/22 22:38:46 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:31:31 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,12 @@ int	ft_open(t_redir_tok *f_tok)
 	int	flags;
 
 	flags = 0;
-	if (f_tok->redir_type == INFILE_MASK)
+	if (f_tok->redir_type == INFILE_MASK || f_tok->redir_type == HEREDOC_MASK)
 		flags = O_RDONLY;
 	else if (f_tok->redir_type == OUTFILE_MASK)
 		flags = O_RDWR | O_CREAT | O_TRUNC;
 	else if (f_tok->redir_type == CONCATOUT_MASK)
 		flags = O_RDWR | O_CREAT | O_APPEND;
-	else if (f_tok->redir_type == HEREDOC_MASK)
-		return (-1); //heredoc(f_tok->file_name)
 	fd = open(f_tok->file_name, flags, 0644);
 	if (fd == -1)
 		perror(f_tok->file_name);

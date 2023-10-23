@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/22 22:36:43 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:00:27 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ static int	ft_file_redirs(t_list *files)
 		fd = ft_open((t_redir_tok *)(files->content));
 		if (fd < 0)
 			return (1);
-		if (((t_redir_tok *)(files->content))->redir_type == INFILE_MASK
-			|| ((t_redir_tok *)(files->content))->redir_type == HEREDOC_MASK)
+		if (((t_redir_tok *)(files->content))->redir_type == INFILE_MASK)
 			dup2(fd, STDIN_FILENO);
+		else if (((t_redir_tok *)(files->content))->redir_type == HEREDOC_MASK)
+		{
+			dup2(fd, STDIN_FILENO);
+			unlink(((t_redir_tok *)(files->content))->file_name);
+		}
 		else
 			dup2(fd, STDOUT_FILENO);
 		ft_close(fd);
@@ -41,6 +45,7 @@ static int	ft_file_redirs(t_list *files)
 			3. Find executable, some builtins may be runned in parent process
 			4. fork if necesary, then execute 
 	*/
+
 static int	ft_exec_cmd(t_cmd_node *node, char **envp)
 {
 	char	*path;
@@ -60,7 +65,6 @@ static int	ft_exec_cmd(t_cmd_node *node, char **envp)
 		node->exit_code = 127;
 		return (0);
 	}
-	//if it is builtin maybe execute in father (cd, export for example)
 	node->pid = fork();
 	if (node->pid < 0)
 		return (perror("fork"), 1);
@@ -132,7 +136,6 @@ int	execute(t_cmdtree *t_node, char **envp)
 	exit_code = 0;
 	if (t_node->left)
 		exit_code = execute(t_node->left, envp);
-	//printf("left exited with %i\n", exit_code);
 	if (t_node->right)
 		if ((exit_code == 0 && t_node->is_logic == AND_MASK)
 			|| (exit_code != 0 && t_node->is_logic == OR_MASK)
@@ -144,6 +147,8 @@ int	execute(t_cmdtree *t_node, char **envp)
 	tmp = ft_wait_all(last_pid);
 	dup2(std_backup[0], STDIN_FILENO);
 	dup2(std_backup[1], STDOUT_FILENO);
+	ft_close(std_backup[0]);
+	ft_close(std_backup[1]);
 	if (last && last->exit_code != tmp)
 		return (last->exit_code);
 	return  (tmp);

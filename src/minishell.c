@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 00:41:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:43:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,46 @@ char	*get_command_str(t_mshell_sack *sack)
 		free(res);
 	return (NULL);
 }
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_mshell_sack	m_sack;
+	t_list	*tmp;
+
+	rl_initialize();
+	init(&m_sack, envp, argc, argv);
+	while (1)
+	{
+		m_sack.line = get_command_str(&m_sack);
+		if (m_sack.line)
+		{
+			m_sack.cmd_tokens = lexer(m_sack.line);
+			//print_tokens(m_sack.cmd_tokens);
+			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
+			tmp = m_sack.cmd_tokens;
+			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
+				return (1); //handle this
+			//print_cmdtree(m_sack.cmd_tree);
+			execute(m_sack.cmd_tree, m_sack.envp);
+			free(m_sack.line);
+			//free de los tokens!!!
+			//ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
+			//free del arbol!!!
+		}
+	}
+	return (0);
+}
+/* FOR LEAK TESTING
+
+	atexit(leaks);
+
+void	leaks(void)
+{
+	system("leaks minishell");
+}
+ FOR LEAK TESTING */
+
+ /* PRINT CMD TREE
 
 void	print_cmdtree(t_cmdtree *head)
 {
@@ -81,41 +121,5 @@ void	print_cmdtree(t_cmdtree *head)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_mshell_sack	m_sack;
-	t_list	*tmp;
-
-	rl_initialize();
-	init(&m_sack, envp, argc, argv);
-	while (1)
-	{
-		m_sack.line = get_command_str(&m_sack);
-		if (m_sack.line)
-		{
-			m_sack.cmd_tokens = lexer(m_sack.line);
-			//print_tokens(m_sack.cmd_tokens);
-			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
-			tmp = m_sack.cmd_tokens;
-			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
-				return (1); //handle this
-			//print_cmdtree(m_sack.cmd_tree);
-			execute(m_sack.cmd_tree, m_sack.envp);
-			free(m_sack.line);
-			//free de los tokens!!!
-			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
-			//free del arbol!!!
-		}
-	}
-	return (0);
-}
-/* FOR LEAK TESTING
-
-	atexit(leaks);
-
-void	leaks(void)
-{
-	system("leaks minishell");
-}
- FOR LEAK TESTING */
+ */
 

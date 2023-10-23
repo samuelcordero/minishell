@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/22 23:53:27 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:32:56 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ int		ft_parse_tree(t_cmdtree **tree, t_list **tokenlist);
 //enviroment
 
 char	*get_from_env(char **envp, char	*key);
+
+//here_doc
+
+int		ft_heredoc(t_redir_tok *tok);
 
 //init
 

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/20 14:34:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:43:11 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,19 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 		tmp = current->redirs_lst;
 	}
 	tmp->content = ft_calloc(1, sizeof(t_redir_tok));
+	((t_redir_tok *)tmp->content)->file_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
 	if (ft_strncmp("<", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
 		((t_redir_tok *)tmp->content)->redir_type = INFILE_MASK;
 	else if (ft_strncmp(">", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
 		((t_redir_tok *)tmp->content)->redir_type = OUTFILE_MASK;
 	else if (ft_strncmp("<<", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
+	{
 		((t_redir_tok *)tmp->content)->redir_type = HEREDOC_MASK;
+		if (ft_heredoc((t_redir_tok *)tmp->content))
+			exit(1);
+	}
 	else if (ft_strncmp(">>", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
 		((t_redir_tok *)tmp->content)->redir_type = CONCATOUT_MASK;
-	((t_redir_tok *)tmp->content)->file_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
 	return (0);
 }
 

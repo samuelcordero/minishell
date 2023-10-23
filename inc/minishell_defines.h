@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 00:37:21 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:37:31 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define AND_MASK 0b1
 # define OR_MASK 0b10
 # define WAIT_MASK 0b100
+# define H_DOC_TMP_BASE "/tmp/dash_tmp_heredoc_"
 
 typedef struct s_cmdtoken
 {
