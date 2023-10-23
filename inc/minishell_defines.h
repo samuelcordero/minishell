@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 16:37:31 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 19:29:02 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_mshell_sack
 	char		*line;
 	char		**envp;
 	char		*custom_prompt;
+	char		eof;
 }	t_mshell_sack;
 
 #endif
