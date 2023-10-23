@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:21:53 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 22:48:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 22:53:43 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	ft_free_array(char **array)
 }
 static int	ft_is_rel_path(char *path)
 {
-	if (!ft_strncmp(path, "./", 2) || !ft_strncmp(path, "../", 3))
+	if (!ft_strncmp(path, "./", 2) || !ft_strncmp(path, "../", 3)
+		 || !ft_strncmp(path, "/", 1))
 		return (1);
 	return (0);
 }
