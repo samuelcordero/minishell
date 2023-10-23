@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 17:27:19 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 21:29:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_sigint_handler(int signum)
 	(void) signum;
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	printf("\n");
+	ft_printf("\n");
 	rl_redisplay();
 }
 
@@ -26,10 +26,10 @@ static char	*ft_custom_prompt(char **envp)
 	char	*tmp;
 	char	*tmp2;
 
-	tmp = ft_strjoin(PROMPT_BASE, " - \x1b[31m");
-	tmp2 = ft_strjoin(tmp, get_from_env(envp, "USER"));
-	free(tmp);
-	tmp = ft_strjoin(tmp2, "\x1b[0m $> ");
+	//tmp = ft_strjoin(PROMPT_BASE, " - \x1b[31m");
+	tmp2 = ft_strjoin(PROMPT_BASE, get_from_env(envp, "USER"));
+	//free(tmp);
+	tmp = ft_strjoin(tmp2, " $> ");
 	free(tmp2);
 	return (tmp);
 }
