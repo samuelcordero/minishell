@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 15:07:40 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:27:19 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ static char	*ft_custom_prompt(char **envp)
 	return (tmp);
 }
 
+static void	ft_nothing(int signum)
+{
+	(void)signum;
+}
+
 void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 {
 	(void)argc;
@@ -43,4 +48,5 @@ void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 	sack->cmd_tree = NULL;
 	sack->custom_prompt = ft_custom_prompt(envp);
 	signal(SIGINT, ft_sigint_handler);
+	signal(SIGQUIT, ft_nothing);
 }
