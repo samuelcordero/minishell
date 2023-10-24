@@ -6,15 +6,17 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:26:27 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:38:11 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern int	is_exec;
+
 static void	ft_sig_handler(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT && !is_exec)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -43,6 +45,7 @@ static int	ft_init_envp(t_mshell_sack *sack, char **envp)
 	int	ctr;
 
 	ctr = -1;
+	is_exec = 0;
 	while (envp && envp[sack->env_elems])
 		sack->env_elems++;
 	sack->env_size = sack->env_elems * 2;
