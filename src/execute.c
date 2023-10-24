@@ -6,13 +6,13 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:36:36 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:44:01 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	is_exec;
+extern int	g_is_exec;
 
 static int	ft_file_redirs(t_list *files)
 {
@@ -144,10 +144,10 @@ int	execute(t_cmdtree *t_node, t_mshell_sack *sack)
 			return (execute(t_node->right, sack));
 	std_backup[0] = dup(STDIN_FILENO);
 	std_backup[1] = dup(STDOUT_FILENO);
-	is_exec = 1;
+	g_is_exec = 1;
 	last = ft_execute_lst(t_node, sack, &last_pid);
 	tmp = ft_wait_all(last_pid);
-	is_exec = 0;
+	g_is_exec = 0;
 	dup2(std_backup[0], STDIN_FILENO);
 	dup2(std_backup[1], STDOUT_FILENO);
 	ft_close(std_backup[0]);
