@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 17:00:27 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:17:18 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	ft_file_redirs(t_list *files)
 			4. fork if necesary, then execute 
 	*/
 
-static int	ft_exec_cmd(t_cmd_node *node, char **envp)
+static int	ft_exec_cmd(t_cmd_node *node, t_mshell_sack *sack)
 {
 	char	*path;
 
@@ -54,7 +54,7 @@ static int	ft_exec_cmd(t_cmd_node *node, char **envp)
 		return (1);
 	if (pipe(node->pipe_fds) == -1)
 		return (perror("pipe"), 1);
-	path = extract_exec_path(envp, node);
+	path = extract_exec_path(sack, node);
 	if (!path && node->is_builtin)
 		return (0);
 	if (!path)
@@ -79,21 +79,21 @@ static int	ft_exec_cmd(t_cmd_node *node, char **envp)
 		ft_close(node->pipe_fds[0]);
 		if (node->pipe_out)
 			ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
-		if (execve(path, node->args, envp) == -1)
+		if (execve(path, node->args, sack->envp) == -1)
 			return (perror("execve"), 1);
 		ft_close(node->pipe_fds[1]);
 	}
 	return (0);
 }
 
-static t_cmd_node *ft_execute_lst(t_cmdtree *t_node, char **envp, int *last_pid)
+static t_cmd_node *ft_execute_lst(t_cmdtree *t_node, t_mshell_sack *sack, int *last_pid)
 {
 	t_cmd_node	*lst;
 
 	lst = t_node->cmd_list;
 	while (lst)
 	{
-		if (ft_exec_cmd(lst, envp) == 0)
+		if (ft_exec_cmd(lst, sack) == 0)
 			*last_pid = lst->pid;
 		if (!lst->next)
 			return (lst);
@@ -124,7 +124,7 @@ static	int	ft_wait_all(int last_pid)
 	return (exit_code);
 }
 
-int	execute(t_cmdtree *t_node, char **envp)
+int	execute(t_cmdtree *t_node, t_mshell_sack *sack)
 {
 	int			last_pid;
 	int			exit_code;
@@ -135,20 +135,21 @@ int	execute(t_cmdtree *t_node, char **envp)
 	last_pid = 0;
 	exit_code = 0;
 	if (t_node->left)
-		exit_code = execute(t_node->left, envp);
+		exit_code = execute(t_node->left, sack);
 	if (t_node->right)
 		if ((exit_code == 0 && t_node->is_logic == AND_MASK)
 			|| (exit_code != 0 && t_node->is_logic == OR_MASK)
 			|| (t_node->is_logic == WAIT_MASK))
-			return (execute(t_node->right, envp));
+			return (execute(t_node->right, sack));
 	std_backup[0] = dup(STDIN_FILENO);
 	std_backup[1] = dup(STDOUT_FILENO);
-	last = ft_execute_lst(t_node, envp, &last_pid);
+	last = ft_execute_lst(t_node, sack, &last_pid);
 	tmp = ft_wait_all(last_pid);
 	dup2(std_backup[0], STDIN_FILENO);
 	dup2(std_backup[1], STDOUT_FILENO);
 	ft_close(std_backup[0]);
 	ft_close(std_backup[1]);
+	ft_putstr_fd("\x1b[0m", STDIN_FILENO); //restores normal color (for example, env may fuck color up because some variable have color codes)
 	if (last && last->exit_code != tmp)
 		return (last->exit_code);
 	return  (tmp);

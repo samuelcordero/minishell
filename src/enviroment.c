@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 14:26:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:53:25 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 {
 	if (sack->env_elems + 1 < sack->env_size)
 	{
+		ft_printf("adding %s on pos %ld\n", key_val, sack->env_elems);
 		sack->envp[sack->env_elems] = ft_strdup(key_val);
-		sack->env_elems++;
+		sack->env_elems += 1;
 	}
 	else
 	{
@@ -86,7 +87,7 @@ char	*ft_get_from_env(char **envp, char	*key)
 		{
 			ret = envp[i] + ft_strlen(tmp);
 			free(tmp);
-			return (ret);
+			return (ft_strdup(ret));
 		}
 	}
 	return (NULL);
@@ -108,5 +109,31 @@ int	ft_add_to_env(t_mshell_sack *sack, char *key_val)
 		}
 	}
 	free(key);
+	return (0);
+}
+
+int	ft_remove_env(t_mshell_sack *sack, char *key)
+{
+	int		i;
+	char	*tmp;
+
+	tmp = ft_strjoin(key, "=");
+	if (!tmp)
+		return (1);
+	i = 0;
+	while (sack->envp && sack->envp[++i])
+	{
+		if (!ft_strncmp(sack->envp[i], tmp, ft_strlen(tmp)))
+		{
+			free(sack->envp[i]);
+			sack->env_elems--;
+			break ;
+		}
+	}
+	while (sack->envp && sack->envp[i])
+	{
+		sack->envp[i] = sack->envp[i + 1];
+		++i;
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:21:53 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 13:51:50 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:13:54 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,25 +76,24 @@ static int	ft_is_rel_path(char *path)
 	return (0);
 }
 
-static int	ft_execbultin(t_cmd_node *node, char **envp)
+static int	ft_execbultin(t_cmd_node *node, t_mshell_sack *sack)
 {
 	if (!ft_strncmp(node->args[0], "cd", 3))
-		ft_change_dir(node, envp);
+		ft_change_dir(node, sack->envp);
 	else if (!ft_strncmp(node->args[0], "echo", 5))
-		ft_echo(node, envp);
+		ft_echo(node, sack->envp);
 	else if (!ft_strncmp(node->args[0], "exit", 5))
-		ft_msh_exit(node, envp);
+		ft_msh_exit(node, sack->envp);
 	else if (!ft_strncmp(node->args[0], "pwd", 4))
-		ft_print_working_dir(node, envp);
-	/*
+		ft_print_working_dir(node, sack->envp);
 	else if (!ft_strncmp(node->args[0], "unset", 6))
-		ft_unset(node, envp);
+		ft_unset(node, sack);
 	else if (!ft_strncmp(node->args[0], "export", 7))
-		ft_export(node, envp); */
+		ft_export(node, sack); 
 	return (node->is_builtin);
 }
 
-char	*extract_exec_path(char **envp, t_cmd_node *node)
+char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node)
 {
 	int		pos;
 	char	**split_path;
@@ -107,13 +106,14 @@ char	*extract_exec_path(char **envp, t_cmd_node *node)
 		return (node->args[0]);
 	if (ft_is_rel_path(node->args[0]))
 		return (NULL);
-	if (ft_execbultin(node, envp))
+	if (ft_execbultin(node, sack))
 		return (NULL);
-	if (!envp || !*envp)
+	if (!sack->envp || !*sack->envp)
 		return (NULL);
-	while (*envp && ft_strncmp(*envp, "PATH=", 5))
-		envp++;
-	split_path = ft_split(*envp + 5, ':');
+	pos = 0;
+	while (sack->envp[pos] && ft_strncmp(sack->envp[pos], "PATH=", 5))
+		pos++;
+	split_path = ft_split(sack->envp[pos] + 5, ':');
 	pos = 0;
 	while (split_path[pos])
 	{
