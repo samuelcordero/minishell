@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 16:56:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:05:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,23 @@ int	ft_heredoc(t_redir_tok *tok)
 {
 	int		fd;
 	char	*delim;
-	char	*tmp;
 	char	*line;
+	char	*prompt;
 
 	delim = tok->file_name;
 	fd = create_temp_heredoc(tok);
 	if (fd < 0)
 		return (free(delim), ft_putendl_fd("Heredoc error!", 2), 1);
-	tmp = ft_strjoin(delim, "\n");
-	ft_putstr_fd("here_doc (", STDOUT_FILENO);
-	ft_putstr_fd(delim, STDOUT_FILENO);
-	ft_putstr_fd(") > ", STDOUT_FILENO);
-	line = get_next_line(STDIN_FILENO);
-	while (line && ft_strncmp(line, tmp,
-			ft_strlen(tmp)))
+	line = ft_strjoin("here_doc (", delim);
+	prompt = ft_strjoin(line, ") > ");
+	free(line);
+	line = readline(prompt);
+	while (line && ft_strncmp(line, delim,
+			ft_strlen(delim) + 1))
 	{
-		ft_putstr_fd(line, fd);
+		ft_putendl_fd(line, fd);
 		free(line);
-		ft_putstr_fd("here_doc (", STDOUT_FILENO);
-		ft_putstr_fd(delim, STDOUT_FILENO);
-		ft_putstr_fd(") > ", STDOUT_FILENO);
-		line = get_next_line(STDIN_FILENO);
+		line = readline(prompt);
 	}
-	return (free(delim), free(line), free(tmp), ft_close(fd), 0);
+	return (free(delim), free(line), free(prompt), ft_close(fd), 0);
 }
