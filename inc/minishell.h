@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 15:32:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:54:37 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 //builtins
 
 int		ft_msh_exit(t_cmd_node *node, char **envp);
-int		ft_change_dir(t_cmd_node *node, char **envp);
+int		ft_change_dir(t_cmd_node *node, t_mshell_sack *sack);
 int		ft_print_working_dir(t_cmd_node *node, char **envp);
 int		ft_echo(t_cmd_node *node, char **envp);
 int		ft_export(t_cmd_node *node, t_mshell_sack *sack);

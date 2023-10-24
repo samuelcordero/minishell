@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 15:53:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:11:03 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 {
 	if (sack->env_elems + 1 < sack->env_size)
 	{
-		ft_printf("adding %s on pos %ld\n", key_val, sack->env_elems);
 		sack->envp[sack->env_elems] = ft_strdup(key_val);
 		sack->env_elems += 1;
 	}
@@ -87,10 +86,10 @@ char	*ft_get_from_env(char **envp, char	*key)
 		{
 			ret = envp[i] + ft_strlen(tmp);
 			free(tmp);
-			return (ft_strdup(ret));
+			return (ret);
 		}
 	}
-	return (NULL);
+	return ("");
 }
 
 int	ft_add_to_env(t_mshell_sack *sack, char *key_val)
@@ -98,7 +97,7 @@ int	ft_add_to_env(t_mshell_sack *sack, char *key_val)
 	char	*key;
 
 	key = ft_substr(key_val, 0, ft_strchr(key_val, '=') - key_val);
-	if (ft_get_from_env(sack->envp, key))
+	if (ft_strncmp(ft_get_from_env(sack->envp, key), "", 1))
 		ft_search_and_replace_env(sack->envp, key_val, key);
 	else
 	{

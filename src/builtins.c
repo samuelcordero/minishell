@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 14:46:06 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:09:16 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ int	ft_msh_exit(t_cmd_node *node, char **envp)
 	exit(0);
 }
 
-int	ft_change_dir(t_cmd_node *node, char **envp)
+int	ft_change_dir(t_cmd_node *node, t_mshell_sack *sack)
 {
 	char	*path;
+	void	*nullable;
+	char	cwd[256];
 
 	node->is_builtin = 1;
 	if (node->args[0] && node->args[1])
@@ -46,12 +48,30 @@ int	ft_change_dir(t_cmd_node *node, char **envp)
 		path = node->args[1];
 	}
 	else
-		path = ft_get_from_env(envp, "HOME");
+		path = ft_get_from_env(sack->envp, "HOME");
+	nullable = getcwd(cwd, sizeof(cwd));
+	if (!nullable)
+	{
+		perror("MiniShell: update cwd error");
+		return (1);
+	}
 	if (chdir(path) == -1)
 	{
 		perror(path);
 		return (1);
 	}
+	path = ft_strjoin("OLDPWD=", cwd);
+	ft_add_to_env(sack, path);
+	free(path);
+	nullable = getcwd(cwd, sizeof(cwd));
+	if (!nullable)
+	{
+		perror("MiniShell: update cwd error");
+		return (1);
+	}
+	path = ft_strjoin("PWD=", cwd);
+	ft_add_to_env(sack, path);
+	free(path);
 	return (0);
 }
 
@@ -60,7 +80,6 @@ int	ft_print_working_dir(t_cmd_node *node, char **envp)
 	void	*nullable;
 	char	cwd[256];
 
-	//update cwd in eviroment!
 	(void)envp;
 	node->is_builtin = 1;
 	node->pid = fork();
