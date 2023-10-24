@@ -6,19 +6,21 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 16:51:50 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:26:27 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_sigint_handler(int signum)
+static void	ft_sig_handler(int signum)
 {
-	(void) signum;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	rl_redisplay();
+	if (signum == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_redisplay();
+	}
 }
 
 static char	*ft_custom_prompt(char **envp)
@@ -34,11 +36,6 @@ static char	*ft_custom_prompt(char **envp)
 	tmp = ft_strjoin(tmp2, " $> ");
 	free(tmp2);
 	return (tmp);
-}
-
-static void	ft_nothing(int signum)
-{
-	(void)signum;
 }
 
 static int	ft_init_envp(t_mshell_sack *sack, char **envp)
@@ -61,6 +58,20 @@ static int	ft_init_envp(t_mshell_sack *sack, char **envp)
 	return (0);
 }
 
+static void	ft_fill_envp(t_mshell_sack *sack)
+{
+	char	*tmp;
+	char	*tmp2;
+	int		shllvl;
+
+	shllvl = 1 + ft_atoi(ft_get_from_env(sack->envp, "SHLVL"));
+	tmp = ft_itoa(shllvl);
+	tmp2 = ft_strjoin("SHLVL=", tmp);
+	ft_add_to_env(sack, tmp2);
+	free(tmp);
+	free(tmp2);
+}
+
 void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 {
 	(void)argc;
@@ -70,9 +81,10 @@ void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 	{
 		ft_putendl_fd("minishell: error allocating envp space", STDERR_FILENO);
 		exit(1);
-	}	
+	}
+	ft_fill_envp(sack);
 	sack->cmd_tree = NULL;
 	sack->custom_prompt = ft_custom_prompt(sack->envp);
-	signal(SIGINT, ft_sigint_handler);
-	signal(SIGQUIT, ft_nothing);
+	signal(SIGINT, ft_sig_handler);
+	signal(SIGQUIT, ft_sig_handler);
 }
