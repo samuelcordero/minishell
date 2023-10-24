@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:21:53 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 16:55:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:49:40 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ void	ft_free_array(char **array)
 		free(array[pos++]);
 	free(array);
 }
+
 static int	ft_is_rel_path(char *path)
 {
 	if (!ft_strncmp(path, "./", 2) || !ft_strncmp(path, "../", 3)
-		 || !ft_strncmp(path, "/", 1))
+		|| !ft_strncmp(path, "/", 1))
 		return (1);
 	return (0);
 }
@@ -89,7 +90,7 @@ static int	ft_execbultin(t_cmd_node *node, t_mshell_sack *sack)
 	else if (!ft_strncmp(node->args[0], "unset", 6))
 		ft_unset(node, sack);
 	else if (!ft_strncmp(node->args[0], "export", 7))
-		ft_export(node, sack); 
+		ft_export(node, sack);
 	return (node->is_builtin);
 }
 

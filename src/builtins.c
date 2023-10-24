@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:09:16 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:48:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_echo(t_cmd_node *node, char **envp)
 		ft_close(node->pipe_fds[0]);
 		if (node->pipe_out)
 			ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
-		while(node->args[++i])
+		while (node->args[++i])
 		{
 			ft_putstr_fd(node->args[i], STDOUT_FILENO);
 			ft_putstr_fd(" ", STDOUT_FILENO);
@@ -154,7 +154,8 @@ int	ft_export(t_cmd_node *node, t_mshell_sack *sack)
 	{
 		if (node->args[2] != NULL)
 		{
-			ft_putendl_fd("MiniShell: export: too many arguments", STDERR_FILENO);
+			ft_putendl_fd("MiniShell: export: too many arguments",
+				STDERR_FILENO);
 			return (1);
 		}
 		return (ft_add_to_env(sack, node->args[1]));
@@ -169,7 +170,8 @@ int	ft_unset(t_cmd_node *node, t_mshell_sack *sack)
 	{
 		if (node->args[2] != NULL)
 		{
-			ft_putendl_fd("MiniShell: unset: too many arguments", STDERR_FILENO);
+			ft_putendl_fd("MiniShell: unset: too many arguments",
+				STDERR_FILENO);
 			return (1);
 		}
 		return (ft_remove_env(sack, node->args[1]));

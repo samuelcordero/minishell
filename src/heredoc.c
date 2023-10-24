@@ -6,20 +6,20 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 13:05:15 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:46:07 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_tmp_filename()
+static char	*get_tmp_filename(void)
 {
 	char	*name;
 	char	*tmp;
 	int		i;
 
 	i = 0;
-	while  (++i <= 1000)
+	while (++i <= 1000)
 	{
 		tmp = ft_itoa(i);
 		name = ft_strjoin(H_DOC_TMP_BASE, tmp);

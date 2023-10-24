@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:11:03 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:46:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_realloc_and_add_envp(t_mshell_sack *sack, char *key_val)
 		return (1);
 	res = ft_calloc(sack->env_size, sizeof(char *));
 	if (!res)
-		return(1);
+		return (1);
 	while (sack->envp[++ctr])
 		res[ctr] = sack->envp[ctr];
 	res[ctr] = ft_strdup(key_val);
@@ -65,7 +65,8 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 	{
 		if (ft_realloc_and_add_envp(sack, key_val))
 		{
-			ft_putendl_fd("Minishell: couldn't add more envp tuples", STDERR_FILENO);
+			ft_putendl_fd("Minishell: couldn't add more envp tuples",
+				STDERR_FILENO);
 			exit(1);
 		}
 	}
