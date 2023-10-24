@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 00:10:32 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:47:03 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_from_env(char **envp, char	*key)
 
 	tmp = ft_strjoin(key, "=");
 	i = -1;
-	while (envp[++i])
+	while (envp && envp[++i])
 	{
 		if (!ft_strncmp(envp[i], tmp, ft_strlen(tmp)))
 		{

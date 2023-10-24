@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 21:50:58 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:11:43 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 			execute(m_sack.cmd_tree, m_sack.envp);
 			free(m_sack.line);
 			//free de los tokens!!!
-			//ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
+			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
 			//free del arbol!!!
 		}
 		else if (m_sack.eof)
