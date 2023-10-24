@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 13:53:40 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:25:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*ft_custom_prompt(char **envp)
 	char	*tmp;
 	char	*tmp2;
 
-	tmp = get_from_env(envp, "USER");
+	tmp = ft_get_from_env(envp, "USER");
 	if (tmp)
 		tmp2 = ft_strjoin(PROMPT_BASE, tmp);
 	else

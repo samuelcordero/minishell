@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 00:10:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:24:45 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_change_dir(t_cmd_node *node, char **envp)
 		path = node->args[1];
 	}
 	else
-		path = get_from_env(envp, "HOME");
+		path = ft_get_from_env(envp, "HOME");
 	if (chdir(path) == -1)
 	{
 		perror(path);
