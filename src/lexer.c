@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/17 13:24:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/25 00:32:55 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,7 @@ static void	*get_token(char *str, int start, int end)
 	return ((void *) token);
 }
 
-static void	skip_spaces(char *str, int *i, int *start)
-{
-	while (str[*i] == ' ' && str[*i])
-		++(*i);
-	*start = *i;
-}
+
 
 static char	ft_isreserved(char c)
 {

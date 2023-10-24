@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
+/*   Updated: 2023/10/25 00:39:01 by sacorder         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*get_needle(char *str, int needle_tip)
@@ -14,15 +26,14 @@ static char	*expand_str(char *str, int i, char **envp)
 {
 	char	*needle;
 	char	*expanded;
-	char  *extract;
-	char  *tmp;
+	char	*extract;
+	char	*tmp;
 
-	(void)envp;
 	needle = get_needle(str, i + 1);
 	ft_printf("Needle: %s\n", needle);
 	expanded = ft_substr(str, 0, (size_t) i);
 	tmp = expanded;
-	expanded = ft_strjoin(tmp, needle); //aqui habria que juntar lo del envp no el needle per pa probar
+	expanded = ft_strjoin(tmp, ft_get_from_env(envp, needle));
 	free(tmp);
 	tmp = expanded;
 	extract = ft_substr(str, i + 1 + ft_strlen(needle), MAX_SIZE);
@@ -31,7 +42,7 @@ static char	*expand_str(char *str, int i, char **envp)
 	free(extract);
 	free(needle);
 	free(str);
-	return(expanded);
+	return (expanded);
 }
 
 void	expand(t_cmdtoken *token, char **envp)

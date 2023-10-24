@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 22:36:21 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/25 00:40:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,7 @@
 
 int	g_is_exec;
 
-void	free_cmd_tok(void *tok)
-{
-	t_cmdtoken	*tofree;
-
-	tofree = tok;
-	free(tofree->str);
-	free(tofree);
-}
-
-char	*get_command_str(t_mshell_sack *sack)
+static char	*get_command_str(t_mshell_sack *sack)
 {
 	char	*tmp;
 	char	*res;

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:44:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/25 00:37:11 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int	g_is_exec;
 static int	ft_file_redirs(t_list *files)
 {
 	int		fd;
-	
+
 	fd = 0;
 	while (files)
 	{
@@ -25,14 +25,14 @@ static int	ft_file_redirs(t_list *files)
 		if (fd < 0)
 			return (1);
 		if (((t_redir_tok *)(files->content))->redir_type == INFILE_MASK)
-			dup2(fd, STDIN_FILENO);
+			ft_dup2(fd, STDIN_FILENO);
 		else if (((t_redir_tok *)(files->content))->redir_type == HEREDOC_MASK)
 		{
-			dup2(fd, STDIN_FILENO);
+			ft_dup2(fd, STDIN_FILENO);
 			unlink(((t_redir_tok *)(files->content))->file_name);
 		}
 		else
-			dup2(fd, STDOUT_FILENO);
+			ft_dup2(fd, STDOUT_FILENO);
 		ft_close(fd);
 		files = files->next;
 	}
@@ -87,7 +87,8 @@ static int	ft_exec_cmd(t_cmd_node *node, t_mshell_sack *sack)
 	return (0);
 }
 
-static t_cmd_node *ft_execute_lst(t_cmdtree *t_node, t_mshell_sack *sack, int *last_pid)
+static t_cmd_node	*ft_execute_lst(t_cmdtree *t_node,
+	t_mshell_sack *sack, int *last_pid)
 {
 	t_cmd_node	*lst;
 
@@ -120,7 +121,7 @@ static	int	ft_wait_all(int last_pid)
 				exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				exit_code = WTERMSIG(status) + 128;
-		}		
+		}
 	}
 	return (exit_code);
 }
@@ -148,12 +149,12 @@ int	execute(t_cmdtree *t_node, t_mshell_sack *sack)
 	last = ft_execute_lst(t_node, sack, &last_pid);
 	tmp = ft_wait_all(last_pid);
 	g_is_exec = 0;
-	dup2(std_backup[0], STDIN_FILENO);
-	dup2(std_backup[1], STDOUT_FILENO);
+	ft_dup2(std_backup[0], STDIN_FILENO);
+	ft_dup2(std_backup[1], STDOUT_FILENO);
 	ft_close(std_backup[0]);
 	ft_close(std_backup[1]);
-	ft_putstr_fd("\x1b[0m", STDIN_FILENO); //restores normal color (for example, env may fuck color up because some variable have color codes)
+	ft_putstr_fd("\x1b[0m", STDIN_FILENO);
 	if (last && last->exit_code != tmp)
 		return (last->exit_code);
-	return  (tmp);
+	return (tmp);
 }

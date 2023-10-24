@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/24 22:34:27 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/24 22:59:37 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,13 @@ SRC =	src/minishell.c \
 		src/init.c \
 		src/redirect_utils.c \
 		src/builtins.c \
+		src/builtins_extra.c \
 		src/command_tree.c \
 		src/execute.c \
 		src/enviroment.c \
-		src/utils.c
+		src/enviroment_extra.c \
+		src/utils.c \
+		src/path_finder.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 UNAME := $(shell uname -s)

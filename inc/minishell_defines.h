@@ -6,14 +6,13 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 13:32:27 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/25 00:33:44 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_DEFINES_H
 # define MINISHELL_DEFINES_H
 # define MAX_SIZE 65535
-//# define PROMPT_BASE "Mini\x1b[32mShell\x1b[0m" //color seems to break newline toggling
 # define PROMPT_BASE "MiniShell - "
 # define INFILE_MASK 0b1
 # define OUTFILE_MASK 0b10

@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   enviroment_extra.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/25 00:31:39 by sacorder         ###   ########.fr       */
+/*   Created: 2023/10/24 22:55:51 by sacorder          #+#    #+#             */
+/*   Updated: 2023/10/25 00:34:55 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_printexit(int exit_code)
+int	ft_remove_env(t_mshell_sack *sack, char *key)
 {
-	ft_putendl_fd("exit", STDERR_FILENO);
-	exit(exit_code);
-}
+	int		i;
+	char	*tmp;
 
-void	ft_free_array(char **array)
-{
-	int	pos;
-
-	pos = 0;
-	if (!array)
-		exit(-1);
-	while (array[pos])
-		free(array[pos++]);
-	free(array);
-}
-
-void	free_cmd_tok(void *tok)
-{
-	t_cmdtoken	*tofree;
-
-	tofree = tok;
-	free(tofree->str);
-	free(tofree);
+	tmp = ft_strjoin(key, "=");
+	if (!tmp)
+		return (1);
+	i = 0;
+	while (sack->envp && sack->envp[++i])
+	{
+		if (!ft_strncmp(sack->envp[i], tmp, ft_strlen(tmp)))
+		{
+			free(sack->envp[i]);
+			sack->env_elems--;
+			break ;
+		}
+	}
+	while (sack->envp && sack->envp[i])
+	{
+		sack->envp[i] = sack->envp[i + 1];
+		++i;
+	}
+	return (0);
 }
