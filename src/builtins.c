@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:48:06 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 22:36:48 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int	ft_msh_exit(t_cmd_node *node, char **envp)
 			ft_putendl_fd("MiniShell: exit: too many arguments", STDERR_FILENO);
 			return (1);
 		}
-		exit(ft_atoi(node->args[1]));
+		ft_printexit(ft_atoi(node->args[1]));
 	}
-	exit(0);
+	ft_printexit(0);
+	return (0);
 }
 
 int	ft_change_dir(t_cmd_node *node, t_mshell_sack *sack)

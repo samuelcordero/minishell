@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 16:54:37 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 22:35:25 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,9 @@ char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node);
 //debug only
 
 void	print_tokens(t_list *tokens);
+
+//utils
+
+void	ft_printexit(int exit_code);
 
 #endif

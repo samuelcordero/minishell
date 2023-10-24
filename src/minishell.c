@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:52:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/24 22:36:21 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			//free del arbol!!!
 		}
 		else if (m_sack.eof)
-			exit(0); //
+			ft_printexit(0); //maybe clean exit
 	}
 	return (0);
 }
