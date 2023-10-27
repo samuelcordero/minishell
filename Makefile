@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/24 22:59:37 by sacorder         ###   ########.fr        #
+#    Updated: 2023/10/27 15:29:17 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,9 @@ SRC =	src/minishell.c \
 		src/builtins.c \
 		src/builtins_extra.c \
 		src/command_tree.c \
+		src/command_tree_utils.c \
 		src/execute.c \
+		src/execute_utils.c \
 		src/enviroment.c \
 		src/enviroment_extra.c \
 		src/utils.c \

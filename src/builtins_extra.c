@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:58:46 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 23:00:46 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:43:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	ft_export(t_cmd_node *node, t_mshell_sack *sack)
 		}
 		return (ft_add_to_env(sack, node->args[1]));
 	}
+	else
+		ft_putendl_fd("MiniShell: export: missing argument", STDERR_FILENO);
 	return (1);
 }
 

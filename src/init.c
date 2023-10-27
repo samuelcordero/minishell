@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 22:43:09 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:58:37 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,14 @@ static void	ft_fill_envp(t_mshell_sack *sack)
 	ft_add_to_env(sack, tmp2);
 	free(tmp);
 	free(tmp2);
-	if (!ft_strncmp(ft_get_from_env(sack->envp, "PATH"), "", 1))
-		ft_add_to_env(sack, "PATH=/.local/bin:/bin:/usr/local/bin:/usr/bin");
+	tmp = get_cwd_str();
+	if (tmp)
+	{
+		tmp2 = ft_strjoin("PWD=", tmp);
+		ft_add_to_env(sack, tmp2);
+		free(tmp);
+		free(tmp2);
+	}
 }
 
 void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)

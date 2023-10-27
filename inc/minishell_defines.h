@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/25 00:33:44 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:33:40 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_redir_tok
 typedef struct s_cmd_node
 {
 	char				**args;
-	char				pipe_in;
 	char				pipe_out;
 	t_list				*redirs_lst;
 	struct s_cmd_node	*next;

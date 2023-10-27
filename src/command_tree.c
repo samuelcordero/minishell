@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 16:43:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:07:10 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 		tmp = current->redirs_lst;
 	}
 	tmp->content = ft_calloc(1, sizeof(t_redir_tok));
-	((t_redir_tok *)tmp->content)->file_name = ((t_cmdtoken *)tkn_lst->next->content)->str;
+	((t_redir_tok *)tmp->content)->file_name = ft_strdup(((t_cmdtoken *)tkn_lst->next->content)->str);
 	if (ft_strncmp("<", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
 		((t_redir_tok *)tmp->content)->redir_type = INFILE_MASK;
 	else if (ft_strncmp(">", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
@@ -60,17 +60,14 @@ static int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
 	tkn = begin->content;
 	tree_node->cmd_list = current;
 	current->args = ft_calloc(100, sizeof(char *)); //maybe count args???? 100 is just eyeballing + error handling
-	if (tkn->type == PIPE) //pipe in check
-	{
-		current->pipe_in = 1;
+	if (tkn->type == PIPE)
 		begin = begin->next;
-	}
 	i = 0;
 	while (begin != end)
 	{
 		tkn = begin->content;
 		if (tkn->type == ARG)
-			current->args[i++] = tkn->str; // having problems freeing? strdup'it!
+			current->args[i++] = ft_strdup(tkn->str);
 		else if (tkn->type == FILE_REDIR) // file io check
 		{
 			if (set_file_info(begin, current))
@@ -83,7 +80,6 @@ static int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
 			current = ft_calloc(1, sizeof(t_cmd_node)); //error handling
 			p_curr->next = current;
 			p_curr = current;
-			current->pipe_in = 1;
 			i = 0;
 			current->args = ft_calloc(100, sizeof(char *)); //same shit sherlock, eyeballing + error handling
 		}

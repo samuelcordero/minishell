@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 22:53:07 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:27:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_execbultin(t_cmd_node *node, t_mshell_sack *sack)
 	if (!ft_strncmp(node->args[0], "cd", 3))
 		ft_change_dir(node, sack);
 	else if (!ft_strncmp(node->args[0], "echo", 5))
-		ft_echo(node, sack->envp);
+		ft_echo(node);
 	else if (!ft_strncmp(node->args[0], "exit", 5))
 		ft_msh_exit(node, sack->envp);
 	else if (!ft_strncmp(node->args[0], "pwd", 4))
@@ -48,11 +48,8 @@ char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node)
 		return (NULL);
 	if (!(access(node->args[0], F_OK)) && ft_is_rel_path(node->args[0]))
 		return (node->args[0]);
-	if (ft_is_rel_path(node->args[0]))
-		return (NULL);
-	if (ft_execbultin(node, sack))
-		return (NULL);
-	if (!sack->envp || !*sack->envp)
+	if (ft_is_rel_path(node->args[0]) || ft_execbultin(node, sack)
+		|| (!sack->envp || !*sack->envp))
 		return (NULL);
 	split_path = ft_split(ft_get_from_env(sack->envp, "PATH"), ':');
 	pos = 0;

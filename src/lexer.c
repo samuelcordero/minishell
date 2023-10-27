@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/25 00:32:55 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:01:18 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ static void	*get_token(char *str, int start, int end)
 		token->type = 1;
 	else if (!ft_strncmp(token->str, "|", 2))
 		token->type = 2;
-	else if (!ft_strncmp(token->str, "&&", 3) || !ft_strncmp(token->str, "||", 3)
-		|| !ft_strncmp(token->str, ";", 2))
+	else if (!ft_strncmp(token->str, "&&", 3)
+		|| !ft_strncmp(token->str, "||", 3) || !ft_strncmp(token->str, ";", 2))
 		token->type = 3;
 	return ((void *) token);
 }
-
-
 
 static char	ft_isreserved(char c)
 {

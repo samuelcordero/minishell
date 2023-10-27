@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/25 18:29:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:04:09 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ static char	*get_command_str(t_mshell_sack *sack)
 	return (NULL);
 }
 
+void	leaks(void)
+{
+	system("leaks minishell");
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_mshell_sack	m_sack;
@@ -50,17 +55,14 @@ int	main(int argc, char **argv, char **envp)
 		if (m_sack.line && !m_sack.eof)
 		{
 			m_sack.cmd_tokens = lexer(m_sack.line);
-			//print_tokens(m_sack.cmd_tokens);
 			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
 			tmp = m_sack.cmd_tokens;
 			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
 				return (1); //handle this
-			//print_cmdtree(m_sack.cmd_tree);
 			execute(m_sack.cmd_tree, &m_sack);
 			free(m_sack.line);
-			//free de los tokens!!!
-			//ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
-			//free del arbol!!!
+			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
+			ft_free_cmdtree(m_sack.cmd_tree);
 		}
 		else if (m_sack.eof)
 			ft_printexit(0); //maybe clean exit
@@ -78,6 +80,7 @@ void	leaks(void)
 }
 
 PRINT CMD TREE
+			//print_cmdtree(m_sack.cmd_tree);
 
 void	print_cmdtree(t_cmdtree *head)
 {
@@ -120,5 +123,7 @@ void	print_cmdtree(t_cmdtree *head)
 		lst = lst->next;
 	}
 }
+
+			//print_tokens(m_sack.cmd_tokens);
 
  */
