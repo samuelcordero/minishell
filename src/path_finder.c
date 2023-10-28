@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 16:27:14 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:16:19 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node)
 	if (!node->args[0])
 		return (NULL);
 	if (!(access(node->args[0], F_OK)) && ft_is_rel_path(node->args[0]))
-		return (node->args[0]);
+		return (ft_strdup(node->args[0]));
 	if (ft_is_rel_path(node->args[0]) || ft_execbultin(node, sack)
 		|| (!sack->envp || !*sack->envp))
 		return (NULL);
