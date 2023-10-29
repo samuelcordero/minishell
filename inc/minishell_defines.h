@@ -6,14 +6,14 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 13:33:40 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/29 17:01:58 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_DEFINES_H
 # define MINISHELL_DEFINES_H
 # define MAX_SIZE 65535
-# define PROMPT_BASE "MiniShell - "
+# define PROMPT_BASE "Mini\001\x1b[32m\002Shell\001\x1b[0m\002 - \001\x1b[31m\002"
 # define INFILE_MASK 0b1
 # define OUTFILE_MASK 0b10
 # define HEREDOC_MASK 0b100

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 15:58:37 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/29 17:02:02 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*ft_custom_prompt(char **envp)
 		tmp2 = ft_strjoin(PROMPT_BASE, tmp);
 	else
 		tmp2 = ft_strjoin(PROMPT_BASE, "");
-	tmp = ft_strjoin(tmp2, " $> ");
+	tmp = ft_strjoin(tmp2, "\001\x1b[0m\002 $> ");
 	free(tmp2);
 	return (tmp);
 }
