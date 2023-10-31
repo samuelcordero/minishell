@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/31 15:47:33 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:56:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static char	*get_needle(char *str, int needle_tip)
 {
 	size_t	len;
-
+	
 	len = ft_strchr(&str[needle_tip], ' ') - &str[needle_tip];
+	if (len > (size_t)(ft_strchr(&str[needle_tip], '"') - &str[needle_tip]))
+		len = ft_strchr(&str[needle_tip], '"') - &str[needle_tip];
 	if (len == 0)
 		len = MAX_SIZE;
 	return (ft_substr(str, needle_tip, len));
