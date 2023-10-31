@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/25 00:39:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:47:33 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static char	*expand_str(char *str, int i, char **envp)
 	char	*tmp;
 
 	needle = get_needle(str, i + 1);
-	ft_printf("Needle: %s\n", needle);
 	expanded = ft_substr(str, 0, (size_t) i);
 	tmp = expanded;
 	expanded = ft_strjoin(tmp, ft_get_from_env(envp, needle));
@@ -45,17 +44,21 @@ static char	*expand_str(char *str, int i, char **envp)
 	return (expanded);
 }
 
-void	expand(t_cmdtoken *token, char **envp)
+char	*ft_expand(char *line, char **envp)
 {
-	char	*str;
 	int		i;
+	int		is_expandable;
+	char	*expanded;
 
 	i = -1;
-	str = token->str;
-	while (str[++i])
+	expanded = ft_strdup(line);
+	is_expandable = 1;
+	while (expanded[++i])
 	{
-		if (str[i] == '$')
-			str = expand_str(str, i, envp);
+		if (expanded[i] == '\'')
+			is_expandable = !is_expandable;
+		if (expanded[i] == '$' && is_expandable)
+			expanded = expand_str(expanded, i, envp);
 	}
-	token->str = str;
+	return (expanded);
 }

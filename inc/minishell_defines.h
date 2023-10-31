@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/29 17:01:58 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:33:31 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define AND_MASK 0b1
 # define OR_MASK 0b10
 # define WAIT_MASK 0b100
-# define H_DOC_TMP_BASE "/tmp/dash_tmp_heredoc_"
+# define H_DOC_TMP_BASE "/tmp/.dash_tmp_heredoc_"
 
 typedef struct s_cmdtoken
 {
@@ -65,6 +65,7 @@ typedef struct s_mshell_sack
 	t_list		*cmd_tokens;
 	t_cmdtree	*cmd_tree;
 	char		*line;
+	char		*expanded;
 	char		**envp;
 	long		env_size;
 	long		env_elems;

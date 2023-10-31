@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 16:04:09 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:43:17 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ int	main(int argc, char **argv, char **envp)
 		m_sack.line = get_command_str(&m_sack);
 		if (m_sack.line && !m_sack.eof)
 		{
-			m_sack.cmd_tokens = lexer(m_sack.line);
-			//expand expand(cmd_tokens->content, envp); (test mock, finish!)
+			m_sack.expanded = ft_expand(m_sack.line, m_sack.envp);
+			free(m_sack.line);
+			m_sack.cmd_tokens = lexer(m_sack.expanded);
 			tmp = m_sack.cmd_tokens;
 			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
 				return (1); //handle this
 			execute(m_sack.cmd_tree, &m_sack);
-			free(m_sack.line);
+			free(m_sack.expanded);
 			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
 			ft_free_cmdtree(m_sack.cmd_tree);
 		}

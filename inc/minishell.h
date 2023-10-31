@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 16:26:23 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:36:42 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 
 //expander
 
-void		expand(t_cmdtoken *token, char **envp);
+char		*ft_expand(char *line, char **envp);
 
 //redirect_utils
 
