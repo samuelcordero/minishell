@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/31 15:36:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:51:03 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_list		*lexer(char	*str);
 
 void		state_quote_delimiter(char *str, int *i, char delim);
 void		skip_spaces(char *str, int *i, int *start);
+int			ft_remove_quotes(t_list *tokens);
 
 //execute
 

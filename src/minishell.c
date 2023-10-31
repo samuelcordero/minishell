@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/31 15:43:17 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:52:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	main(int argc, char **argv, char **envp)
 			m_sack.expanded = ft_expand(m_sack.line, m_sack.envp);
 			free(m_sack.line);
 			m_sack.cmd_tokens = lexer(m_sack.expanded);
+			ft_remove_quotes(m_sack.cmd_tokens);
 			tmp = m_sack.cmd_tokens;
 			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
 				return (1); //handle this
