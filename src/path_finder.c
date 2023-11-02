@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/28 16:16:19 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:47:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_execbultin(t_cmd_node *node, t_mshell_sack *sack)
 	else if (!ft_strncmp(node->args[0], "echo", 5))
 		ft_echo(node);
 	else if (!ft_strncmp(node->args[0], "exit", 5))
-		ft_msh_exit(node, sack->envp);
+		ft_msh_exit(node, sack);
 	else if (!ft_strncmp(node->args[0], "pwd", 4))
 		ft_print_working_dir(node, sack->envp);
 	else if (!ft_strncmp(node->args[0], "unset", 6))

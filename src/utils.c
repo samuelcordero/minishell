@@ -6,15 +6,26 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 13:30:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:43:01 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_printexit(int exit_code)
+void	ft_printexit(int exit_code, t_mshell_sack *sack)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);
+	close(sack->history_fd);
+	free(sack->custom_prompt);
+	ft_free_array(sack->envp);
+	if (sack->cmd_tree)
+		ft_free_cmdtree(sack->cmd_tree);
+	if (sack->cmd_tokens)
+		ft_lstclear(&sack->cmd_tokens, free_cmd_tok);
+	if (sack->line)
+		free(sack->line);
+	if (sack->expanded)
+		free(sack->expanded);
 	exit(exit_code);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 13:23:32 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:27:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,6 @@ void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 	sack->custom_prompt = ft_custom_prompt(sack->envp);
 	signal(SIGINT, ft_sig_handler);
 	signal(SIGQUIT, ft_sig_handler);
+	ft_init_history_file(sack);
+	ft_fill_history(sack);
 }

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 13:28:45 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:05:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static char	*get_command_str(t_mshell_sack *sack)
 	char	*res;
 
 	tmp = readline(sack->custom_prompt);
+	sack->cmd_tokens = NULL;
 	if (!tmp)
 	{
 		sack->eof = 1;
@@ -29,7 +30,7 @@ static char	*get_command_str(t_mshell_sack *sack)
 	free(tmp);
 	if (res && *res)
 	{
-		add_history(res);
+		ft_add_history(res, sack);
 		return (res);
 	}
 	if (res)
@@ -52,23 +53,27 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		m_sack.line = get_command_str(&m_sack);
+		m_sack.expanded = NULL;
 		if (m_sack.line && !m_sack.eof)
 		{
 			m_sack.expanded = ft_expand(m_sack.line, m_sack.envp);
-			free(m_sack.line);
-			m_sack.cmd_tokens = lexer(m_sack.expanded);
-			ft_remove_quotes(m_sack.cmd_tokens);
-			tmp = m_sack.cmd_tokens;
-			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
-				return (1); //handle this
-			execute(m_sack.cmd_tree, &m_sack);
-			m_sack.last_exit = m_sack.cmd_tree->exit_code;
+			if (m_sack.expanded && *m_sack.expanded)
+			{
+				m_sack.cmd_tokens = lexer(m_sack.expanded);
+				ft_remove_quotes(m_sack.cmd_tokens);
+				tmp = m_sack.cmd_tokens;
+				if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
+					return (ft_putendl_fd("Minishell: memory error", STDERR_FILENO), 1);
+				execute(m_sack.cmd_tree, &m_sack);
+				m_sack.last_exit = m_sack.cmd_tree->exit_code;
+				ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
+				m_sack.cmd_tree = ft_free_cmdtree(m_sack.cmd_tree);
+			}
 			free(m_sack.expanded);
-			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
-			ft_free_cmdtree(m_sack.cmd_tree);
+			free(m_sack.line);
 		}
 		else if (m_sack.eof)
-			ft_printexit(0); //maybe clean exit
+			ft_printexit(0, &m_sack); //maybe clean exit
 	}
 	return (0);
 }

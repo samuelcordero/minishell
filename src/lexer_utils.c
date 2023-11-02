@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/31 16:58:17 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:57:32 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	ft_str_unquote(char **str)
 
 	i = 0;
 	q_ctr = 0;
-	while ((*str)[i])
+	while (str && *str && (*str)[i])
 	{
 		if ((*str)[i] == '"' || (*str)[i] == '\'')
 		{

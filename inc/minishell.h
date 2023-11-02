@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 13:45:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:46:07 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 //builtins
 
-int			ft_msh_exit(t_cmd_node *node, char **envp);
+int			ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack);
 int			ft_change_dir(t_cmd_node *node, t_mshell_sack *sack);
 int			ft_print_working_dir(t_cmd_node *node, char **envp);
 int			ft_echo(t_cmd_node *node);
@@ -42,7 +42,7 @@ int			ft_parse_tree(t_cmdtree **tree, t_list **tokenlist);
 
 //command_tree_utils
 
-void		ft_free_cmdtree(t_cmdtree *tree);
+void		*ft_free_cmdtree(t_cmdtree *tree);
 
 //enviroment
 
@@ -56,6 +56,12 @@ int			ft_remove_env(t_mshell_sack *sack, char *key);
 //here_doc
 
 int			ft_heredoc(t_redir_tok *tok);
+
+//history
+
+void		ft_init_history_file(t_mshell_sack *sack);
+void		ft_fill_history(t_mshell_sack *sack);
+void		ft_add_history(char *str, t_mshell_sack *sack);
 
 //init
 
@@ -101,7 +107,7 @@ void		print_tokens(t_list *tokens);
 
 //utils
 
-void		ft_printexit(int exit_code);
+void		ft_printexit(int exit_code, t_mshell_sack *sack);
 void		ft_free_array(char **array);
 void		free_cmd_tok(void *tok);
 char		*get_cwd_str(void);

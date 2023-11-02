@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 13:27:09 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:20:25 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 	char		*keyval;
 	char		*nbrstr;
 
+	last = NULL;
 	tree_node->exit_code = 0;
 	if (tree_node->left)
 		tree_node->exit_code = execute(tree_node->left, sack);
@@ -70,8 +71,9 @@ int	execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 		if ((tree_node->exit_code == 0 && tree_node->is_logic == AND_MASK)
 			|| (tree_node->exit_code != 0 && tree_node->is_logic == OR_MASK)
 			|| (tree_node->is_logic == WAIT_MASK))
-			return (execute(tree_node->right, sack));
-	tree_node->exit_code = ft_exec_and_wait(tree_node, sack, &last);
+			tree_node->exit_code = execute(tree_node->right, sack);
+	if (!tree_node->is_logic)
+		tree_node->exit_code = ft_exec_and_wait(tree_node, sack, &last);
 	if (last && tree_node->exit_code == -1)
 		tree_node->exit_code = last->exit_code;
 	nbrstr = ft_itoa(tree_node->exit_code);

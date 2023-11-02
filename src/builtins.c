@@ -6,16 +6,14 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 16:28:34 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:38:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_msh_exit(t_cmd_node *node, char **envp)
+int	ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack)
 {
-	//maybe clean memory before exit
-	(void)envp;
 	node->is_builtin = 1;
 	if (node->args[0] && node->args[1])
 	{
@@ -24,9 +22,9 @@ int	ft_msh_exit(t_cmd_node *node, char **envp)
 			ft_putendl_fd("MiniShell: exit: too many arguments", STDERR_FILENO);
 			return (1);
 		}
-		ft_printexit(ft_atoi(node->args[1]));
+		ft_printexit(ft_atoi(node->args[1]), sack);
 	}
-	ft_printexit(0);
+	ft_printexit(0, sack);
 	return (0);
 }
 
