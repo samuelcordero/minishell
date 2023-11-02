@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/31 16:52:22 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:28:45 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			if (ft_parse_tree(&m_sack.cmd_tree, &tmp))
 				return (1); //handle this
 			execute(m_sack.cmd_tree, &m_sack);
+			m_sack.last_exit = m_sack.cmd_tree->exit_code;
 			free(m_sack.expanded);
 			ft_lstclear(&m_sack.cmd_tokens, free_cmd_tok);
 			ft_free_cmdtree(m_sack.cmd_tree);

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/31 17:29:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:15:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_cmdtree
 
 typedef struct s_mshell_sack
 {
+	int			last_exit;
 	t_list		*cmd_tokens;
 	t_cmdtree	*cmd_tree;
 	char		*line;

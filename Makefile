@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/10/27 15:29:17 by sacorder         ###   ########.fr        #
+#    Updated: 2023/11/02 13:45:46 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRC =	src/minishell.c \
 		src/enviroment.c \
 		src/enviroment_extra.c \
 		src/utils.c \
-		src/path_finder.c
+		src/path_finder.c \
+		src/wildcards.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 UNAME := $(shell uname -s)

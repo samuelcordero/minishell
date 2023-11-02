@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 16:21:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:27:09 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	int	ft_wait_all(int last_pid)
 	int	exit_code;
 
 	last_exited = 0;
-	exit_code = 0;
+	exit_code = -1;
 	while (last_exited != -1)
 	{
 		last_exited = waitpid(-1, &status, 0);
@@ -59,20 +59,23 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
 
 int	execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
-	int			exit_code;
 	t_cmd_node	*last;
-	int			tmp;
+	char		*keyval;
+	char		*nbrstr;
 
-	exit_code = 0;
+	tree_node->exit_code = 0;
 	if (tree_node->left)
-		exit_code = execute(tree_node->left, sack);
+		tree_node->exit_code = execute(tree_node->left, sack);
 	if (tree_node->right)
-		if ((exit_code == 0 && tree_node->is_logic == AND_MASK)
-			|| (exit_code != 0 && tree_node->is_logic == OR_MASK)
+		if ((tree_node->exit_code == 0 && tree_node->is_logic == AND_MASK)
+			|| (tree_node->exit_code != 0 && tree_node->is_logic == OR_MASK)
 			|| (tree_node->is_logic == WAIT_MASK))
 			return (execute(tree_node->right, sack));
-	tmp = ft_exec_and_wait(tree_node, sack, &last);
-	if (last && last->exit_code != tmp)
-		return (last->exit_code);
-	return (tmp);
+	tree_node->exit_code = ft_exec_and_wait(tree_node, sack, &last);
+	if (last && tree_node->exit_code == -1)
+		tree_node->exit_code = last->exit_code;
+	nbrstr = ft_itoa(tree_node->exit_code);
+	keyval = ft_strjoin("?=", nbrstr);
+	ft_add_to_env(sack, keyval);
+	return (free(keyval), free(nbrstr), tree_node->exit_code);
 }

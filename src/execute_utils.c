@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 16:16:17 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:19:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,8 @@ static int	ft_exec_cmd(t_cmd_node *node, t_mshell_sack *sack)
 		if (node->pipe_out)
 			ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
 		if (execve(path, node->args, sack->envp) == -1)
-			return (perror("execve"), 1);
+			return (perror(path), free(path), exit(126), 1);
 		ft_close(node->pipe_fds[1]);
-		exit(1);
 	}
 	free(path);
 	return (0);

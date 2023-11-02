@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/31 17:32:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 18:50:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,17 @@ static char	*get_needle(char *str, int needle_tip)
 {
 	size_t	len;
 
+	if (str[needle_tip] == '$')
+		return (ft_strdup("$"));
 	len = ft_strchr(&str[needle_tip], ' ') - &str[needle_tip];
 	if (len > (size_t)(ft_strchr(&str[needle_tip], '"') - &str[needle_tip]))
 		len = ft_strchr(&str[needle_tip], '"') - &str[needle_tip];
+	if (len > (size_t)(ft_strchr(&str[needle_tip], '|') - &str[needle_tip]))
+		len = ft_strchr(&str[needle_tip], '|') - &str[needle_tip];
+	if (len > (size_t)(ft_strchr(&str[needle_tip], ';') - &str[needle_tip]))
+		len = ft_strchr(&str[needle_tip], ';') - &str[needle_tip];
+	if (len > (size_t)(ft_strchr(&str[needle_tip], '&') - &str[needle_tip]))
+		len = ft_strchr(&str[needle_tip], '&') - &str[needle_tip];
 	if (len == 0)
 		len = SIZE_T_MAX;
 	return (ft_substr(str, needle_tip, len));
@@ -34,7 +42,10 @@ static char	*expand_str(char *str, int i, char **envp)
 	needle = get_needle(str, i + 1);
 	expanded = ft_substr(str, 0, (size_t) i);
 	tmp = expanded;
-	expanded = ft_strjoin(tmp, ft_get_from_env(envp, needle));
+	if (str[i + 1] == '$')
+		expanded = ft_strjoin(tmp, "$");
+	else
+		expanded = ft_strjoin(tmp, ft_get_from_env(envp, needle));
 	free(tmp);
 	tmp = expanded;
 	extract = ft_substr(str, i + 1 + ft_strlen(needle), SIZE_T_MAX);
