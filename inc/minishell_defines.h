@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 20:25:04 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 22:11:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define H_DOC_TMP_BASE "/tmp/.dash_tmp_heredoc_"
 # define HIST_TMP_BASE "/.dash_history"
 # define HIST_ERROR_MSG "Minishell: HOME is not set, history unavailable."
+# ifndef SIZE_T_MAX
+#  define SIZE_T_MAX UINT_MAX
+# endif
 
 typedef struct s_cmdtoken
 {
