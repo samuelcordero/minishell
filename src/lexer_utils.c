@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 19:57:32 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:58:09 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_tokens(t_list *tokens)
 
 void	skip_spaces(char *str, int *i, int *start)
 {
-	while (str[*i] == ' ' && str[*i])
+	while (ft_isspace(str[*i]) && str[*i])
 		++(*i);
 	*start = *i;
 }

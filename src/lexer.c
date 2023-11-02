@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 16:01:18 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:58:46 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	ft_isreserved(char c)
 
 static void	*get_next_token(char *str, int start, int *i)
 {
-	while (str[*i] && str[*i] != ' ')
+	while (str[*i] && !ft_isspace(str[*i]))
 	{
 		if (str[*i] == '\'')
 			state_quote_delimiter(str, i, '\'');
@@ -48,7 +48,7 @@ static void	*get_next_token(char *str, int start, int *i)
 			state_quote_delimiter(str, i, '\"');
 		if (ft_isreserved(str[*i]))
 			break ;
-		if (str[*i] && str[*i] != ' ')
+		if (str[*i] && !ft_isspace(str[*i]))
 			++(*i);
 	}
 	if (ft_isreserved(str[*i]) && start == *i)

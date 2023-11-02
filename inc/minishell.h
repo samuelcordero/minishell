@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 19:46:07 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:47:02 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void		ft_printexit(int exit_code, t_mshell_sack *sack);
 void		ft_free_array(char **array);
 void		free_cmd_tok(void *tok);
 char		*get_cwd_str(void);
+int			ft_isspace(char c);
 
 //wildcards
 
