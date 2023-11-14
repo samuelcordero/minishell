@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/27 14:07:10 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:29:41 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 	return (0);
 }
 
-static int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
+int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
 {
 	t_cmdtoken	*tkn;
 	t_cmd_node	*current;

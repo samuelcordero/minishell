@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 20:56:39 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:22:23 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ void	ft_printexit(int exit_code, t_mshell_sack *sack)
 	ft_free_array(sack->envp);
 	if (sack->cmd_tree)
 		ft_free_cmdtree(sack->cmd_tree);
-	if (sack->cmd_tokens)
-		ft_lstclear(&sack->cmd_tokens, free_cmd_tok);
-	if (sack->line)
-		free(sack->line);
-	if (sack->expanded)
-		free(sack->expanded);
 	exit(exit_code);
 }
 

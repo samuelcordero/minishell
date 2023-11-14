@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 14:07:14 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 19:44:05 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:18:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,11 @@ void	*ft_free_cmdtree(t_cmdtree *tree)
 	if (tree->right)
 		ft_free_cmdtree(tree->right);
 	ft_free_cmd_list(tree->cmd_list);
+	if (tree->cmd_str)
+		free(tree->cmd_str);
+	if (tree->expanded_str)
+		free(tree->expanded_str);
+	if (tree->cmd_tokens)
+		ft_lstclear(&tree->cmd_tokens, free_cmd_tok);
 	return (NULL);
 }

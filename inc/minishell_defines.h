@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 22:11:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:23:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ typedef struct s_cmdtree
 {
 	struct s_cmdtree	*left;
 	struct s_cmdtree	*right;
+	t_list				*cmd_tokens;
+	char				*cmd_str;
+	char				*expanded_str;
 	t_cmd_node			*cmd_list;
 	char				is_logic;
 	int					exit_code;
@@ -67,10 +70,7 @@ typedef struct s_mshell_sack
 {
 	int			history_fd;
 	int			last_exit;
-	t_list		*cmd_tokens;
 	t_cmdtree	*cmd_tree;
-	char		*line;
-	char		*expanded;
 	char		**envp;
 	long		env_size;
 	long		env_elems;

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 20:47:02 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:30:02 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int			ft_unset(t_cmd_node *node, t_mshell_sack *sack);
 
 //command_tree
 
+int			ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node);
 int			ft_parse_tree(t_cmdtree **tree, t_list **tokenlist);
 
 //command_tree_utils
@@ -80,6 +81,7 @@ int			ft_remove_quotes(t_list *tokens);
 //execute
 
 int			execute(t_cmdtree *tree_node, t_mshell_sack *sack);
+int			expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 
 //execute_utils
 
