@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/15 13:42:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/15 13:50:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static void	ft_str_unquote(char **str)
 			j = i + 1;
 			while ((*str)[j] && (*str)[j] != (*str)[i])
 				++j;
-			printf("checking quote %c in pos %d, match with %c in pos %d\n", (*str)[i], i, (*str)[j], j);
 			tmp = j;
 			while ((*str)[j])
 			{
