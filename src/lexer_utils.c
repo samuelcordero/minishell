@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 20:58:09 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/15 13:42:01 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,40 @@ void	skip_spaces(char *str, int *i, int *start)
 	*start = *i;
 }
 
-static int	ft_str_unquote(char **str)
+/*
+	removes external quotes
+*/
+static void	ft_str_unquote(char **str)
 {
-	int	i;
-	int	j;
-	int	q_ctr;
+	int		i;
+	int		j;
+	int		tmp;
 
 	i = 0;
-	q_ctr = 0;
 	while (str && *str && (*str)[i])
 	{
 		if ((*str)[i] == '"' || (*str)[i] == '\'')
 		{
-			j = i;
+			j = i + 1;
+			while ((*str)[j] && (*str)[j] != (*str)[i])
+				++j;
+			printf("checking quote %c in pos %d, match with %c in pos %d\n", (*str)[i], i, (*str)[j], j);
+			tmp = j;
 			while ((*str)[j])
 			{
 				(*str)[j] = (*str)[j + 1];
 				++j;
-			}		
-			++q_ctr;
+			}
+			while ((*str)[i])
+			{
+				(*str)[i] = (*str)[i + 1];
+				++i;
+			}
+			i = tmp - 1;
 		}
 		else
 			++i;
 	}
-	if (q_ctr % 2)
-		return (1);
-	return (0);
 }
 
 int	ft_remove_quotes(t_list *tokens)
@@ -81,8 +89,7 @@ int	ft_remove_quotes(t_list *tokens)
 	while (tokens)
 	{
 		content = tokens->content;
-		if (ft_str_unquote(&(content->str)))
-			return (1);
+		ft_str_unquote(&(content->str));
 		tokens = tokens->next;
 	}
 	return (0);
