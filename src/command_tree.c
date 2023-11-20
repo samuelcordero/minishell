@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/14 11:29:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:22:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,29 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 	return (0);
 }
 
-int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
+static int	ft_count_args(t_list *begin)
+{
+	t_cmdtoken	*tkn;
+	int			res;
+
+	res = 0;
+	tkn = begin->content;
+	while (begin && tkn->type != PIPE)
+	{
+		if (tkn->type == ARG)
+			++res;
+		begin  = begin->next;
+		if (begin)
+			tkn = begin->content;
+	}
+	return (res);
+}
+
+/*
+	Given a t_list *begin that represents the begining of a token list,
+	creates a cmd_list parsed for executor inside the given t_cmdtree *tree_node
+*/
+int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 {
 	t_cmdtoken	*tkn;
 	t_cmd_node	*current;
@@ -59,11 +81,11 @@ int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
 	p_curr = current;
 	tkn = begin->content;
 	tree_node->cmd_list = current;
-	current->args = ft_calloc(100, sizeof(char *)); //maybe count args???? 100 is just eyeballing + error handling
+	current->args = ft_calloc(ft_count_args(begin) + 1, sizeof(char *)); //error handling
 	if (tkn->type == PIPE)
 		begin = begin->next;
 	i = 0;
-	while (begin != end)
+	while (begin)
 	{
 		tkn = begin->content;
 		if (tkn->type == ARG)
@@ -74,21 +96,21 @@ int	ft_fill_cmdlist(t_list *begin, t_list *end, t_cmdtree *tree_node)
 				return (1); //bad syntax, free and return error
 			begin = begin->next;
 		}
-		else if (tkn->type == PIPE) // pipeout check, allocation for next list item
+		else if (tkn->type == PIPE) // pipeout check, allocation for next cmd_list item
 		{
 			current->pipe_out = 1;
 			current = ft_calloc(1, sizeof(t_cmd_node)); //error handling
 			p_curr->next = current;
 			p_curr = current;
 			i = 0;
-			current->args = ft_calloc(100, sizeof(char *)); //same shit sherlock, eyeballing + error handling
+			current->args = ft_calloc(ft_count_args(begin->next) + 1, sizeof(char *)); //error handling
 		}
 		begin = begin->next;
 	}
 	return (0);
 }
 
-static	int	ft_rearrange(t_cmdtree **tree, t_list **needle)
+/* static	int	ft_rearrange(t_cmdtree **tree, t_list **needle)
 {
 	t_cmdtree	*tmp;
 
@@ -136,4 +158,4 @@ int	ft_parse_tree(t_cmdtree **tree, t_list **tokenlist)
 		(*tokenlist) = needle;
 	}
 	return (0);
-}
+} */
