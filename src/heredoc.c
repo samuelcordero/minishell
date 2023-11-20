@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/24 17:46:07 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:38:16 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ static int	create_temp_heredoc(t_redir_tok *tok)
 	return (fd);
 }
 
+/*
+	Creates a tmp heredoc, then fills it with user input.
+*/
 int	ft_heredoc(t_redir_tok *tok)
 {
 	int		fd;

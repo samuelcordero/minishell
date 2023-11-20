@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 19:27:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:39:54 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,10 @@ static void	ft_fill_envp(t_mshell_sack *sack)
 	ft_add_to_env(sack, "?=0");
 }
 
+/*
+	Initializes main struct, custom envp (allocation and copy of given envp, plus setting of varibles such as SHLVL),
+	creates a custom prompt, sets signal handling and creates persistent history file if posible
+*/
 void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 {
 	(void)argc;

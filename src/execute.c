@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:11:52 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:37:23 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 extern int	g_is_exec;
 
+/*
+	Waits for all remaining child processes,
+	then returns the exit code of the provided last_pid
+*/
 static	int	ft_wait_all(int last_pid)
 {
 	int	status;
@@ -36,6 +40,10 @@ static	int	ft_wait_all(int last_pid)
 	return (exit_code);
 }
 
+/*
+	Executes the cmd_list inside the node, then waits for the completion of those processes.
+	Also creates a backup of STDIN/OUT before pipes that is restored post execution.
+*/
 static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
 	t_cmd_node **last)
 {
@@ -57,6 +65,9 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
 	return (tmp);
 }
 
+/*
+	Returns 0 if str is not logically expandable, else pos value
+*/
 static int	get_log_expandible(char *str)
 {
 	int	i;
@@ -74,6 +85,10 @@ static int	get_log_expandible(char *str)
 	return (0);
 }
 
+/*
+	Iterates over the provided string with starting po = i
+	As i is an int *, after calling this function the provided int position is after the brackets.
+*/
 static void ft_brackets(char *str, int *i)
 {
 	int ctr;
@@ -93,6 +108,9 @@ static void ft_brackets(char *str, int *i)
 	}
 }
 
+/*
+	Given a logically expandable char *str, return the corresponding left expanded node
+*/
 static char	*ft_get_left_token(char *str)
 {
 	int		i;
@@ -116,6 +134,9 @@ static char	*ft_get_left_token(char *str)
 	return (free(tmp), res);
 }
 
+/*
+	Given a logically expandable char *str, return the corresponding right expanded node
+*/
 static char	*ft_get_right_token(char *str)
 {
 	int		i;
@@ -160,7 +181,7 @@ static void	logic_expansion(t_cmdtree *tree_node)
 }
 
 /*
-	1. expand str
+	1. expand str (variables and wildcards if implemented)
 	2. tokenize
 	3. create cmd lst
 	4. exec and wait

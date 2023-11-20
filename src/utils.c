@@ -6,12 +6,15 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/14 13:22:23 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:43:00 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	Prints EXIT, frees allocated mem and exits with provided exitcode
+*/
 void	ft_printexit(int exit_code, t_mshell_sack *sack)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 14:07:14 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/14 13:18:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:42:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ static void	ft_free_cmd_list(t_cmd_node *cmd_list)
 	}
 }
 
+/*
+	Recursive freeing for cmd_tree and its contents
+*/
 void	*ft_free_cmdtree(t_cmdtree *tree)
 {
 	if (tree->left)
