@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:17:16 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 19:35:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:56:38 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_init_history_file(t_mshell_sack *sack)
 {
-	char *home;
+	char	*home;
 
 	home = ft_get_from_env(sack->envp, "HOME");
 	if (!*home)
@@ -37,7 +37,7 @@ void	ft_fill_history(t_mshell_sack *sack)
 {
 	char	*line;
 	char	*trim;
-	
+
 	line = get_next_line(sack->history_fd);
 	while (line)
 	{
@@ -53,6 +53,7 @@ void	ft_fill_history(t_mshell_sack *sack)
 		line = get_next_line(sack->history_fd);
 	}
 }
+
 void	ft_add_history(char *str, t_mshell_sack *sack)
 {
 	ft_putendl_fd(str, sack->history_fd);

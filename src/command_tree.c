@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:22:06 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:53:18 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	ft_count_args(t_list *begin)
 	{
 		if (tkn->type == ARG)
 			++res;
-		begin  = begin->next;
+		begin = begin->next;
 		if (begin)
 			tkn = begin->content;
 	}
@@ -103,7 +103,8 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 			p_curr->next = current;
 			p_curr = current;
 			i = 0;
-			current->args = ft_calloc(ft_count_args(begin->next) + 1, sizeof(char *)); //error handling
+			current->args = ft_calloc(ft_count_args(begin->next) + 1,
+					sizeof(char *)); //error handling
 		}
 		begin = begin->next;
 	}

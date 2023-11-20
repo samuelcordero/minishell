@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:37:23 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:55:41 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static	int	ft_wait_all(int last_pid)
 }
 
 /*
-	Executes the cmd_list inside the node, then waits for the completion of those processes.
+	Executes the cmd_list inside the node,
+	then waits for the completion of those processes.
 	Also creates a backup of STDIN/OUT before pipes that is restored post execution.
 */
 static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
@@ -87,11 +88,12 @@ static int	get_log_expandible(char *str)
 
 /*
 	Iterates over the provided string with starting po = i
-	As i is an int *, after calling this function the provided int position is after the brackets.
+	As i is an int *, after calling this function the provided
+	int position is after the brackets.
 */
-static void ft_brackets(char *str, int *i)
+static void	ft_brackets(char *str, int *i)
 {
-	int ctr;
+	int	ctr;
 
 	ctr = 1;
 	while (str[++(*i)])
@@ -104,12 +106,13 @@ static void ft_brackets(char *str, int *i)
 		if (str[*i] == ')')
 			--ctr;
 		if (ctr == 0)
-			break;
+			break ;
 	}
 }
 
 /*
-	Given a logically expandable char *str, return the corresponding left expanded node
+	Given a logically expandable char *str,
+	returns the corresponding left expanded node
 */
 static char	*ft_get_left_token(char *str)
 {
@@ -127,7 +130,7 @@ static char	*ft_get_left_token(char *str)
 		if ((str[i] == '&' && str[i + 1] == '&')
 			|| (str[i] == '|' && str[i + 1] == '|')
 			|| str[i] == ';')
-			break;
+			break ;
 	}
 	tmp = ft_substr(str, 0, i);
 	res = ft_strtrim(tmp, " \n\t\v\r");
@@ -135,7 +138,8 @@ static char	*ft_get_left_token(char *str)
 }
 
 /*
-	Given a logically expandable char *str, return the corresponding right expanded node
+	Given a logically expandable char *str,
+	returns the corresponding right expanded node
 */
 static char	*ft_get_right_token(char *str)
 {
@@ -153,10 +157,10 @@ static char	*ft_get_right_token(char *str)
 		if ((str[i] == '&' && str[i + 1] == '&')
 			|| (str[i] == '|' && str[i + 1] == '|')
 			|| str[i] == ';')
-			break;
+			break ;
 	}
 	if ((str[i] == '&' && str[i + 1] == '&')
-			|| (str[i] == '|' && str[i + 1] == '|'))
+		|| (str[i] == '|' && str[i + 1] == '|'))
 		++i;
 	tmp = ft_substr(str, i + 1, SIZE_T_MAX);
 	res = ft_strtrim(tmp, " \n\t\v\r");
@@ -173,10 +177,8 @@ static void	logic_expansion(t_cmdtree *tree_node)
 	{
 		tree_node->left = ft_calloc(1, sizeof(t_cmdtree));
 		tree_node->left->cmd_str = ft_get_left_token(str);
-		//ft_putendl_fd(tree_node->left->cmd_str, STDERR_FILENO);
 		tree_node->right = ft_calloc(1, sizeof(t_cmdtree));
 		tree_node->right->cmd_str = ft_get_right_token(str);
-		//ft_putendl_fd(tree_node->right->cmd_str, STDERR_FILENO);
 	}
 }
 

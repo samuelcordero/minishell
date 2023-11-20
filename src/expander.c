@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:30:43 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:50:20 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static char	*expand_str(char *str, int i, char **envp)
 
 /*
 	Expands the provided char *line with variables from envp
-	E.g.: "Hello $name" expand to "Hello Juan" if name is set as Juan inside the enviroment
+	E.g.: "Hello $name" expand to "Hello Juan" if name
+	is set as Juan inside the enviroment
 */
 char	*ft_expand(char *line, char **envp)
 {
