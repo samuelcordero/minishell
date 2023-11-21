@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/21 15:28:45 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:40:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,8 @@ static char	*ft_join_files(char *str, char **files, int *i, char *regex)
 			tmp = tmp2;
 		}
 	}
-	if (!files[0])
-	{
-		tmp2 = ft_strjoin(tmp, regex);
-		free(tmp);
-		tmp = tmp2;
-		dist += ft_strlen(regex);
-	}
 	free(files);
-	tmp2 = ft_substr(str, *i + ft_strlen(regex), SIZE_MAX);
+	tmp2 = ft_substr(str, *i + ft_strlen(regex), SIZE_T_MAX);
 	res = ft_strjoin(tmp, tmp2);
 	*i += dist;
 	return(free(tmp), free(tmp2), res);
@@ -140,7 +133,8 @@ char	*ft_expand_wildcards(char *str)
 		if (regex)
 		{
 			f_table = ft_get_files(regex);
-			str = ft_join_files(str, f_table, &i, regex);
+			if (f_table[0])
+				str = ft_join_files(str, f_table, &i, regex);
 			free(regex);
 		}
 	}
