@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:38:16 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:29:46 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ static int	create_temp_heredoc(t_redir_tok *tok)
 
 /*
 	Creates a tmp heredoc, then fills it with user input.
+	Line is expanded with envp variables as in bash
 */
-int	ft_heredoc(t_redir_tok *tok)
+int	ft_heredoc(t_redir_tok *tok, char **envp)
 {
 	int		fd;
 	char	*delim;
 	char	*line;
 	char	*prompt;
+	char	*exp;
 
 	delim = tok->file_name;
 	fd = create_temp_heredoc(tok);
@@ -67,8 +69,10 @@ int	ft_heredoc(t_redir_tok *tok)
 	while (line && ft_strncmp(line, delim,
 			ft_strlen(delim) + 1))
 	{
-		ft_putendl_fd(line, fd);
+		exp = ft_expand(line, envp);
+		ft_putendl_fd(exp, fd);
 		free(line);
+		free(exp);
 		line = readline(prompt);
 	}
 	return (free(delim), free(line), free(prompt), ft_close(fd), 0);

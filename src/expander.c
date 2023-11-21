@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:50:20 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/21 13:22:58 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,24 @@ static char	*expand_str(char *str, int i, char **envp)
 	Expands the provided char *line with variables from envp
 	E.g.: "Hello $name" expand to "Hello Juan" if name
 	is set as Juan inside the enviroment
+	Doesnt expand variables between single quotes
 */
 char	*ft_expand(char *line, char **envp)
 {
 	int		i;
-	int		is_expandable;
+	char	in_quotes;
 	char	*expanded;
 
 	i = -1;
 	expanded = ft_strdup(line);
-	is_expandable = 1;
+	in_quotes = 0;
 	while (expanded[++i])
 	{
-		if (expanded[i] == '\'')
-			is_expandable = !is_expandable;
-		if (expanded[i] == '$' && is_expandable)
+		if (expanded[i] == '\"')
+			in_quotes = !in_quotes;
+		if (expanded[i] == '\'' && !in_quotes)
+			state_quote_delimiter(expanded, &i, '\'');
+		if (expanded[i] == '$')
 			expanded = expand_str(expanded, i, envp);
 	}
 	return (expanded);

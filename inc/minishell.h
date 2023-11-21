@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:12:14 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:38:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "minishell_defines.h"
 # include <stdio.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -38,7 +39,7 @@ int			ft_unset(t_cmd_node *node, t_mshell_sack *sack);
 
 //command_tree
 
-int			ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node);
+int			ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node, char **envp);
 int			ft_parse_tree(t_cmdtree **tree, t_list **tokenlist);
 
 //command_tree_utils
@@ -56,7 +57,7 @@ int			ft_remove_env(t_mshell_sack *sack, char *key);
 
 //here_doc
 
-int			ft_heredoc(t_redir_tok *tok);
+int			ft_heredoc(t_redir_tok *tok, char **envp);
 
 //history
 

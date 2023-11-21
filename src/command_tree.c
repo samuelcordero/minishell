@@ -6,13 +6,13 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:53:18 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:31:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
+static int	set_file_info(t_list *tkn_lst, t_cmd_node *current, char **envp)
 {
 	t_list		*tmp;
 
@@ -40,7 +40,7 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 	else if (ft_strncmp("<<", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
 	{
 		((t_redir_tok *)tmp->content)->redir_type = HEREDOC_MASK;
-		if (ft_heredoc((t_redir_tok *)tmp->content))
+		if (ft_heredoc((t_redir_tok *)tmp->content, envp))
 			exit(1);
 	}
 	else if (ft_strncmp(">>", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
@@ -70,7 +70,7 @@ static int	ft_count_args(t_list *begin)
 	Given a t_list *begin that represents the begining of a token list,
 	creates a cmd_list parsed for executor inside the given t_cmdtree *tree_node
 */
-int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
+int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node, char **envp)
 {
 	t_cmdtoken	*tkn;
 	t_cmd_node	*current;
@@ -92,7 +92,7 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 			current->args[i++] = ft_strdup(tkn->str);
 		else if (tkn->type == FILE_REDIR) // file io check
 		{
-			if (set_file_info(begin, current))
+			if (set_file_info(begin, current, envp))
 				return (1); //bad syntax, free and return error
 			begin = begin->next;
 		}
