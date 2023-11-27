@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/21 13:54:51 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:27:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,6 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
 	ft_close(std_backup[1]);
 	ft_putstr_fd("\x1b[0m", STDIN_FILENO);
 	return (tmp);
-}
-
-/*
-	Returns 0 if str is not logically expandable, else pos value
-*/
-static int	get_log_expandible(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '&' && str[i + 1] == '&')
-			return (AND_MASK);
-		else if (str[i] == '|' && str[i + 1] == '|')
-			return (OR_MASK);
-		else if (str[i] == ';')
-			return (WAIT_MASK);
-	}
-	return (0);
 }
 
 /*
@@ -167,11 +147,87 @@ static char	*ft_get_right_token(char *str)
 	return (free(tmp), res);
 }
 
+/*
+	Returns 0 if str is not logically expandable, else pos value
+*/
+static int	get_log_expandible(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '&' && str[i + 1] == '&')
+			return (AND_MASK);
+		else if (str[i] == '|' && str[i + 1] == '|')
+			return (OR_MASK);
+		else if (str[i] == ';')
+			return (WAIT_MASK);
+		else if (str[i] == '(')
+			ft_brackets(str, &i);
+		else
+			++i;
+	}
+	return (0);
+}
+
+static void	ft_remove_outer_brackets(char *str)
+{
+	int	i;
+	int	j;
+	int	b_ctr;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '(')
+		{
+			j = i;
+			b_ctr = 1;
+			while (b_ctr && str[++j])
+			{
+				if (str[j] == '(')
+					++b_ctr;
+				else if (str[j] == ')')
+					--b_ctr;
+			}
+			while (str[++j - 1])
+				str[j - 1] = str[j];
+			while (str[++i - 1])
+				str[i - 1] = str[i];
+			return ;
+		}
+	}
+}
+
+static char	ft_has_brackets(char *str)
+{
+	int	i;
+	
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '(')
+			return (str[i]);
+	}
+	return (0);
+}
+
+static char	*ft_remove_brackets(char *str)
+{
+	char	*res;
+
+	res = ft_strdup(str);
+	while (!get_log_expandible(res) && ft_has_brackets(res))
+		ft_remove_outer_brackets(res);
+	return (res);
+}
+
 static void	logic_expansion(t_cmdtree *tree_node)
 {
 	char	*str;
 
-	str = tree_node->cmd_str;
+	str = ft_remove_brackets(tree_node->cmd_str);
 	tree_node->is_logic = get_log_expandible(str);
 	if (tree_node->is_logic)
 	{
@@ -180,6 +236,7 @@ static void	logic_expansion(t_cmdtree *tree_node)
 		tree_node->right = ft_calloc(1, sizeof(t_cmdtree));
 		tree_node->right->cmd_str = ft_get_right_token(str);
 	}
+	free(str);
 }
 
 /*
@@ -191,6 +248,8 @@ static void	logic_expansion(t_cmdtree *tree_node)
 static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack,
 	t_cmd_node **last)
 {
+	while (ft_has_brackets(tree_node->cmd_str))
+		ft_remove_outer_brackets(tree_node->cmd_str);
 	tree_node->expanded_str = ft_expand(tree_node->cmd_str, sack->envp);
 	tree_node->expanded_str = ft_expand_wildcards(tree_node->expanded_str);
 	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
