@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/27 13:27:57 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/27 21:20:26 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,11 @@ static void	ft_brackets(char *str, int *i)
 	ctr = 1;
 	while (str[++(*i)])
 	{
-		if (str[*i] == '(')
-		{
+		if (str[*i] == '\'')
+			state_quote_delimiter(str, i, '\'');
+		else if (str[*i] == '(')
 			++ctr;
-			++(*i);
-		}
-		if (str[*i] == ')')
+		else if (str[*i] == ')')
 			--ctr;
 		if (ctr == 0)
 			break ;
@@ -103,7 +102,9 @@ static char	*ft_get_left_token(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '(')
+		if (str[i] == '\'')
+			state_quote_delimiter(str, &i, '\'');
+		else if (str[i] == '(')
 			ft_brackets(str, &i);
 		else
 			++i;
@@ -130,7 +131,9 @@ static char	*ft_get_right_token(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '(')
+		if (str[i] == '\'')
+			state_quote_delimiter(str, &i, '\'');
+		else if (str[i] == '(')
 			ft_brackets(str, &i);
 		else
 			++i;
@@ -165,6 +168,8 @@ static int	get_log_expandible(char *str)
 			return (WAIT_MASK);
 		else if (str[i] == '(')
 			ft_brackets(str, &i);
+		else if (str[i] == '\'')
+			state_quote_delimiter(str, &i, '\'');
 		else
 			++i;
 	}
@@ -190,6 +195,8 @@ static void	ft_remove_outer_brackets(char *str)
 					++b_ctr;
 				else if (str[j] == ')')
 					--b_ctr;
+				else if (str[j] == '\'')
+					state_quote_delimiter(str, &j, '\'');
 			}
 			while (str[++j - 1])
 				str[j - 1] = str[j];
@@ -197,6 +204,8 @@ static void	ft_remove_outer_brackets(char *str)
 				str[i - 1] = str[i];
 			return ;
 		}
+		else if (str[i] == '\'')
+			state_quote_delimiter(str, &i, '\'');
 	}
 }
 
@@ -207,7 +216,9 @@ static char	ft_has_brackets(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '(')
+		if (str[i] == '\'')
+			state_quote_delimiter(str, &i, '\'');
+		else if (str[i] == '(')
 			return (str[i]);
 	}
 	return (0);
@@ -252,6 +263,7 @@ static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack,
 		ft_remove_outer_brackets(tree_node->cmd_str);
 	tree_node->expanded_str = ft_expand(tree_node->cmd_str, sack->envp);
 	tree_node->expanded_str = ft_expand_wildcards(tree_node->expanded_str);
+	//printf("Expanded: %s\n", tree_node->expanded_str);
 	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
 	ft_remove_quotes(tree_node->cmd_tokens);
 	ft_fill_cmdlist(tree_node->cmd_tokens, tree_node, sack->envp);

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 13:19:22 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/27 20:21:45 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,18 @@ void	ft_shell_redir_fork(t_cmd_node *node)
 	}
 }
 
+/*
+	Prints command not found, then
+	sets exit code as 127 and closes pipes
+*/
 static int	ft_no_path(t_cmd_node *node)
 {
 	ft_putstr_fd("MiniShell: command not found: ", 2);
 	if (node->args[0])
 		ft_putendl_fd(node->args[0], 2);
 	node->exit_code = 127;
+	ft_close(node->pipe_fds[0]);
+	ft_close(node->pipe_fds[1]);
 	return (0);
 }
 
@@ -62,13 +68,13 @@ static int	ft_file_redirs(t_list *files)
 	return (0);
 }
 
-	/*
-		STEPS:
-			1. Try opening files, redirect loops
-			2. Redirect loop for pipes
-			3. Find executable, some builtins may be runned in parent process
-			4. fork if necesary, then execute 
-	*/
+/*
+	STEPS:
+	1. Try opening files, redirect loops
+	2. Redirect loop for pipes
+	3. Find executable, some builtins may be runned in parent process
+	4. fork if necesary, then execute 
+*/
 
 static int	ft_exec_cmd(t_cmd_node *node, t_mshell_sack *sack)
 {
@@ -82,7 +88,7 @@ static int	ft_exec_cmd(t_cmd_node *node, t_mshell_sack *sack)
 	if (!path && node->is_builtin)
 		return (0);
 	if (!path)
-		return (ft_no_path(node));
+		return (ft_no_path(node), 0);
 	ft_shell_redir_fork(node);
 	if (!node->pid)
 	{
@@ -90,8 +96,8 @@ static int	ft_exec_cmd(t_cmd_node *node, t_mshell_sack *sack)
 		if (node->pipe_out)
 			ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
 		if (execve(path, node->args, sack->envp) == -1)
-			return (perror(path), free(path), exit(126), 1);
-		ft_close(node->pipe_fds[1]);
+			return (ft_close(node->pipe_fds[1]),
+				perror(path), free(path), exit(126), 1);
 	}
 	free(path);
 	return (0);
