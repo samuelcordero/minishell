@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/29 13:44:54 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:49:04 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ char	*ft_expand_wildcards(char *str)
 		regex = ft_get_regex(&str[i], &i);
 		if (regex)
 		{
-			printf("got regex %s\n", regex);
 			f_table = ft_get_files(regex);
 			if (f_table[0])
 				str = ft_join_files(str, f_table, &i, regex);
