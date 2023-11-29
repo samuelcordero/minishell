@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/21 15:51:35 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:44:54 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ static int	ft_match(char *f_name, char *regex)
 		}
 		if (f_name[i] != regex[j])
 			return (0);
-		++i;
-		++j;
+		if (f_name[i])
+		{
+			++i;
+			++j;
+		}
 	}
 	if (f_name[i] || regex[j])
 		return (0);
@@ -46,7 +49,7 @@ static char	**ft_get_files(char *regex)
 
 	dir_ptr = opendir(".");
 	directory = readdir(dir_ptr);
-	matches  = calloc(1024, sizeof(char *));
+	matches  = ft_calloc(1024, sizeof(char *));
 	ctr = -1;
 	while (directory)
 	{
@@ -71,7 +74,7 @@ static char	*ft_get_regex(char *regex_start, int *i)
 	if (ft_strchr(regex, '*'))
 		return (regex);
 	free(regex);
-	*i += j;
+	*i += j - 1;
 	return (NULL);
 }
 
@@ -100,11 +103,10 @@ static char	*ft_join_files(char *str, char **files, int *i, char *regex)
 			tmp = tmp2;
 		}
 	}
-	free(files);
 	tmp2 = ft_substr(str, *i + ft_strlen(regex), SIZE_T_MAX);
 	res = ft_strjoin(tmp, tmp2);
-	*i += dist;
-	return(free(tmp), free(tmp2), res);
+	*i += dist - 2;
+	return (free(str), free(tmp), free(tmp2), res);
 }
 
 /*
@@ -132,12 +134,14 @@ char	*ft_expand_wildcards(char *str)
 		regex = ft_get_regex(&str[i], &i);
 		if (regex)
 		{
+			printf("got regex %s\n", regex);
 			f_table = ft_get_files(regex);
 			if (f_table[0])
 				str = ft_join_files(str, f_table, &i, regex);
 			else
-				i += ft_strlen(regex);
+				i += ft_strlen(regex) - 1;
 			free(regex);
+			free(f_table);
 		}
 	}
 	return (str);
