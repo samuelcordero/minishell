@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/05 14:17:39 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:55:33 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,12 @@ static char	*ft_get_left_token(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-			state_quote_delimiter(str, &i, '\'');
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			state_quote_delimiter(str, &i, str[i]);
+			if (str[i] == '\'' || str[i] == '\"')
+				++i;
+		}
 		else if (str[i] == '(')
 			ft_brackets(str, &i);
 		else
@@ -131,8 +135,12 @@ static char	*ft_get_right_token(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-			state_quote_delimiter(str, &i, '\'');
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			state_quote_delimiter(str, &i, str[i]);
+			if (str[i] == '\'' || str[i] == '\"')
+				++i;
+		}
 		else if (str[i] == '(')
 			ft_brackets(str, &i);
 		else
@@ -160,7 +168,13 @@ static int	get_log_expandible(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '&' && str[i + 1] == '&')
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			state_quote_delimiter(str, &i, str[i]);
+			if (str[i] == '\'' || str[i] == '\"')
+				++i;
+		}
+		else if (str[i] == '&' && str[i + 1] == '&')
 			return (AND_MASK);
 		else if (str[i] == '|' && str[i + 1] == '|')
 			return (OR_MASK);
@@ -168,10 +182,6 @@ static int	get_log_expandible(char *str)
 			return (WAIT_MASK);
 		else if (str[i] == '(')
 			ft_brackets(str, &i);
-		else if (str[i] == '\'')
-			state_quote_delimiter(str, &i, '\'');
-		else if (str[i] == '\"')
-			state_quote_delimiter(str, &i, '\"');
 		else
 			++i;
 	}
