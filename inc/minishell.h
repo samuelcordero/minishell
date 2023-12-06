@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/21 12:38:15 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:09:35 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int			expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 
 //execute_utils
 
-void		ft_shell_redir_fork(t_cmd_node *node);
+void		ft_fork(t_cmd_node *node);
 t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 				t_mshell_sack *sack, int *last_pid);
 

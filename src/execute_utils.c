@@ -6,25 +6,19 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/27 20:21:45 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:53:28 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_shell_redir_fork(t_cmd_node *node)
+void	ft_fork(t_cmd_node *node)
 {
 	node->pid = fork();
 	if (node->pid < 0)
 	{
 		perror("fork");
 		exit(1);
-	}
-	if (node->pid)
-	{
-		ft_close(node->pipe_fds[1]);
-		ft_dup2(node->pipe_fds[0], STDIN_FILENO);
-		ft_close(node->pipe_fds[0]);
 	}
 }
 
@@ -38,12 +32,15 @@ static int	ft_no_path(t_cmd_node *node)
 	if (node->args[0])
 		ft_putendl_fd(node->args[0], 2);
 	node->exit_code = 127;
-	ft_close(node->pipe_fds[0]);
-	ft_close(node->pipe_fds[1]);
+	if (node->pipe_out)
+	{
+		ft_close(node->pipe_fds[0]);
+		ft_close(node->pipe_fds[1]);
+	}
 	return (0);
 }
 
-static int	ft_file_redirs(t_list *files)
+static int	ft_file_redirs(t_list *files, int input_fd, int output_fd)
 {
 	int		fd;
 
@@ -54,14 +51,14 @@ static int	ft_file_redirs(t_list *files)
 		if (fd < 0)
 			return (1);
 		if (((t_redir_tok *)(files->content))->redir_type == INFILE_MASK)
-			ft_dup2(fd, STDIN_FILENO);
+			ft_dup2(fd, input_fd);
 		else if (((t_redir_tok *)(files->content))->redir_type == HEREDOC_MASK)
 		{
-			ft_dup2(fd, STDIN_FILENO);
+			ft_dup2(fd, input_fd);
 			unlink(((t_redir_tok *)(files->content))->file_name);
 		}
 		else
-			ft_dup2(fd, STDOUT_FILENO);
+			ft_dup2(fd, output_fd);
 		ft_close(fd);
 		files = files->next;
 	}
@@ -69,32 +66,109 @@ static int	ft_file_redirs(t_list *files)
 }
 
 /*
+	(DEPRECATED ft_exec_cmd, rewrite)
 	STEPS:
 	1. Try opening files, redirect loops
 	2. Redirect loop for pipes
 	3. Find executable, some builtins may be runned in parent process
 	4. fork if necesary, then execute 
 */
-
-static int	ft_exec_cmd(t_cmd_node *node, t_mshell_sack *sack)
+static int	ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack)
 {
 	char	*path;
 
-	if (ft_file_redirs(node->redirs_lst))
+	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO))
 		return (1);
-	if (pipe(node->pipe_fds) == -1)
-		return (perror("pipe"), 1);
 	path = extract_exec_path(sack, node);
 	if (!path && node->is_builtin)
 		return (0);
 	if (!path)
 		return (ft_no_path(node), 0);
-	ft_shell_redir_fork(node);
+	ft_fork(node);
+	if (node->pid)
+		ft_close(node->pipe_fds[0]);
 	if (!node->pid)
 	{
+		if (execve(path, node->args, sack->envp) == -1)
+			return (perror(path), free(path), exit(126), 1);
+	}
+	free(path);
+	return (0);
+}
+
+static int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
+{
+	char	*path;
+
+	if (pipe(node->pipe_fds) == -1)
+		return (perror("pipe"), 1);
+	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, node->pipe_fds[1]))
+		return (1);
+	path = extract_exec_path(sack, node);
+	if (!path && node->is_builtin)
+		return (0);
+	if (!path)
+		return (ft_no_path(node), 0);
+	ft_fork(node);
+	if (node->pid)
+		ft_close(node->pipe_fds[1]);
+	if (!node->pid)
+	{
+		ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
 		ft_close(node->pipe_fds[0]);
-		if (node->pipe_out)
-			ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
+		if (execve(path, node->args, sack->envp) == -1)
+			return (ft_close(node->pipe_fds[1]),
+				perror(path), free(path), exit(126), 1);
+	}
+	free(path);
+	*outfd = node->pipe_fds[0];
+	return (0);
+}
+
+static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd, int *outfd)
+{
+	char	*path;
+
+	if (pipe(node->pipe_fds) == -1)
+		return (perror("pipe"), 1);
+	if (ft_file_redirs(node->redirs_lst, inputfd, node->pipe_fds[1]))
+		return (1);
+	path = extract_exec_path(sack, node);
+	if (!path && node->is_builtin)
+		return (0);
+	if (!path)
+		return (ft_no_path(node), 0);
+	ft_fork(node);
+	if (node->pid)
+		ft_close(node->pipe_fds[1]);
+	if (!node->pid)
+	{
+		ft_dup2(inputfd, STDIN_FILENO);
+		ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
+		if (execve(path, node->args, sack->envp) == -1)
+			return (ft_close(node->pipe_fds[1]),
+				perror(path), free(path), exit(126), 1);
+	}
+	free(path);
+	*outfd = node->pipe_fds[0];
+	return (0);
+}
+
+static int	ft_exec_last_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd)
+{
+	char	*path;
+
+	if (ft_file_redirs(node->redirs_lst, inputfd, STDOUT_FILENO))
+		return (1);
+	path = extract_exec_path(sack, node);
+	if (!path && node->is_builtin)
+		return (0);
+	if (!path)
+		return (ft_no_path(node), 0);
+	ft_fork(node);
+	if (!node->pid)
+	{
+		ft_dup2(inputfd, STDIN_FILENO);
 		if (execve(path, node->args, sack->envp) == -1)
 			return (ft_close(node->pipe_fds[1]),
 				perror(path), free(path), exit(126), 1);
@@ -107,15 +181,25 @@ t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 	t_mshell_sack *sack, int *last_pid)
 {
 	t_cmd_node	*lst;
+	int			inputfd = 0;
+	int			outputfd = 0;
 
 	lst = tree_node->cmd_list;
-	while (lst)
+	if (!lst->next)
 	{
-		if (ft_exec_cmd(lst, sack) == 0)
+		ft_exec_single_cmd(lst, sack);
+		return (lst);
+	}
+	ft_exec_first_cmd(lst, sack, &inputfd);
+	lst = lst->next;
+	while (lst->next)
+	{
+		if (ft_exec_mid_cmd(lst, sack, inputfd, &outputfd) == 0)
 			*last_pid = lst->pid;
-		if (!lst->next)
-			return (lst);
+		inputfd = outputfd;
 		lst = lst->next;
 	}
+	if (ft_exec_last_cmd(lst, sack, inputfd) == 0)
+			*last_pid = lst->pid;
 	return (lst);
 }

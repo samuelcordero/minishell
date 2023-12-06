@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 22:14:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:11:26 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ int	ft_print_working_dir(t_cmd_node *node, char **envp)
 	char	*pwd;
 
 	node->is_builtin = 1;
-	ft_shell_redir_fork(node);
+	ft_fork(node);
+	if (node->pid && node->pipe_out)
+		ft_close(node->pipe_fds[0]);
 	if (!node->pid)
 	{
 		ft_close(node->pipe_fds[0]);
-		if (node->pipe_out)
-			ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
 		pwd = ft_get_from_env(envp, "PWD");
 		if (node->args[1])
 		{
@@ -107,7 +107,9 @@ int	ft_echo(t_cmd_node *node)
 	if (node->args[1] && !ft_strncmp(node->args[1], "-n", 3))
 		flag = 1;
 	i = flag;
-	ft_shell_redir_fork(node);
+	ft_fork(node);
+	if (node->pid && node->pipe_out)
+		ft_close(node->pipe_fds[0]);
 	if (!node->pid)
 	{
 		ft_close(node->pipe_fds[0]);
