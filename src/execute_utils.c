@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/06 13:53:28 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:17:26 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	ft_no_path(t_cmd_node *node)
 	return (0);
 }
 
-static int	ft_file_redirs(t_list *files, int input_fd, int output_fd)
+int	ft_file_redirs(t_list *files, int input_fd, int output_fd)
 {
 	int		fd;
 
@@ -80,8 +80,6 @@ static int	ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack)
 	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO))
 		return (1);
 	path = extract_exec_path(sack, node);
-	if (!path && node->is_builtin)
-		return (0);
 	if (!path)
 		return (ft_no_path(node), 0);
 	ft_fork(node);
@@ -105,9 +103,7 @@ static int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
 	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, node->pipe_fds[1]))
 		return (1);
 	path = extract_exec_path(sack, node);
-	if (!path && node->is_builtin)
-		return (0);
-	if (!path)
+	if (!path && !ft_isbuiltin(node->args[0]))
 		return (ft_no_path(node), 0);
 	ft_fork(node);
 	if (node->pid)
@@ -116,6 +112,8 @@ static int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
 	{
 		ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
 		ft_close(node->pipe_fds[0]);
+		if (ft_isbuiltin(node->args[0]))
+			ft_execbuiltin(node, sack, 0);
 		if (execve(path, node->args, sack->envp) == -1)
 			return (ft_close(node->pipe_fds[1]),
 				perror(path), free(path), exit(126), 1);
@@ -134,9 +132,7 @@ static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd, i
 	if (ft_file_redirs(node->redirs_lst, inputfd, node->pipe_fds[1]))
 		return (1);
 	path = extract_exec_path(sack, node);
-	if (!path && node->is_builtin)
-		return (0);
-	if (!path)
+	if (!path && !ft_isbuiltin(node->args[0]))
 		return (ft_no_path(node), 0);
 	ft_fork(node);
 	if (node->pid)
@@ -145,6 +141,8 @@ static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd, i
 	{
 		ft_dup2(inputfd, STDIN_FILENO);
 		ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
+		if (ft_isbuiltin(node->args[0]))
+			ft_execbuiltin(node, sack, 0);
 		if (execve(path, node->args, sack->envp) == -1)
 			return (ft_close(node->pipe_fds[1]),
 				perror(path), free(path), exit(126), 1);
@@ -161,14 +159,14 @@ static int	ft_exec_last_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd)
 	if (ft_file_redirs(node->redirs_lst, inputfd, STDOUT_FILENO))
 		return (1);
 	path = extract_exec_path(sack, node);
-	if (!path && node->is_builtin)
-		return (0);
-	if (!path)
+	if (!path && !ft_isbuiltin(node->args[0]))
 		return (ft_no_path(node), 0);
 	ft_fork(node);
 	if (!node->pid)
 	{
 		ft_dup2(inputfd, STDIN_FILENO);
+		if (ft_isbuiltin(node->args[0]))
+			ft_execbuiltin(node, sack, 0);
 		if (execve(path, node->args, sack->envp) == -1)
 			return (ft_close(node->pipe_fds[1]),
 				perror(path), free(path), exit(126), 1);
@@ -185,7 +183,12 @@ t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 	int			outputfd = 0;
 
 	lst = tree_node->cmd_list;
-	if (!lst->next)
+	if (!lst->next && ft_isbuiltin(lst->args[0]))
+	{
+		ft_execbuiltin(lst, sack, 1);
+		return (lst);
+	}
+	else if (!lst->next)
 	{
 		ft_exec_single_cmd(lst, sack);
 		return (lst);
