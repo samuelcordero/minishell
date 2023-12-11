@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/05 14:55:33 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/11 13:12:55 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,12 @@ static void	ft_brackets(char *str, int *i)
 static char	*ft_get_left_token(char *str)
 {
 	int		i;
+	int		last;
 	char	*tmp;
 	char	*res;
 
 	i = 0;
+	last = 0;
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -115,9 +117,9 @@ static char	*ft_get_left_token(char *str)
 		if ((str[i] == '&' && str[i + 1] == '&')
 			|| (str[i] == '|' && str[i + 1] == '|')
 			|| str[i] == ';')
-			break ;
+			last = i;
 	}
-	tmp = ft_substr(str, 0, i);
+	tmp = ft_substr(str, 0, last);
 	res = ft_strtrim(tmp, " \n\t\v\r");
 	return (free(tmp), res);
 }
@@ -129,10 +131,12 @@ static char	*ft_get_left_token(char *str)
 static char	*ft_get_right_token(char *str)
 {
 	int		i;
+	int		last;
 	char	*tmp;
 	char	*res;
 
 	i = 0;
+	last = 0;
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -148,12 +152,12 @@ static char	*ft_get_right_token(char *str)
 		if ((str[i] == '&' && str[i + 1] == '&')
 			|| (str[i] == '|' && str[i + 1] == '|')
 			|| str[i] == ';')
-			break ;
+			last = i;
 	}
-	if ((str[i] == '&' && str[i + 1] == '&')
-		|| (str[i] == '|' && str[i + 1] == '|'))
-		++i;
-	tmp = ft_substr(str, i + 1, SIZE_T_MAX);
+	if ((str[last] == '&' && str[last + 1] == '&')
+		|| (str[last] == '|' && str[last + 1] == '|'))
+		++last;
+	tmp = ft_substr(str, last + 1, SIZE_T_MAX);
 	res = ft_strtrim(tmp, " \n\t\v\r");
 	return (free(tmp), res);
 }
@@ -164,8 +168,10 @@ static char	*ft_get_right_token(char *str)
 static int	get_log_expandible(char *str)
 {
 	int	i;
+	int	last;
 
 	i = 0;
+	last = 0;
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -174,17 +180,20 @@ static int	get_log_expandible(char *str)
 			if (str[i] == '\'' || str[i] == '\"')
 				++i;
 		}
-		else if (str[i] == '&' && str[i + 1] == '&')
-			return (AND_MASK);
-		else if (str[i] == '|' && str[i + 1] == '|')
-			return (OR_MASK);
-		else if (str[i] == ';')
-			return (WAIT_MASK);
+		if ((str[i] == '&' && str[i + 1] == '&')
+			|| (str[i] == '|' && str[i + 1] == '|') || (str[i] == ';'))
+			last = i++;
 		else if (str[i] == '(')
 			ft_brackets(str, &i);
 		else
 			++i;
 	}
+	if (str[last] == '&' && str[last + 1] == '&')
+		return (AND_MASK);
+	else if (str[last] == '|' && str[last + 1] == '|')
+		return (OR_MASK);
+	else if (str[last] == ';')
+		return (WAIT_MASK);
 	return (0);
 }
 
