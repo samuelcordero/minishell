@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/06 17:04:19 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:44:50 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ char		*ft_expand(char *line, char **envp);
 int			ft_open(t_redir_tok *f_tok);
 void		ft_close(int fd);
 void		ft_dup2(int oldfd, int newfd);
+
+//syntax_checker
+
+int		ft_check_syntax(char *str);
 
 //path_finder
 

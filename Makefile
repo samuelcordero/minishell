@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/11/02 19:17:46 by sacorder         ###   ########.fr        #
+#    Updated: 2023/12/11 11:48:28 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ LIBFT = libft/libft.a
 LDFLAGS = -L libft -lft
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -O3 -Iinc -Ilibft
-SRC =	src/minishell.c \
+SRC =	src/main.c \
 		src/lexer.c \
 		src/lexer_utils.c \
 		src/expander.c \
@@ -30,6 +30,7 @@ SRC =	src/minishell.c \
 		src/execute_utils.c \
 		src/enviroment.c \
 		src/enviroment_extra.c \
+		src/syntax_checker.c \
 		src/utils.c \
 		src/path_finder.c \
 		src/wildcards.c

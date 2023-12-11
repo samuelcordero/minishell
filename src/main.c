@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/29 13:25:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:45:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	main(int argc, char **argv, char **envp)
 		get_command_str(&m_sack);
 		if (m_sack.cmd_tree && !m_sack.eof)
 		{
-			expand_execute(m_sack.cmd_tree, &m_sack);
+			if (ft_check_syntax(m_sack.cmd_tree->cmd_str))
+				expand_execute(m_sack.cmd_tree, &m_sack);
 			m_sack.cmd_tree = ft_free_cmdtree(m_sack.cmd_tree);
 		}
 		else if (m_sack.eof)
