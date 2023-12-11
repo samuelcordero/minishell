@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 19:47:22 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:04:53 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,31 @@ static int	ft_is_rel_path(char *path)
 	return (0);
 }
 
-static int	ft_execbultin(t_cmd_node *node, t_mshell_sack *sack)
+void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, int parent)
 {
+	int	e_code;
+
+	e_code = 0;
+	if (parent)
+	{
+		if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO))
+			return ;
+	}
 	if (!ft_strncmp(node->args[0], "cd", 3))
-		ft_change_dir(node, sack);
+		e_code = ft_change_dir(node, sack);
 	else if (!ft_strncmp(node->args[0], "echo", 5))
-		ft_echo(node);
+		e_code = ft_echo(node);
 	else if (!ft_strncmp(node->args[0], "exit", 5))
-		ft_msh_exit(node, sack);
+		e_code = ft_msh_exit(node, sack);
 	else if (!ft_strncmp(node->args[0], "pwd", 4))
-		ft_print_working_dir(node, sack->envp);
+		e_code = ft_print_working_dir(node);
 	else if (!ft_strncmp(node->args[0], "unset", 6))
-		ft_unset(node, sack);
+		e_code = ft_unset(node, sack);
 	else if (!ft_strncmp(node->args[0], "export", 7))
-		ft_export(node, sack);
-	return (node->is_builtin);
+		e_code = ft_export(node, sack);
+	node->is_builtin = 1;
+	if (!parent)
+		exit(e_code);
 }
 
 char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node)
@@ -48,8 +58,9 @@ char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node)
 		return (NULL);
 	if (!(access(node->args[0], F_OK)) && ft_is_rel_path(node->args[0]))
 		return (ft_strdup(node->args[0]));
-	if (ft_is_rel_path(node->args[0]) || ft_execbultin(node, sack)
-		|| (!sack->envp || !*sack->envp))
+	if (ft_isbuiltin(node->args[0]))
+		return (NULL);
+	if (ft_is_rel_path(node->args[0]) || (!sack->envp || !*sack->envp))
 		return (NULL);
 	split_path = ft_split(ft_get_from_env(sack->envp, "PATH"), ':');
 	pos = 0;

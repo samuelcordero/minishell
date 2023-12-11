@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/21 12:38:15 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:04:19 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@
 
 int			ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack);
 int			ft_change_dir(t_cmd_node *node, t_mshell_sack *sack);
-int			ft_print_working_dir(t_cmd_node *node, char **envp);
+int			ft_print_working_dir(t_cmd_node *node);
 int			ft_echo(t_cmd_node *node);
 
 //builtins_extra
 
 int			ft_export(t_cmd_node *node, t_mshell_sack *sack);
 int			ft_unset(t_cmd_node *node, t_mshell_sack *sack);
+int			ft_isbuiltin(char *str);
 
 //command_tree
 
@@ -86,9 +87,10 @@ int			expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 
 //execute_utils
 
-void		ft_shell_redir_fork(t_cmd_node *node);
+void		ft_fork(t_cmd_node *node);
 t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 				t_mshell_sack *sack, int *last_pid);
+int			ft_file_redirs(t_list *files, int input_fd, int output_fd);
 
 //expander
 
@@ -103,7 +105,7 @@ void		ft_dup2(int oldfd, int newfd);
 //path_finder
 
 char		*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node);
-
+void		ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, int parent);
 //debug only
 
 void		print_tokens(t_list *tokens);
