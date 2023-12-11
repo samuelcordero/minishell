@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/06 17:04:53 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:53:29 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, int parent)
 	else if (!ft_strncmp(node->args[0], "export", 7))
 		e_code = ft_export(node, sack);
 	node->is_builtin = 1;
+	node->exit_code = e_code;
 	if (!parent)
 		exit(e_code);
 }
