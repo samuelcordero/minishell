@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/29 13:49:04 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:25:29 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static int	ft_match(char *f_name, char *regex)
 
 	i = 0;
 	j = 0;
+	if (!ft_strncmp(".", f_name, 2) || !ft_strncmp("..", f_name, 3)
+		|| (f_name[0] == '.' && regex[0] != '.'))
+		return (0);
 	while (f_name[i] && regex[j])
 	{
 		if (regex[j] == '*')
