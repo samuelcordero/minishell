@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/11 13:12:55 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:39:29 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static	int	ft_wait_all(int last_pid)
 	then waits for the completion of those processes.
 	Also creates a backup of STDIN/OUT before pipes that is restored post execution.
 */
-static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
-	t_cmd_node **last)
+static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
 	int	std_backup[2];
 	int	last_pid;
@@ -55,7 +54,7 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
 	std_backup[0] = dup(STDIN_FILENO);
 	std_backup[1] = dup(STDOUT_FILENO);
 	g_is_exec = 1;
-	*last = ft_execute_lst(tree_node, sack, &last_pid);
+	ft_execute_lst(tree_node, sack, &last_pid);
 	tmp = ft_wait_all(last_pid);
 	g_is_exec = 0;
 	ft_dup2(std_backup[0], STDIN_FILENO);
@@ -63,6 +62,8 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack,
 	ft_close(std_backup[0]);
 	ft_close(std_backup[1]);
 	ft_putstr_fd("\x1b[0m", STDIN_FILENO);
+	if (tree_node->cmd_list->is_builtin == 1 && !tree_node->cmd_list->next)
+		return (tree_node->cmd_list->exit_code);
 	return (tmp);
 }
 
@@ -277,8 +278,7 @@ static void	logic_expansion(t_cmdtree *tree_node)
 	3. create cmd lst
 	4. exec and wait
 */
-static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack,
-	t_cmd_node **last)
+static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
 	while (ft_has_brackets(tree_node->cmd_str))
 		ft_remove_outer_brackets(tree_node->cmd_str);
@@ -288,7 +288,7 @@ static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack,
 	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
 	ft_remove_quotes(tree_node->cmd_tokens);
 	ft_fill_cmdlist(tree_node->cmd_tokens, tree_node, sack->envp);
-	return (ft_exec_and_wait(tree_node, sack, last));
+	return (ft_exec_and_wait(tree_node, sack));
 }
 
 /*
@@ -299,11 +299,9 @@ static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack,
 */
 int	expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
-	t_cmd_node	*last;
 	char		*keyval;
 	char		*nbrstr;
 
-	last = NULL;
 	logic_expansion(tree_node);
 	if (tree_node->left)
 		tree_node->exit_code = expand_execute(tree_node->left, sack);
@@ -313,9 +311,9 @@ int	expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 			|| (tree_node->is_logic == WAIT_MASK))
 			tree_node->exit_code = expand_execute(tree_node->right, sack);
 	if (!tree_node->is_logic)
-		tree_node->exit_code = ft_parse_and_exec(tree_node, sack, &last);
-	if (last && tree_node->exit_code == -1)
-		tree_node->exit_code = last->exit_code;
+		tree_node->exit_code = ft_parse_and_exec(tree_node, sack);
+/* 	if (last && tree_node->exit_code == -1)
+		tree_node->exit_code = last->exit_code; */
 	nbrstr = ft_itoa(tree_node->exit_code);
 	keyval = ft_strjoin("?=", nbrstr);
 	ft_add_to_env(sack, keyval);

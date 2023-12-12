@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/11 11:53:36 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:35:48 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 	if (!lst->next && ft_isbuiltin(lst->args[0]))
 	{
 		ft_execbuiltin(lst, sack, 1);
+		lst->is_builtin = 1;
 		return (lst);
 	}
 	else if (!lst->next)
