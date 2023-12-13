@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/12 23:35:48 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:52:39 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,7 @@ static int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
 		if (ft_isbuiltin(node->args[0]))
 			ft_execbuiltin(node, sack, 0);
 		if (execve(path, node->args, sack->envp) == -1)
-			return (ft_close(node->pipe_fds[1]),
-				perror(path), free(path), exit(126), 1);
+			return (perror(path), free(path), exit(126), 1);
 	}
 	free(path);
 	*outfd = node->pipe_fds[0];
@@ -150,8 +149,7 @@ static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd, i
 		if (ft_isbuiltin(node->args[0]))
 			ft_execbuiltin(node, sack, 0);
 		if (execve(path, node->args, sack->envp) == -1)
-			return (ft_close(node->pipe_fds[1]),
-				perror(path), free(path), exit(126), 1);
+			return (perror(path), free(path), exit(126), 1);
 	}
 	free(path);
 	*outfd = node->pipe_fds[0];
@@ -176,7 +174,7 @@ static int	ft_exec_last_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd)
 		if (ft_isbuiltin(node->args[0]))
 			ft_execbuiltin(node, sack, 0);
 		if (execve(path, node->args, sack->envp) == -1)
-			return (ft_close(node->pipe_fds[1]),
+			return (ft_close(inputfd),
 				perror(path), free(path), exit(126), 1);
 	}
 	free(path);
@@ -200,7 +198,7 @@ t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 	else if (!lst->next)
 	{
 		ft_exec_single_cmd(lst, sack);
-		return (lst);
+		return (*last_pid = lst->pid, lst);
 	}
 	ft_exec_first_cmd(lst, sack, &inputfd);
 	lst = lst->next;
