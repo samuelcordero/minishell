@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/13 23:13:37 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/14 00:26:39 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,9 +280,13 @@ static void	logic_expansion(t_cmdtree *tree_node)
 */
 static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
+	char	*tmp;
+
 	while (ft_has_brackets(tree_node->cmd_str))
 		ft_remove_outer_brackets(tree_node->cmd_str);
-	tree_node->expanded_str = ft_expand(tree_node->cmd_str, sack->envp);
+	tmp = ft_strtrim(tree_node->cmd_str, " \t\n\r\v");
+	tree_node->expanded_str = ft_expand(tmp, sack->envp);
+	free(tmp);
 	tree_node->expanded_str = ft_expand_wildcards(tree_node->expanded_str);
 	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
 	ft_remove_quotes(tree_node->cmd_tokens);
