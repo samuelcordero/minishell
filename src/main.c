@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/11 11:45:14 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:07:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		get_command_str(&m_sack);
 		if (m_sack.cmd_tree && !m_sack.eof)
 		{
-			if (ft_check_syntax(m_sack.cmd_tree->cmd_str))
+			if (ft_check_syntax_heredoc(&m_sack))
 				expand_execute(m_sack.cmd_tree, &m_sack);
 			m_sack.cmd_tree = ft_free_cmdtree(m_sack.cmd_tree);
 		}

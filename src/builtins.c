@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/06 17:02:24 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:37:26 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ int	ft_change_dir(t_cmd_node *node, t_mshell_sack *sack)
 		if (!*path)
 			return (ft_putendl_fd("HOME is not set", STDERR_FILENO), 1);
 	}
-	cwd = get_cwd_str();
-	if (!cwd)
-		return (1);
+	cwd = ft_get_from_env(sack->envp, "PWD");
 	if (chdir(path) == -1)
 	{
 		perror(path);
@@ -58,7 +56,6 @@ int	ft_change_dir(t_cmd_node *node, t_mshell_sack *sack)
 	path = ft_strjoin("OLDPWD=", cwd);
 	ft_add_to_env(sack, path);
 	free(path);
-	free(cwd);
 	cwd = get_cwd_str();
 	if (!cwd)
 		return (1);
@@ -69,18 +66,17 @@ int	ft_change_dir(t_cmd_node *node, t_mshell_sack *sack)
 	return (0);
 }
 
-int	ft_print_working_dir(t_cmd_node *node)
+int	ft_print_working_dir(t_cmd_node *node, char **envp)
 {
 	char	*pwd;
 
-	pwd = get_cwd_str();
+	pwd = ft_get_from_env(envp, "PWD");
 	if (node->args[1])
 		ft_putendl_fd("Minishell: pwd: too many args", STDERR_FILENO);
 	else if (*pwd)
 		ft_putendl_fd(pwd, STDOUT_FILENO);
 	else
 		ft_putendl_fd("PWD error", STDERR_FILENO);
-	free(pwd);
 	return (0);
 }
 

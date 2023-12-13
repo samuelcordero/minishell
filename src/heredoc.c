@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/12 23:43:29 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:27:01 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,62 @@ static char	*get_tmp_filename(void)
 	return (NULL);
 }
 
-static int	create_temp_heredoc(t_redir_tok *tok)
+static char	*get_delim_and_substitute(char **str, int *i, char *new_name)
+{
+	int		j;
+	char	*delim;
+	char	*tmp;
+	char	*tmp2;
+
+	*i += 2;
+	while (ft_isspace((*str)[(*i)]))
+		*i += 1;
+	j = *i;
+	while ((*str)[j] && !ft_isspace((*str)[j])
+			&& (*str)[j] != '(' && (*str)[j] != ')')
+		++j;
+	if (j == *i)
+		exit(69);
+	delim = ft_substr(*str, *i, j - *i);
+	tmp = ft_substr(*str, 0, *i);
+	tmp2 = ft_strjoin(tmp, new_name);
+	free(tmp);
+	tmp = ft_strjoin(tmp2, " ");
+	free(tmp2);
+	tmp2 = ft_substr(*str, j, SIZE_T_MAX);
+	free(*str);
+	*str = ft_strjoin(tmp, tmp2);
+	free(tmp);
+	tmp = ft_strtrim(*str, " ");
+	free(*str);
+	*str = tmp;
+	return (free(tmp2), *i += ft_strlen(new_name) + 1, delim);
+}
+
+static int	create_temp_heredoc(char **str, int *i, char **delim)
 {
 	int		fd;
 	char	*tmp_name;
 
 	tmp_name = get_tmp_filename();
 	if (!tmp_name)
-		return (ft_putendl_fd("No heredoc tmp file available!", 2), -1);
+		return (ft_putendl_fd("No heredoc tmp file available!", 2), exit(1), -1);
 	fd = open(tmp_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		perror(tmp_name);
-	tok->file_name = tmp_name;
+		return (perror(tmp_name), free(tmp_name), exit(1), 1);
+	*delim = get_delim_and_substitute(str, i, tmp_name);
+	ft_putendl_fd(*str, 2);
+	free(tmp_name);
 	return (fd);
 }
 
 /*
 	Creates a tmp heredoc, then fills it with user input.
 	Line is expanded with envp variables as in bash
+	First finds de delimiter, then creates a tmp file
+	Delimiter is changed to absolute path of tmp file
 */
-int	ft_heredoc(t_redir_tok *tok, char **envp)
+int	ft_heredoc(char **str, int *i, char **envp)
 {
 	int		fd;
 	char	*delim;
@@ -58,23 +94,19 @@ int	ft_heredoc(t_redir_tok *tok, char **envp)
 	char	*prompt;
 	char	*exp;
 
-	delim = tok->file_name;
-	fd = create_temp_heredoc(tok);
-	if (fd < 0)
-		return (free(delim), ft_putendl_fd("Heredoc error!", 2), 1);
+	fd = create_temp_heredoc(str, i, &delim);
 	line = ft_strjoin("here_doc (", delim);
 	prompt = ft_strjoin(line, ") > ");
 	free(line);
 	line = readline(prompt);
-	exp = ft_expand(line, envp);
-	while (line && ft_strncmp(exp, delim,
+	while (line && ft_strncmp(line, delim,
 			ft_strlen(delim) + 1))
 	{
+		exp = ft_expand(line, envp);
 		ft_putendl_fd(exp, fd);
 		free(line);
 		free(exp);
 		line = readline(prompt);
-		exp = ft_expand(line, envp);
 	}
 	return (free(delim), free(line), free(prompt), ft_close(fd), 0);
 }
