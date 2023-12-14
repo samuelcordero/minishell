@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/13 15:52:39 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/14 17:33:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,14 @@ void	ft_fork(t_cmd_node *node)
 	Prints command not found, then
 	sets exit code as 127 and closes pipes
 */
-static int	ft_no_path(t_cmd_node *node)
+static int	ft_no_path(t_cmd_node *node, int close, int fd)
 {
 	ft_putstr_fd("MiniShell: command not found: ", 2);
 	if (node->args[0])
 		ft_putendl_fd(node->args[0], 2);
 	node->exit_code = 127;
-	if (node->pipe_out)
-	{
-		ft_close(node->pipe_fds[0]);
-		ft_close(node->pipe_fds[1]);
-	}
+	if (close)
+		ft_close(fd);
 	return (0);
 }
 
@@ -81,7 +78,7 @@ static int	ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack)
 		return (1);
 	path = extract_exec_path(sack, node);
 	if (!path)
-		return (ft_no_path(node), 0);
+		return (ft_no_path(node, 0, 0), 0);
 	ft_fork(node);
 	if (node->pid)
 		ft_close(node->pipe_fds[0]);
@@ -104,7 +101,7 @@ static int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
 		return (1);
 	path = extract_exec_path(sack, node);
 	if (!path && !ft_isbuiltin(node->args[0]))
-		return (ft_no_path(node), 0);
+		return (ft_no_path(node, 1, node->pipe_fds[1]), *outfd = node->pipe_fds[0], 0);
 	ft_fork(node);
 	if (node->pid)
 		ft_close(node->pipe_fds[1]);
@@ -133,7 +130,7 @@ static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd, i
 		return (1);
 	path = extract_exec_path(sack, node);
 	if (!path && !ft_isbuiltin(node->args[0]))
-		return (ft_no_path(node), 0);
+		return (ft_no_path(node, 1, node->pipe_fds[1]), ft_close(inputfd), *outfd = node->pipe_fds[0], 0);
 	ft_fork(node);
 	if (node->pid)
 	{
@@ -164,7 +161,7 @@ static int	ft_exec_last_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd)
 		return (1);
 	path = extract_exec_path(sack, node);
 	if (!path && !ft_isbuiltin(node->args[0]))
-		return (ft_no_path(node), 0);
+		return (ft_no_path(node, 1, STDOUT_FILENO), ft_close(inputfd), 0);
 	ft_fork(node);
 	if (node->pid)
 		ft_close(inputfd);
