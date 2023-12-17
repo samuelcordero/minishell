@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/14 00:26:39 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/17 02:35:04 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ static int	get_log_expandible(char *str)
 			last = i++;
 		else if (str[i] == '(')
 			ft_brackets(str, &i);
-		else
+		else if (str[i])
 			++i;
 	}
 	if (str[last] == '&' && str[last + 1] == '&')
@@ -288,10 +288,14 @@ static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 	tree_node->expanded_str = ft_expand(tmp, sack->envp);
 	free(tmp);
 	tree_node->expanded_str = ft_expand_wildcards(tree_node->expanded_str);
-	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
-	ft_remove_quotes(tree_node->cmd_tokens);
-	ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);
-	return (ft_exec_and_wait(tree_node, sack));
+	if (tree_node->expanded_str && tree_node->expanded_str[0])
+	{
+		tree_node->cmd_tokens = lexer(tree_node->expanded_str);
+		ft_remove_quotes(tree_node->cmd_tokens);
+		ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);
+		return (ft_exec_and_wait(tree_node, sack));
+	}
+	return (0);
 }
 
 /*

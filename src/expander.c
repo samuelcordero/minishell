@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/21 13:22:58 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/17 02:29:12 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ char	*ft_expand(char *line, char **envp)
 			state_quote_delimiter(expanded, &i, '\'');
 		if (expanded[i] == '$')
 			expanded = expand_str(expanded, i, envp);
+		if (!expanded || !expanded[i])
+			break ;
 	}
 	return (expanded);
 }
