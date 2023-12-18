@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/17 02:29:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:15:19 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*get_key(char *str, int needle_tip)
 {
 	size_t	len;
 
-	if (str[needle_tip] == '$')
+	if (str[needle_tip] == '$' || ft_isspace(str[needle_tip]) || !str[needle_tip])
 		return (ft_strdup("$"));
 	len = ft_strchr(&str[needle_tip], ' ') - &str[needle_tip];
 	if (len > (size_t)(ft_strchr(&str[needle_tip], '"') - &str[needle_tip]))
@@ -42,6 +42,8 @@ static char	*expand_str(char *str, int i, char **envp)
 	char	*tmp;
 
 	needle = get_key(str, i + 1);
+	if (!ft_strncmp(needle, "$", 2))
+		return (free(needle), str);
 	expanded = ft_substr(str, 0, (size_t) i);
 	tmp = expanded;
 	if (str[i + 1] == '$')

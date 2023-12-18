@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/17 02:35:04 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:24:12 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static	int	ft_wait_all(int last_pid)
 	int	exit_code;
 
 	last_exited = 0;
-	exit_code = -1;
+	exit_code = 127;
 	while (last_exited != -1)
 	{
 		last_exited = waitpid(-1, &status, 0);
@@ -240,6 +240,8 @@ static char	ft_has_brackets(char *str)
 	{
 		if (str[i] == '\'')
 			state_quote_delimiter(str, &i, '\'');
+		else if (str[i] == '"')
+			state_quote_delimiter(str, &i, '"');
 		else if (str[i] == '(')
 			return (str[i]);
 	}
