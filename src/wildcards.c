@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/12 17:25:29 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:12:44 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static char	**ft_get_files(char *regex)
 	struct dirent	*directory;
 	char			**matches;
 	int				ctr;
+	char			*tmp;
 
 	dir_ptr = opendir(".");
 	directory = readdir(dir_ptr);
@@ -57,7 +58,13 @@ static char	**ft_get_files(char *regex)
 	while (directory)
 	{
 		if (ft_match(directory->d_name, regex))
-			matches[++ctr] = strdup(directory->d_name);
+		{
+			tmp = ft_strjoin("'", directory->d_name);
+			//if (!tmp) error
+			matches[++ctr] = ft_strjoin(tmp, "'");
+			free(tmp);
+			//if (!matches[ctr]) error
+		}
 		directory = readdir(dir_ptr);
 	}
 	closedir(dir_ptr);
