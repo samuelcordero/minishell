@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/18 17:33:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/18 21:07:46 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, int parent)
 	if (parent)
 	{
 		if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO))
+		{
+			node->exit_code = 1;
 			return ;
+		}
 	}
 	if (!ft_strncmp(node->args[0], "cd", 3))
 		node->exit_code = ft_change_dir(node, sack);
