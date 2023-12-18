@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/18 17:24:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:14:55 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ extern int	g_is_exec;
 	Waits for all remaining child processes,
 	then returns the exit code of the provided last_pid
 */
-static	int	ft_wait_all(int last_pid)
+static	int	ft_wait_all(int last_pid, t_cmd_node *last)
 {
 	int	status;
 	int	last_exited;
 	int	exit_code;
 
 	last_exited = 0;
-	exit_code = 127;
+	exit_code = INT_MIN;
 	while (last_exited != -1)
 	{
 		last_exited = waitpid(-1, &status, 0);
@@ -37,6 +37,8 @@ static	int	ft_wait_all(int last_pid)
 				exit_code = WTERMSIG(status) + 128;
 		}
 	}
+	if (exit_code == INT_MIN)
+		return (last->exit_code);
 	return (exit_code);
 }
 
@@ -47,15 +49,16 @@ static	int	ft_wait_all(int last_pid)
 */
 static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
-	int	std_backup[2];
-	int	last_pid;
-	int	tmp;
+	int			std_backup[2];
+	int			last_pid;
+	int			tmp;
+	t_cmd_node	*last;
 
 	std_backup[0] = dup(STDIN_FILENO);
 	std_backup[1] = dup(STDOUT_FILENO);
 	g_is_exec = 1;
-	ft_execute_lst(tree_node, sack, &last_pid);
-	tmp = ft_wait_all(last_pid);
+	last = ft_execute_lst(tree_node, sack, &last_pid);
+	tmp = ft_wait_all(last_pid, last);
 	g_is_exec = 0;
 	ft_dup2(std_backup[0], STDIN_FILENO);
 	ft_dup2(std_backup[1], STDOUT_FILENO);
