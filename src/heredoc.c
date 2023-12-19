@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/14 00:33:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 22:38:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*get_delim_and_substitute(char **str, int *i, char *new_name)
 	tmp = ft_strtrim(*str, " ");
 	free(*str);
 	*str = tmp;
-	return (free(tmp2), *i += ft_strlen(new_name) + 1, delim);
+	return (free(tmp2), *i += ft_strlen(new_name), delim);
 }
 
 static int	create_temp_heredoc(char **str, int *i, char **delim)
