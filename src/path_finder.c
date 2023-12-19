@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/19 16:19:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/20 00:20:26 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node)
 	{
 		tmp = ft_strjoin(split_path[pos++], "/");
 		path_plus_exec = ft_strjoin(tmp, node->args[0]);
+		if (ft_strncmp(path_plus_exec, tmp, ft_strlen(tmp) + 1)
+			&& !(access(path_plus_exec, F_OK)))
+			return (ft_free_array(split_path), free(tmp), path_plus_exec);
 		free(tmp);
-		if (!(access(path_plus_exec, F_OK)))
-			return (ft_free_array(split_path), path_plus_exec);
 		free(path_plus_exec);
 	}
 	return (ft_free_array(split_path), NULL);
