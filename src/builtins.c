@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/19 00:23:29 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:22:53 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,9 @@ int	ft_print_working_dir(t_cmd_node *node, char **envp)
 {
 	char	*pwd;
 
+	(void) node;
 	pwd = ft_get_from_env(envp, "PWD");
-	if (node->args[1])
-		ft_putendl_fd("Minishell: pwd: too many args", STDERR_FILENO);
-	else if (*pwd)
+	if (*pwd)
 		ft_putendl_fd(pwd, STDOUT_FILENO);
 	else
 		ft_putendl_fd("PWD error", STDERR_FILENO);
