@@ -6,24 +6,50 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/19 13:22:53 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:25:20 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack)
+static int	ft_check_exit_arg(char *arg)
+{
+	int		i;
+	int		sign_ctr;
+
+	i = -1;
+	sign_ctr = 0;
+	while (arg[++i] && sign_ctr <= 1)
+	{
+		if (!ft_isdigit(arg[i]) && !ft_isspace(arg[i])
+			&& (arg[i] != '+' && arg[i] != '-'))
+			return (0);
+		if (arg[i] == '+' || arg[i] == '-')
+			++sign_ctr;
+	}
+	if (sign_ctr <= 1)
+		return (1);
+	return (0);
+}
+
+int	ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack, char print)
 {
 	if (node->args[0] && node->args[1])
 	{
+		if (!ft_check_exit_arg(node->args[1]))
+		{
+			ft_putendl_fd("MiniShell: exit: numeric arg required", STDERR_FILENO);
+			ft_printexit(2, sack, print);
+		}
 		if (node->args[2] != NULL)
 		{
 			ft_putendl_fd("MiniShell: exit: too many arguments", STDERR_FILENO);
 			return (1);
 		}
-		ft_printexit(ft_atoi(node->args[1]), sack);
+		ft_printexit(ft_atoi(node->args[1]), sack, print);
+		
 	}
-	ft_printexit(0, sack);
+	ft_printexit(0, sack, print);
 	return (0);
 }
 

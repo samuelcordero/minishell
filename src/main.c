@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/13 23:07:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:20:39 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 			m_sack.cmd_tree = ft_free_cmdtree(m_sack.cmd_tree);
 		}
 		else if (m_sack.eof)
-			ft_printexit(0, &m_sack);
+			ft_printexit(0, &m_sack, 1);
 	}
 	return (0);
 }

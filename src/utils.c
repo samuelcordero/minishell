@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:43:00 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:18:43 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 /*
 	Prints EXIT, frees allocated mem and exits with provided exitcode
 */
-void	ft_printexit(int exit_code, t_mshell_sack *sack)
+void	ft_printexit(int exit_code, t_mshell_sack *sack, char print)
 {
-	ft_putendl_fd("exit", STDERR_FILENO);
+	if (print)
+		ft_putendl_fd("exit", STDERR_FILENO);
 	close(sack->history_fd);
 	free(sack->custom_prompt);
 	ft_free_array(sack->envp);

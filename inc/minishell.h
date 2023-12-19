@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/13 23:34:44 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:20:24 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 //builtins
 
-int			ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack);
+int			ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack, char print);
 int			ft_change_dir(t_cmd_node *node, t_mshell_sack *sack);
 int			ft_print_working_dir(t_cmd_node *node, char **envp);
 int			ft_echo(t_cmd_node *node);
@@ -109,14 +109,14 @@ int			ft_check_syntax_heredoc(t_mshell_sack *sack);
 //path_finder
 
 char		*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node);
-void		ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, int parent);
+void		ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, char parent);
 //debug only
 
 void		print_tokens(t_list *tokens);
 
 //utils
 
-void		ft_printexit(int exit_code, t_mshell_sack *sack);
+void		ft_printexit(int exit_code, t_mshell_sack *sack, char print);
 void		ft_free_array(char **array);
 void		free_cmd_tok(void *tok);
 char		*get_cwd_str(void);

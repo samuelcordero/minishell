@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/18 21:07:46 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:19:42 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_is_rel_path(char *path)
 	return (0);
 }
 
-void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, int parent)
+void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, char parent)
 {
 	node->exit_code = 0;
 	if (parent)
@@ -36,7 +36,7 @@ void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, int parent)
 	else if (!ft_strncmp(node->args[0], "echo", 5))
 		node->exit_code = ft_echo(node);
 	else if (!ft_strncmp(node->args[0], "exit", 5))
-		node->exit_code = ft_msh_exit(node, sack);
+		node->exit_code = ft_msh_exit(node, sack, parent);
 	else if (!ft_strncmp(node->args[0], "pwd", 4))
 		node->exit_code = ft_print_working_dir(node, sack->envp);
 	else if (!ft_strncmp(node->args[0], "unset", 6))
