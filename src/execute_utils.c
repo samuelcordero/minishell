@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/20 00:12:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/20 00:15:56 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	ft_fork(t_cmd_node *node)
 */
 static int	ft_no_path(t_cmd_node *node, int close, int fd)
 {
-	ft_putstr_fd("MiniShell: command not found: ", 2);
+	ft_putstr_fd("MiniShell: command not found: ", STDERR_FILENO);
 	if (node->args[0])
-		ft_putendl_fd(node->args[0], 2);
+		ft_putendl_fd(node->args[0], STDERR_FILENO);
 	node->exit_code = 127;
 	if (close)
 		ft_close(fd);
