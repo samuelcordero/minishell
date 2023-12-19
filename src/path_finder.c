@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/20 00:20:26 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/20 00:25:53 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,10 @@ char	*extract_exec_path(t_mshell_sack *sack, t_cmd_node *node)
 	char	*tmp;
 	char	*path_plus_exec;
 
-	if (!node->args[0])
+	if (!node->args[0] || ft_isbuiltin(node->args[0]))
 		return (NULL);
 	if (!(access(node->args[0], F_OK)) && ft_is_rel_path(node->args[0]))
 		return (ft_strdup(node->args[0]));
-	if (ft_isbuiltin(node->args[0]))
-		return (NULL);
 	if (ft_is_rel_path(node->args[0]) || (!sack->envp || !*sack->envp))
 		return (NULL);
 	split_path = ft_split(ft_get_from_env(sack->envp, "PATH"), ':');
