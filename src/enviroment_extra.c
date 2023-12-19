@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:55:51 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/25 00:34:55 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:55:05 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int	ft_remove_env(t_mshell_sack *sack, char *key)
 		sack->envp[i] = sack->envp[i + 1];
 		++i;
 	}
+	free(tmp);
 	return (0);
 }
