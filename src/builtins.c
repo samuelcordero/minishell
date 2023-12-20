@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/19 16:25:20 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/20 12:29:27 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ static int	ft_check_exit_arg(char *arg)
 {
 	int		i;
 	int		sign_ctr;
+	int		digits;
 
 	i = -1;
 	sign_ctr = 0;
+	digits = 0;
 	while (arg[++i] && sign_ctr <= 1)
 	{
 		if (!ft_isdigit(arg[i]) && !ft_isspace(arg[i])
@@ -26,8 +28,10 @@ static int	ft_check_exit_arg(char *arg)
 			return (0);
 		if (arg[i] == '+' || arg[i] == '-')
 			++sign_ctr;
+		if (ft_isdigit(arg[i]))
+		 ++digits;
 	}
-	if (sign_ctr <= 1)
+	if (sign_ctr <= 1 && digits >= 1 && digits <= 20)
 		return (1);
 	return (0);
 }
