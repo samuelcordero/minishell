@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/20 00:15:56 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 00:06:51 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static int	ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack)
 
 	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO))
 		return (node->exit_code = 1, 1);
+	if (!node->args[0])
+		return (1);
 	path = extract_exec_path(sack, node);
 	if (!path)
 		return (ft_no_path(node, 0, 0), 0);
