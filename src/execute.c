@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 15:39:04 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:30:38 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 	int			tmp;
 	t_cmd_node	*last;
 
-	//ft_set_signal_print(1);
+	ft_set_signal_print(1);
 	std_backup[0] = dup(STDIN_FILENO);
 	std_backup[1] = dup(STDOUT_FILENO);
 	g_is_exec = 1;
@@ -65,7 +65,7 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 	ft_dup2(std_backup[1], STDOUT_FILENO);
 	ft_close(std_backup[0]);
 	ft_close(std_backup[1]);
-	//ft_set_signal_print(0);
+	ft_set_signal_print(0);
 	ft_putstr_fd("\x1b[0m", STDIN_FILENO);
 	if (tree_node->cmd_list->is_builtin == 1 && !tree_node->cmd_list->next)
 		return (tree_node->cmd_list->exit_code);
