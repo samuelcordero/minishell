@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/20 12:29:27 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:15:42 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,18 +118,15 @@ int	ft_echo(t_cmd_node *node)
 	flag = 0;
 	i = 1;
 	if (node->args[1])
-		while (node->args[i] && !ft_strncmp("-", node->args[i], 1))
+		while (node->args[i] && !ft_strncmp("-n", node->args[i], 2))
 		{
 			j = 0;
 			while (node->args[i][++j])
-			{	if (node->args[i][j] == 'n' || node->args[i][j] == 'N')
-					flag = 1;
-				else
-				{
-					ft_putendl_fd("Invalid flag", STDERR_FILENO);
-					return (1);
-				}
-			}
+				if (node->args[i][j] != 'n')
+					break;
+			if (node->args[i][j])
+				break;
+			flag = 1;
 			++i;
 		}
 	if (!node->pid)
