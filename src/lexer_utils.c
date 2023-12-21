@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/05 14:54:07 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:58:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,13 @@ static void	ft_str_unquote(char **str)
 			j = i + 1;
 			while ((*str)[j] && (*str)[j] != (*str)[i])
 				++j;
-			tmp = j;
-			while ((*str)[j])
-			{
+			tmp = --j;
+			while ((*str)[++j])
 				(*str)[j] = (*str)[j + 1];
-				++j;
-			}
-			while ((*str)[i])
-			{
+			--i;
+			while ((*str)[++i])
 				(*str)[i] = (*str)[i + 1];
-				++i;
-			}
-			i = tmp - 1;
+			i = tmp;
 		}
 		else
 			++i;

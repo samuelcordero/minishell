@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/18 21:16:23 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:49:26 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static char	*get_key(char *str, int needle_tip)
 {
 	size_t	len;
 
-	if (str[needle_tip] == '$' || ft_isspace(str[needle_tip]) || !str[needle_tip] || str[needle_tip] == '"')
+	if (str[needle_tip] == '$' || ft_isspace(str[needle_tip])
+		|| !str[needle_tip] || str[needle_tip] == '"')
 		return (ft_strdup("$"));
 	if (str[needle_tip] == '?')
 		return (ft_strdup("?"));

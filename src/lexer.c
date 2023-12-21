@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/02 20:58:46 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:47:11 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	*get_token(char *str, int start, int end)
 	return ((void *) token);
 }
 
-static char	ft_isreserved(char c)
+char	ft_isreserved(char c)
 {
 	if (c != '|' && c != ';' && c != '<' && c != '>' && c != '&')
 		return (0);

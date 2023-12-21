@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:58:46 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/20 12:23:45 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:50:10 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_export(t_cmd_node *node, t_mshell_sack *sack)
 	ret = 0;
 	node->is_builtin = 1;
 	if (!node->args[1])
-		return (ft_print_env(sack->envp)); //should also print env
+		return (ft_print_env(sack->envp));
 	while (node->args[++i])
 	{
 		if (ft_is_valid_key(node->args[i]))

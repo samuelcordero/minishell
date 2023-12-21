@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/18 14:12:44 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:06:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,8 @@ char	*ft_expand_wildcards(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '\"')
-			state_quote_delimiter(str, &i, '\"');
-		if (str[i] == '\'')
-			state_quote_delimiter(str, &i, '\'');
+		if (str[i] == '\"' || str[i] == '\'')
+			state_quote_delimiter(str, &i, str[i]);
 		while (ft_isspace(str[i]))
 			++i;
 		regex = ft_get_regex(&str[i], &i);

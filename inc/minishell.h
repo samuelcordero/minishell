@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 16:31:36 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:47:27 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void		init(t_mshell_sack *sack, char **envp, int argc, char **argv);
 //lexer
 
 t_list		*lexer(char	*str);
+char		ft_isreserved(char c);
 
 //lexer_utils
 

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/13 23:15:21 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:59:18 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	ft_check_brackets(char *str)
 		ft_print_syntax_error("unmatching number of brackets");
 		return (1);
 	}
-	return (0);	
+	return (0);
 }
 
 static int	ft_create_heredocs(char **str, char **envp)
