@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/14 11:23:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 13:54:17 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@
 #  define SIZE_T_MAX UINT_MAX
 # endif
 
+//NOT POSIX :c
+# ifndef ECHOCTL
+#  define ECHOCTL 0000400
+# endif
+
 typedef struct s_cmdtoken
 {
 	char	*str;
@@ -38,8 +43,8 @@ typedef struct s_cmdtoken
 
 typedef struct s_redir_tok
 {
-	char				*file_name;
-	char				redir_type;
+	char	*file_name;
+	char	redir_type;
 }	t_redir_tok;
 
 typedef struct s_cmd_node

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/19 16:20:39 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 14:05:44 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	get_command_str(t_mshell_sack *sack)
 	char	*tmp;
 	char	*res;
 
+	rl_replace_line("", 0);
+	rl_on_new_line();
 	tmp = readline(sack->custom_prompt);
 	if (!tmp)
 	{
@@ -61,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
 			if (ft_check_syntax_heredoc(&m_sack))
 				expand_execute(m_sack.cmd_tree, &m_sack);
 			m_sack.cmd_tree = ft_free_cmdtree(m_sack.cmd_tree);
+			ft_putchar_fd('\n', STDOUT_FILENO);
 		}
 		else if (m_sack.eof)
 			ft_printexit(0, &m_sack, 1);

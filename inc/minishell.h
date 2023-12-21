@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/19 16:20:24 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 13:36:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
 
 //builtins
 
@@ -113,6 +114,10 @@ void		ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, char parent);
 //debug only
 
 void		print_tokens(t_list *tokens);
+
+//term_settings
+
+int		ft_set_signal_print(int val);
 
 //utils
 

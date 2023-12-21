@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/12/11 11:48:28 by sacorder         ###   ########.fr        #
+#    Updated: 2023/12/21 13:08:19 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC =	src/main.c \
 		src/enviroment.c \
 		src/enviroment_extra.c \
 		src/syntax_checker.c \
+		src/term_settings.c \
 		src/utils.c \
 		src/path_finder.c \
 		src/wildcards.c
