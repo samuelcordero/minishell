@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 00:06:51 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 15:37:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,17 +205,15 @@ t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 		ft_exec_single_cmd(lst, sack);
 		return (*last_pid = lst->pid, lst);
 	}
-	if (ft_exec_first_cmd(lst, sack, &inputfd) == 0)
-		*last_pid = lst->pid;
+	ft_exec_first_cmd(lst, sack, &inputfd);
 	lst = lst->next;
 	while (lst->next)
 	{
-		if (ft_exec_mid_cmd(lst, sack, inputfd, &outputfd) == 0)
-			*last_pid = lst->pid;
+		ft_exec_mid_cmd(lst, sack, inputfd, &outputfd);
 		inputfd = outputfd;
 		lst = lst->next;
 	}
-	if (ft_exec_last_cmd(lst, sack, inputfd) == 0)
-			*last_pid = lst->pid;
+	ft_exec_last_cmd(lst, sack, inputfd);
+	*last_pid = lst->pid;
 	return (lst);
 }

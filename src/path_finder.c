@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/20 00:25:53 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/21 15:34:53 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	ft_is_rel_path(char *path)
 void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, char parent)
 {
 	node->exit_code = 0;
+	node->is_builtin = 1;
 	if (parent)
 	{
 		if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO))
