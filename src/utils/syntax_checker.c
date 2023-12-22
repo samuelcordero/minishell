@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:01:40 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:02:41 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	ft_check_brackets(char *str)
 	return (0);
 }
 
-static int	ft_create_heredocs(char **str, char **envp)
+static int	ft_create_heredocs(char **str)
 {
 	int	i;
 
@@ -80,7 +80,7 @@ static int	ft_create_heredocs(char **str, char **envp)
 		if ((*str)[i] == '\'' || (*str)[i] == '"')
 			state_quote_delimiter(*str, &i, (*str)[i]);
 		if (!ft_strncmp("<<", &(*str)[i], 2))
-			ft_heredoc(str, &i, envp);
+			ft_heredoc(str, &i);
 		if ((*str)[i])
 			++i;
 	}
@@ -93,7 +93,7 @@ int	ft_check_syntax_heredoc(t_mshell_sack *sack)
 		return (ft_add_to_env(sack, "?=2"), 0);
 	if (ft_check_brackets(sack->cmd_tree->cmd_str))
 		return (ft_add_to_env(sack, "?=2"), 0);
-	if (ft_create_heredocs(&sack->cmd_tree->cmd_str, sack->envp))
+	if (ft_create_heredocs(&sack->cmd_tree->cmd_str))
 		return (ft_add_to_env(sack, "?=2"), 0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 16:48:21 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:17:32 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,45 @@ static int	create_temp_heredoc(char **str, int *i, char **delim)
 	return (fd);
 }
 
+int	ft_expand_heredoc(int o_fd, t_redir_tok *tok, char **envp)
+{
+	int		fd;
+	char	*line;
+	char	*exp;
+
+	unlink(tok->file_name);
+	free(tok->file_name);
+	tok->file_name = get_tmp_filename();
+	if (!tok->file_name)
+		return (ft_putendl_fd("No heredoc tmp file available!", 2),
+			exit(1), -1);
+	fd = open(tok->file_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (perror(tok->file_name), free(tok->file_name), exit(1), -1);
+	line = get_next_line(o_fd);
+	while (line)
+	{
+		exp = ft_expand(line, envp, 1);
+		ft_putstr_fd(exp, fd);
+		free(line);
+		free(exp);
+		line = get_next_line(o_fd);
+	}
+	return (fd);
+}
+
 /*
 	Creates a tmp heredoc, then fills it with user input.
 	Line is expanded with envp variables as in bash
 	First finds de delimiter, then creates a tmp file
 	Delimiter is changed to absolute path of tmp file
 */
-int	ft_heredoc(char **str, int *i, char **envp)
+int	ft_heredoc(char **str, int *i)
 {
 	int		fd;
 	char	*delim;
 	char	*line;
 	char	*prompt;
-	char	*exp;
 
 	fd = create_temp_heredoc(str, i, &delim);
 	if (fd == -1)
@@ -107,10 +133,8 @@ int	ft_heredoc(char **str, int *i, char **envp)
 	while (line && ft_strncmp(line, delim,
 			ft_strlen(delim) + 1))
 	{
-		exp = ft_expand(line, envp);
-		ft_putendl_fd(exp, fd);
+		ft_putendl_fd(line, fd);
 		free(line);
-		free(exp);
 		line = readline(prompt);
 	}
 	return (free(delim), free(line), free(prompt), ft_close(fd), 0);

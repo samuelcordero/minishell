@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 14:55:28 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:06:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_no_path(t_cmd_node *node, int close, int fd)
 	return (0);
 }
 
-int	ft_file_redirs(t_list *files, int input_fd, int output_fd)
+int	ft_file_redirs(t_list *files, int input_fd, int output_fd, char **envp)
 {
 	int		fd;
 
@@ -51,6 +51,12 @@ int	ft_file_redirs(t_list *files, int input_fd, int output_fd)
 			ft_dup2(fd, input_fd);
 		else if (((t_redir_tok *)(files->content))->redir_type == HEREDOC_MASK)
 		{
+			//expandir heredoc, crear nuevo, borrar antiguo, dupear nuevo, borrar nuevo
+			fd = ft_expand_heredoc(fd, (t_redir_tok *)(files->content), envp);
+			ft_close(fd);
+			fd = ft_open((t_redir_tok *) (files->content));
+			if (fd < 0)
+				return (1);
 			ft_dup2(fd, input_fd);
 			unlink(((t_redir_tok *)(files->content))->file_name);
 		}
@@ -74,7 +80,7 @@ static int	ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack)
 {
 	char	*path;
 
-	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO))
+	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO, sack->envp))
 		return (node->exit_code = 1, 1);
 	if (!node->args[0])
 		return (1);
@@ -100,7 +106,7 @@ static int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
 
 	if (pipe(node->pipe_fds) == -1)
 		return (perror("pipe"), 1);
-	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, node->pipe_fds[1]))
+	if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, node->pipe_fds[1], sack->envp))
 		return (ft_close(node->pipe_fds[1]), *outfd = node->pipe_fds[0], node->exit_code = 1, 1);
 	if (!node->args[0])
 		return (ft_close(node->pipe_fds[1]), *outfd = node->pipe_fds[0], node->exit_code = 0, 1);
@@ -132,7 +138,7 @@ static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd, i
 
 	if (pipe(node->pipe_fds) == -1)
 		return (perror("pipe"), 1);
-	if (ft_file_redirs(node->redirs_lst, inputfd, node->pipe_fds[1]))
+	if (ft_file_redirs(node->redirs_lst, inputfd, node->pipe_fds[1], sack->envp))
 		return (ft_close(inputfd), ft_close(node->pipe_fds[1]), *outfd = node->pipe_fds[0], node->exit_code = 1, 1);
 	if (!node->args[0])
 		return (ft_close(inputfd), ft_close(node->pipe_fds[1]), *outfd = node->pipe_fds[0], node->exit_code = 0, 1);
@@ -166,7 +172,7 @@ static int	ft_exec_last_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd)
 {
 	char	*path;
 
-	if (ft_file_redirs(node->redirs_lst, inputfd, STDOUT_FILENO))
+	if (ft_file_redirs(node->redirs_lst, inputfd, STDOUT_FILENO, sack->envp))
 		return (ft_close(inputfd), node->exit_code = 1, 1);
 	if (!node->args[0])
 		return (ft_close(inputfd), node->exit_code = 0, 1);

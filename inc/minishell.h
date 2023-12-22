@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:21:33 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:10:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void		ft_envp_tidy(t_mshell_sack *sack);
 
 //here_doc
 
-int			ft_heredoc(char **str, int *i, char **envp);
+int			ft_heredoc(char **str, int *i);
+int			ft_expand_heredoc(int o_fd, t_redir_tok *tok, char **envp);
 
 //history
 
@@ -93,11 +94,11 @@ int			expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 void		ft_fork(t_cmd_node *node);
 t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 				t_mshell_sack *sack, int *last_pid);
-int			ft_file_redirs(t_list *files, int input_fd, int output_fd);
+int			ft_file_redirs(t_list *files, int input_fd, int output_fd, char **envp);
 
 //expander
 
-char		*ft_expand(char *line, char **envp);
+char		*ft_expand(char *line, char **envp, char expand_all);
 
 //redirect_utils
 

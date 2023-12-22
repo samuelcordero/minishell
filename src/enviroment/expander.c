@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:26:37 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:41:13 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static char	*get_key(char *str, int needle_tip)
 	len = ft_strchr(&str[needle_tip], ' ') - &str[needle_tip];
 	if (len > (size_t)(ft_strchr(&str[needle_tip], '"') - &str[needle_tip]))
 		len = ft_strchr(&str[needle_tip], '"') - &str[needle_tip];
+	if (len > (size_t)(ft_strchr(&str[needle_tip], '\'') - &str[needle_tip]))
+		len = ft_strchr(&str[needle_tip], '\'') - &str[needle_tip];
 	if (len > (size_t)(ft_strchr(&str[needle_tip], '|') - &str[needle_tip]))
 		len = ft_strchr(&str[needle_tip], '|') - &str[needle_tip];
 	if (len > (size_t)(ft_strchr(&str[needle_tip], ';') - &str[needle_tip]))
@@ -44,7 +46,9 @@ static char	*expand_str(char *str, int i, char **envp)
 	char	*extract;
 	char	*tmp;
 
-	needle = get_key(str, i + 1);
+	tmp = get_key(str, i + 1);
+	needle = ft_strtrim(tmp, " \n\t\r\v");
+	free(tmp);
 	if (!ft_strncmp(needle, "$", 2))
 		return (free(needle), str);
 	expanded = ft_substr(str, 0, (size_t) i);
@@ -68,9 +72,9 @@ static char	*expand_str(char *str, int i, char **envp)
 	Expands the provided char *line with variables from envp
 	E.g.: "Hello $name" expand to "Hello Juan" if name
 	is set as Juan inside the enviroment
-	Doesnt expand variables between single quotes
+	Doesnt expand variables between single quotes except expand_all set to 1
 */
-char	*ft_expand(char *line, char **envp)
+char	*ft_expand(char *line, char **envp, char expand_all)
 {
 	int		i;
 	char	in_quotes;
@@ -83,7 +87,7 @@ char	*ft_expand(char *line, char **envp)
 	{
 		if (expanded[i] == '\"')
 			in_quotes = !in_quotes;
-		if (expanded[i] == '\'' && !in_quotes)
+		if (expanded[i] == '\'' && !in_quotes && !expand_all)
 			state_quote_delimiter(expanded, &i, '\'');
 		if (expanded[i] == '$')
 			expanded = expand_str(expanded, i, envp);
