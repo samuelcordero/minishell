@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 22:47:51 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:27:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*ft_custom_prompt(char **envp)
 	char	*tmp;
 	char	*tmp2;
 
-	tmp = ft_get_from_env(envp, "USER");
+	tmp = ft_get_from_env(envp, "USER", NULL);
 	if (tmp)
 		tmp2 = ft_strjoin(PROMPT_BASE, tmp);
 	else
@@ -71,7 +71,7 @@ static void	ft_fill_envp(t_mshell_sack *sack)
 	char	*tmp2;
 	int		shllvl;
 
-	shllvl = 1 + ft_atoi(ft_get_from_env(sack->envp, "SHLVL"));
+	shllvl = 1 + ft_atoi(ft_get_from_env(sack->envp, "SHLVL", NULL));
 	tmp = ft_itoa(shllvl);
 	tmp2 = ft_strjoin("SHLVL=", tmp);
 	ft_add_to_env(sack, tmp2);

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 16:49:26 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:26:37 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*expand_str(char *str, int i, char **envp)
 	if (str[i + 1] == '$')
 		expanded = ft_strjoin(tmp, "no PID, sorry :C");
 	else
-		expanded = ft_strjoin(tmp, ft_get_from_env(envp, needle));
+		expanded = ft_strjoin(tmp, ft_get_from_env(envp, needle, NULL));
 	free(tmp);
 	tmp = expanded;
 	extract = ft_substr(str, i + 1 + ft_strlen(needle), SIZE_T_MAX);

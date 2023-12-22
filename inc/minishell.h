@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 14:50:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:21:33 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		*ft_free_cmdtree(t_cmdtree *tree);
 
 //enviroment
 
-char		*ft_get_from_env(char **envp, char	*key);
+char		*ft_get_from_env(char **envp, char	*key, int *exists);
 int			ft_add_to_env(t_mshell_sack *sack, char *key_val);
 
 //enviroment_extra

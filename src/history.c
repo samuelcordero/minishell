@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:17:16 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/20 12:56:38 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:26:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_init_history_file(t_mshell_sack *sack)
 {
 	char	*home;
 
-	home = ft_get_from_env(sack->envp, "HOME");
+	home = ft_get_from_env(sack->envp, "HOME", NULL);
 	if (!*home)
 	{
 		sack->history_fd = -1;

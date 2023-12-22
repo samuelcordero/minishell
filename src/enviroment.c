@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/11/29 12:59:52 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:50:05 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ static int	ft_realloc_and_add_envp(t_mshell_sack *sack, char *key_val)
 
 static void	ft_search_and_replace_env(char **envp, char *key_val, char *key)
 {
-	char	*tmp;
 	int		i;
 
-	tmp = ft_strjoin(key, "=");
 	i = -1;
 	while (envp && envp[++i])
 	{
-		if (!ft_strncmp(envp[i], tmp, ft_strlen(tmp)))
+		if (!ft_strncmp(envp[i], key, ft_strlen(key)))
 		{
-			free(tmp);
-			tmp = envp[i];
-			envp[i] = ft_strdup(key_val);
-			free(tmp);
-			break ;
+			if (envp[i][ft_strlen(key)] == '='
+				|| !envp[i][ft_strlen(key)])
+			{
+				free(envp[i]);
+				envp[i] = ft_strdup(key_val);
+				break ;
+			}
 		}
 	}
 }
@@ -73,35 +73,49 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 	return (0);
 }
 
-char	*ft_get_from_env(char **envp, char	*key)
+char	*ft_get_from_env(char **envp, char	*key, int *exists)
 {
-	char	*tmp;
 	char	*ret;
 	int		i;
 
-	tmp = ft_strjoin(key, "=");
 	i = -1;
 	while (envp && envp[++i])
 	{
-		if (!ft_strncmp(envp[i], tmp, ft_strlen(tmp)))
+		if (!ft_strncmp(envp[i], key, ft_strlen(key)))
 		{
-			ret = envp[i] + ft_strlen(tmp);
-			free(tmp);
-			return (ret);
+			if (envp[i][ft_strlen(key)] == '=')
+			{
+				ret = envp[i] + ft_strlen(key) + 1;
+				if (exists)
+					*exists = 1;
+				return (ret);
+			}
+			if (!envp[i][ft_strlen(key)])
+			{
+				if (exists)
+					*exists = 1;
+				return ("");
+			}
 		}
 	}
-	free(tmp);
 	return ("");
 }
 
 int	ft_add_to_env(t_mshell_sack *sack, char *key_val)
 {
 	char	*key;
+	int		exists;
 
-	key = ft_substr(key_val, 0, ft_strchr(key_val, '=') - key_val);
-	if (ft_strncmp(ft_get_from_env(sack->envp, key), "", 1))
-		ft_search_and_replace_env(sack->envp, key_val, key);
+	exists = 0;
+	if (ft_strchr(key_val, '='))
+		key = ft_substr(key_val, 0, ft_strchr(key_val, '=') - key_val);
 	else
+		key = ft_strdup(key_val);
+	if ((!ft_strncmp(ft_get_from_env(sack->envp, key, &exists), "", 1)
+		&& exists && ft_strchr(key_val, '='))
+		|| (exists && ft_strchr(key_val, '=')))
+		ft_search_and_replace_env(sack->envp, key_val, key);
+	else if (!exists)
 	{
 		if (ft_add_env_new(sack, key_val))
 		{

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:58:46 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 14:28:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:45:13 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,28 @@ static int	ft_is_valid_key(char	*key_val)
 
 static int	ft_print_env(char **envp)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	flag;
 
 	i = -1;
 	while (envp[++i])
 	{
+		j = -1;
+		flag = 0;
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putendl_fd(envp[i], STDOUT_FILENO);
+		while (envp[i][++j])
+		{
+			ft_putchar_fd(envp[i][j], STDOUT_FILENO);
+			if (envp[i][j] == '=')
+			{	
+				flag = 1;
+				ft_putchar_fd('"', STDOUT_FILENO);
+			}
+		}
+		if (flag)
+			ft_putchar_fd('"', STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 	return (0);
 }

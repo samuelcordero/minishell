@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:58:52 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 17:15:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:27:40 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ int	ft_change_dir(t_cmd_node *node, t_mshell_sack *sack)
 	}
 	else
 	{
-		path = ft_get_from_env(sack->envp, "HOME");
+		path = ft_get_from_env(sack->envp, "HOME", NULL);
 		if (!*path)
 			return (ft_putendl_fd("HOME is not set", STDERR_FILENO), 1);
 	}
-	cwd = ft_get_from_env(sack->envp, "PWD");
+	cwd = ft_get_from_env(sack->envp, "PWD", NULL);
 	if (chdir(path) == -1)
 	{
 		perror(path);
@@ -101,7 +101,7 @@ int	ft_print_working_dir(t_cmd_node *node, char **envp)
 	char	*pwd;
 
 	(void) node;
-	pwd = ft_get_from_env(envp, "PWD");
+	pwd = ft_get_from_env(envp, "PWD", NULL);
 	if (*pwd)
 		ft_putendl_fd(pwd, STDOUT_FILENO);
 	else
