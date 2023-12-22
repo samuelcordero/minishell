@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/12/21 13:08:19 by sacorder         ###   ########.fr        #
+#    Updated: 2023/12/22 17:30:35 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,26 +15,26 @@ LDFLAGS = -L libft -lft
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -O3 -Iinc -Ilibft
 SRC =	src/main.c \
-		src/lexer.c \
-		src/lexer_utils.c \
-		src/expander.c \
-		src/heredoc.c \
-		src/history.c \
-		src/init.c \
-		src/redirect_utils.c \
-		src/builtins.c \
-		src/builtins_extra.c \
-		src/command_tree.c \
-		src/command_tree_utils.c \
-		src/execute.c \
-		src/execute_utils.c \
-		src/enviroment.c \
-		src/enviroment_extra.c \
-		src/syntax_checker.c \
-		src/term_settings.c \
-		src/utils.c \
-		src/path_finder.c \
-		src/wildcards.c
+		src/enviroment/enviroment.c \
+		src/enviroment/enviroment_extra.c \
+		src/enviroment/expander.c \
+		src/execute/execute.c \
+		src/execute/execute_utils.c \
+		src/execute/redirect_utils.c \
+		src/execute/path_finder.c \
+		src/lexer/lexer.c \
+		src/lexer/lexer_utils.c \
+		src/heredoc/heredoc.c \
+		src/history/history.c \
+		src/utils/utils.c \
+		src/utils/utils_2.c \
+		src/utils/init.c \
+		src/utils/syntax_checker.c \
+		src/builtins/builtins.c \
+		src/builtins/builtins_extra.c \
+		src/bonus/command_tree.c \
+		src/bonus/command_tree_utils.c \
+		src/bonus/wildcards.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 UNAME := $(shell uname -s)
