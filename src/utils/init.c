@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:27:57 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/23 02:05:23 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static void	ft_sig_handler(int signum)
 		rl_redisplay();
 	}
 	else if (signum == SIGQUIT && g_is_exec)
-		ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
+	{
+		ft_putstr_fd("\nQuit (core dumped)", STDERR_FILENO);
+		g_is_exec = 0;
+	}
 	else if (signum == SIGINT && g_is_exec)
 		g_is_exec = 0;
 }
