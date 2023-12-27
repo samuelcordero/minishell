@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
+#    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/12/22 17:30:35 by sacorder         ###   ########.fr        #
+#    Updated: 2023/12/27 14:23:27 by guortun-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ ifeq ($(UNAME), Darwin)
 	# mac, you may need to change flags in order to compile inside the clusters (checkwhere your readline brew installation is)
     LDFLAGS += -L/usr/local/opt/readline/lib
     LDFLAGS += -L/System/Volumes/Data/sgoinfre/students/${USER}/homebrew/opt/readline/lib -lreadline
+    LDFLAGS += -L/opt/homebrew/opt/readline/lib	# macbook guortun
+    CFLAGS += -I/opt/homebrew/opt/readline/include # macbook guortun
     CFLAGS += -I/usr/local/opt/readline/include
     CFLAGS += -I/System/Volumes/Data/sgoinfre/students/${USER}/homebrew/opt/readline/include
 else
