@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_finder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:52:55 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 20:01:23 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:41:56 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	ft_execbuiltin(t_cmd_node *node, t_mshell_sack *sack, char parent)
 	node->is_builtin = 1;
 	if (parent)
 	{
-		if (ft_file_redirs(node->redirs_lst, STDIN_FILENO, STDOUT_FILENO, sack->envp))
+		if (ft_file_redirs(node->redirs_lst,
+				STDIN_FILENO, STDOUT_FILENO, sack->envp))
 		{
 			node->exit_code = 1;
 			return ;

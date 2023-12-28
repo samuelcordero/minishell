@@ -6,7 +6,7 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 14:39:48 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:31:18 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,19 @@ void		state_quote_delimiter(char *str, int *i, char delim);
 void		skip_spaces(char *str, int *i, int *start);
 int			ft_remove_quotes(t_list *tokens);
 
-//execute
+//execute (2,3,4)
 
 int			execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 int			expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack);
+int			ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack);
+char		*ft_remove_brackets(char *str);
+void		logic_expansion(t_cmdtree *tree_node);
+void		ft_remove_outer_brackets(char *str);
+int			get_log_expandible(char *str);
+void		is_quote(char *str, int *i, int *last);
+int			if_mask(char *str, int last);
 
-//execute_utils
+//execute_utils (1)
 
 void		ft_fork(t_cmd_node *node);
 t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,

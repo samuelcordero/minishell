@@ -6,7 +6,7 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 14:31:48 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:30:02 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,21 +144,7 @@ static char	*ft_get_right_token(char *str)
 	i = 0;
 	last = 0;
 	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-		{
-			state_quote_delimiter(str, &i, str[i]);
-			if (str[i] == '\'' || str[i] == '\"')
-				++i;
-		}
-		else if (str[i] == '(')
-			ft_brackets(str, &i);
-		else
-			++i;
-		if ((str[i] == '&' && str[i + 1] == '&')
-			|| (str[i] == '|' && str[i + 1] == '|') || str[i] == ';')
-			last = i;
-	}
+		is_quote(str, &i, &last);
 	if ((str[last] == '&' && str[last + 1] == '&')
 		|| (str[last] == '|' && str[last + 1] == '|'))
 		++last;
@@ -166,176 +152,6 @@ static char	*ft_get_right_token(char *str)
 		res = ft_strtrim(tmp, " \n\t\v\r"), free(tmp), res);
 }
 
-/*
-	Returns 0 if str is not logically expandable, else pos value
-*/
-static int	get_log_expandible(char *str)
-{
-	int	i;
-	int	last;
-
-	i = 0;
-	last = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-		{
-			state_quote_delimiter(str, &i, str[i]);
-			if (str[i] == '\'' || str[i] == '\"')
-				++i;
-		}
-		if ((str[i] == '&' && str[i + 1] == '&')
-			|| (str[i] == '|' && str[i + 1] == '|') || (str[i] == ';'))
-			last = i++;
-		else if (str[i] == '(')
-			ft_brackets(str, &i);
-		else if (str[i])
-			++i;
-	}
-	if (str[last] == '&' && str[last + 1] == '&')
-		return (AND_MASK);
-	else if (str[last] == '|' && str[last + 1] == '|')
-		return (OR_MASK);
-	else if (str[last] == ';')
-		return (WAIT_MASK);
-	return (0);
-}
-
-static void	ft_remove_outer_brackets(char *str)
-{
-	int	i;
-	int	j;
-	int	b_ctr;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '(')
-		{
-			j = i;
-			b_ctr = 1;
-			while (b_ctr && str[++j])
-			{
-				if (str[j] == '(')
-					++b_ctr;
-				else if (str[j] == ')')
-					--b_ctr;
-				else if (str[j] == '\'')
-					state_quote_delimiter(str, &j, '\'');
-			}
-			while (str[++j - 1])
-				str[j - 1] = str[j];
-			while (str[++i - 1])
-				str[i - 1] = str[i];
-			return ;
-		}
-		else if (str[i] == '\'')
-			state_quote_delimiter(str, &i, '\'');
-	}
-}
-
-static char	ft_has_brackets(char *str)
-{
-	int	i;
-	
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '\'')
-			state_quote_delimiter(str, &i, '\'');
-		else if (str[i] == '"')
-			state_quote_delimiter(str, &i, '"');
-		else if (str[i] == '(')
-			return (str[i]);
-	}
-	return (0);
-}
-
-static char	*ft_remove_brackets(char *str)
-{
-	char	*res;
-
-	res = ft_strdup(str);
-	while (!get_log_expandible(res) && ft_has_brackets(res))
-		ft_remove_outer_brackets(res);
-	return (res);
-}
-
-static void	logic_expansion(t_cmdtree *tree_node)
-{
-	char	*str;
-
-	str = ft_remove_brackets(tree_node->cmd_str);
-	tree_node->is_logic = get_log_expandible(str);
-	if (tree_node->is_logic)
-	{
-		tree_node->left = ft_calloc(1, sizeof(t_cmdtree));
-		tree_node->left->cmd_str = ft_get_left_token(str);
-		tree_node->right = ft_calloc(1, sizeof(t_cmdtree));
-		tree_node->right->cmd_str = ft_get_right_token(str);
-	}
-	free(str);
-}
-
-/*
-	1. expand str (variables and wildcards if implemented)
-	2. tokenize
-	3. create cmd lst
-	4. exec and wait
-*/
-static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
-{
-	char	*tmp;
-	int		status;
-
-	while (ft_has_brackets(tree_node->cmd_str))
-		ft_remove_outer_brackets(tree_node->cmd_str);
-	tmp = ft_strtrim(tree_node->cmd_str, " \t\n\r\v");
-	tree_node->expanded_str = ft_expand(tmp, sack->envp, 0);
-	free(tmp);
-	tree_node->expanded_str = ft_expand_wildcards(tree_node->expanded_str);
-	if (tree_node->expanded_str && tree_node->expanded_str[0])
-	{
-		tree_node->cmd_tokens = lexer(tree_node->expanded_str);
-		if (!tree_node->cmd_tokens)
-			ft_memory_err_exit(sack);
-		ft_remove_quotes(tree_node->cmd_tokens);
-		status = ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);
-		if (!status)
-			return (ft_exec_and_wait(tree_node, sack));
-		if (status == 2)
-			ft_memory_err_exit(sack);
-	}
-	ft_putendl_fd("minishell: redirection error", STDERR_FILENO);
-	return (2);
-}
-
-/*
-	1. try to expand logically
-	2. recursively call left, then right if left exited satisfying requirements
-	3. base case, if not logic, try to expand env variables,
-		tokenize and create cmd list, execute lst and wait
-*/
-int	expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack)
-{
-	char		*keyval;
-	char		*nbrstr;
-
-	logic_expansion(tree_node);
-	if (tree_node->left)
-		tree_node->exit_code = expand_execute(tree_node->left, sack);
-	if (tree_node->right)
-		if ((tree_node->exit_code == 0 && tree_node->is_logic == AND_MASK)
-			|| (tree_node->exit_code != 0 && tree_node->is_logic == OR_MASK)
-			|| (tree_node->is_logic == WAIT_MASK))
-			tree_node->exit_code = expand_execute(tree_node->right, sack);
-	if (!tree_node->is_logic)
-		tree_node->exit_code = ft_parse_and_exec(tree_node, sack);
-	nbrstr = ft_itoa(tree_node->exit_code);
-	keyval = ft_strjoin("?=", nbrstr);
-	ft_add_to_env(sack, keyval);
-	return (free(keyval), free(nbrstr), tree_node->exit_code);
-}
 /*
 
 int	execute(t_cmdtree *tree_node, t_mshell_sack *sack)
