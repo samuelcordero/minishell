@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:12:29 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 18:48:15 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:30:20 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,12 @@ void	is_quote(char *str, int *i, int *last)
 		state_quote_delimiter(str, i, str[*i]);
 		if (str[*i] == '\'' || str[*i] == '\"')
 			++(*i);
-		else if (str[*i] == '(')
-			ft_brackets(str, i);
-		else
-			++(*i);
-		if ((str[*i] == '&' && str[*i + 1] == '&')
-			|| (str[*i] == '|' && str[*i + 1] == '|') || str[*i] == ';')
-			*last = (*i);
 	}
+	else if (str[*i] == '(')
+		ft_brackets(str, i);
+	else
+		++(*i);
+	if ((str[*i] == '&' && str[*i + 1] == '&')
+		|| (str[*i] == '|' && str[*i + 1] == '|') || str[*i] == ';')
+		*last = (*i);
 }
