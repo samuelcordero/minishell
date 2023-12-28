@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 16:31:18 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:14:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ char		ft_isreserved(char c);
 void		state_quote_delimiter(char *str, int *i, char delim);
 void		skip_spaces(char *str, int *i, int *start);
 int			ft_remove_quotes(t_list *tokens);
+int			ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack);
 
 //execute (2,3,4)
 
@@ -95,6 +96,10 @@ void		ft_remove_outer_brackets(char *str);
 int			get_log_expandible(char *str);
 void		is_quote(char *str, int *i, int *last);
 int			if_mask(char *str, int last);
+char		*ft_get_left_token(char *str);
+char		*ft_get_right_token(char *str);
+void		ft_brackets(char *str, int *i);
+char		ft_has_brackets(char *str);
 
 //execute_utils (1)
 
@@ -107,6 +112,8 @@ int			ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack,
 				int *outfd);
 int			exec_first_management(t_cmd_node *node, t_mshell_sack *sack,
 				char **path);
+int			ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack);
+int			ft_no_path(t_cmd_node *node, int close, int fd);
 
 //expander
 
@@ -142,10 +149,16 @@ void		free_cmd_tok(void *tok);
 char		*get_cwd_str(void);
 int			ft_isspace(char c);
 void		ft_memory_err_exit(t_mshell_sack *sack);
+
 //wildcards
 
 char		*ft_expand_wildcards(char *str);
 int			if_char_unop(char token, int index);
 int			strlen_and_free(char **tmp, char **tmp2, char **file);
+
+//wildcards_utils
+
+void		get_files_init(DIR **dir_ptr, struct dirent **directory,
+				char ***matches, int *ctr);
 
 #endif

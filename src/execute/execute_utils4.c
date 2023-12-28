@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:31:36 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 16:37:44 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:14:26 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,21 @@ int	get_log_expandible(char *str)
 			++i;
 	}
 	return (if_mask(str, last));
+}
+
+char	ft_has_brackets(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '\'')
+			state_quote_delimiter(str, &i, '\'');
+		else if (str[i] == '"')
+			state_quote_delimiter(str, &i, '"');
+		else if (str[i] == '(')
+			return (str[i]);
+	}
+	return (0);
 }

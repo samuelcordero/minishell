@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:15:01 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 14:40:36 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 18:36:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	strlen_and_free(char **tmp, char **tmp2, char **file)
 		return (-1);
 }
 
-static void	get_files_init(DIR **dir_ptr, struct dirent **directory,
+void	get_files_init(DIR **dir_ptr, struct dirent **directory,
 							char ***matches, int *ctr)
 {
 	*dir_ptr = opendir(".");

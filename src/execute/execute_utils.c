@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 14:28:39 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 18:38:21 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_fork(t_cmd_node *node)
 	Prints command not found, then
 	sets exit code as 127 and closes pipes
 */
-static int	ft_no_path(t_cmd_node *node, int close, int fd)
+int	ft_no_path(t_cmd_node *node, int close, int fd)
 {
 	ft_putstr_fd("MiniShell: command not found: ", STDERR_FILENO);
 	if (node->args[0])
@@ -74,7 +74,7 @@ int	ft_file_redirs(t_list *files, int input_fd, int output_fd, char **envp)
 	3. Find executable, some builtins may be runned in parent process
 	4. fork if necesary, then execute 
 */
-static int	ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack)
+int	ft_exec_single_cmd(t_cmd_node *node, t_mshell_sack *sack)
 {
 	char	*path;
 
@@ -120,7 +120,7 @@ int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
 	if (node->pid)
 		ft_close(node->pipe_fds[1]);
 	if (!node->pid)
-		return (exec_first_management(node, sack));
+		return (exec_first_management(node, sack, &path));
 	free(path);
 	*outfd = node->pipe_fds[0];
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 13:46:37 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:14:44 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,32 @@ static int	ft_count_args(t_list *begin)
 	return (res);
 }
 
-static void	fill_management(t_list *begin, t_cmdtree *tree_node,
-	t_cmd_node *current, t_cmd_node *p_curr)
+static int	fill_management(t_list **begin, t_cmd_node **current,
+		t_cmd_node **p_curr, int *i)
 {
-	int			i;
-
-	i = 0;
-	if (((t_cmdtoken *)begin->content)->type == ARG)
-		current->args[i++] = ft_strdup(((t_cmdtoken *)begin->content)->str);
-	else if (((t_cmdtoken *)begin->content)->type == FILE_REDIR)
+	if (((t_cmdtoken *)(*begin)->content)->type == ARG)
+		(*current)->args[(*i)++] = ft_strdup(((t_cmdtoken *)
+					(*begin)->content)->str);
+	else if (((t_cmdtoken *)(*begin)->content)->type == FILE_REDIR)
 	{
-		if (set_file_info(begin, current))
+		if (set_file_info((*begin), (*current)))
 			return (1);
-		begin = begin->next;
+		(*begin) = (*begin)->next;
 	}
-	else if (((t_cmdtoken *)begin->content)->type == PIPE)
+	else if (((t_cmdtoken *)(*begin)->content)->type == PIPE)
 	{
-		current = ft_calloc(1, sizeof(t_cmd_node));
-		if (!current)
+		(*current) = ft_calloc(1, sizeof(t_cmd_node));
+		if (!(*current))
 			return (2);
-		p_curr->next = current;
-		p_curr = current;
-		current->args = ft_calloc(ft_count_args(begin->next) + 1,
+		(*p_curr)->next = (*current);
+		(*p_curr) = (*current);
+		(*current)->args = ft_calloc(ft_count_args((*begin)->next) + 1,
 				sizeof(char *));
-		if (!current->args)
+		(*i) = 0;
+		if (!(*current)->args)
 			return (2);
 	}
+	return (0);
 }
 /*
 	Given a t_list *begin that represents the begining of a token list,
@@ -105,7 +105,7 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 	t_cmdtoken	*tkn;
 	t_cmd_node	*current;
 	t_cmd_node	*p_curr;
-	int			i;
+	int			ctr[2];
 
 	current = ft_calloc(1, sizeof(t_cmd_node));
 	if (!current)
@@ -118,10 +118,12 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 		return (2);
 	if (tkn->type == PIPE)
 		begin = begin->next;
-	i = 0;
+	ctr[0] = 0;
 	while (begin)
 	{
-		fill_management(begin, tree_node, current, p_curr);
+		ctr[1] = fill_management(&begin, &current, &p_curr, &ctr[0]);
+		if (ctr[1])
+			return (ctr[1]);
 		begin = begin->next;
 	}
 	return (0);

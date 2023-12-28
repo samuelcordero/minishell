@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:12:29 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 16:49:29 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 18:48:15 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	exec_first_management(t_cmd_node *node, t_mshell_sack *sack, char **path)
 	ft_envp_tidy(sack);
 	if (execve(*path, node->args, sack->envp) == -1)
 		return (perror(*path), free(*path), exit(126), 1);
+	return (0);
 }
 
 static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack,

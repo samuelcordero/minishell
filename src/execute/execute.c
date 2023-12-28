@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 16:30:02 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 18:39:23 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static	int	ft_wait_all(int last_pid, t_cmd_node *last)
 	then waits for the completion of those processes.
 	Also creates a backup of STDIN/OUT before pipes that is restored post execution.
 */
-static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
+int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
 	int			std_backup[2];
 	int			last_pid;
@@ -79,7 +79,7 @@ static int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 	As i is an int *, after calling this function the provided
 	int position is after the brackets.
 */
-static void	ft_brackets(char *str, int *i)
+void	ft_brackets(char *str, int *i)
 {
 	int	ctr;
 
@@ -101,7 +101,7 @@ static void	ft_brackets(char *str, int *i)
 	Given a logically expandable char *str,
 	returns the corresponding left expanded node
 */
-static char	*ft_get_left_token(char *str)
+char	*ft_get_left_token(char *str)
 {
 	int		i;
 	int		last;
@@ -134,7 +134,7 @@ static char	*ft_get_left_token(char *str)
 	Given a logically expandable char *str,
 	returns the corresponding right expanded node
 */
-static char	*ft_get_right_token(char *str)
+char	*ft_get_right_token(char *str)
 {
 	int		i;
 	int		last;

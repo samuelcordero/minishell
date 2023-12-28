@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
+#    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/12/28 16:26:58 by guortun-         ###   ########.fr        #
+#    Updated: 2023/12/28 18:35:59 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ SRC =	src/main.c \
 		src/enviroment/expander.c \
 		src/execute/execute.c \
 		src/execute/execute_utils.c \
-		src/execute/execute_utils_2.c \
-		src/execute/execute_utils_3.c \
-		src/execute/execute_utils_4.c \
+		src/execute/execute_utils2.c \
+		src/execute/execute_utils3.c \
+		src/execute/execute_utils4.c \
 		src/execute/redirect_utils.c \
 		src/execute/path_finder.c \
 		src/lexer/lexer.c \
