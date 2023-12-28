@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 16:47:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:14:07 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ static void	*get_token(char *str, int start, int end)
 {
 	t_cmdtoken	*token;
 
-	token = malloc(sizeof(t_cmdtoken));
-	//if (!token) memory error handling
+	token = ft_calloc(1, sizeof(t_cmdtoken));
+	if (!token)
+		return (NULL);
 	token->str = ft_substr(str, start, end - start);
 	token->type = 0;
 	if (!ft_strncmp(token->str, "<", 2) || !ft_strncmp(token->str, "<<", 3)
@@ -60,7 +61,7 @@ static void	*get_next_token(char *str, int start, int *i)
 	return (get_token(str, start, *i));
 }
 
-static void	tokener(char *str, t_list *list)
+static int	tokener(char *str, t_list *list)
 {
 	t_list	*current;
 	t_list	*last;
@@ -75,29 +76,27 @@ static void	tokener(char *str, t_list *list)
 		skip_spaces(str, &i, & start);
 		last = current;
 		current->content = get_next_token(str, start, &i);
-		//IF current->content = NULL error
-		current->next = malloc(sizeof(t_list));
-		//if (!current->next) memory error
+		current->next = ft_calloc(1, sizeof(t_list));
+		if (!current->content || !current->next)
+			return (1);
 		current = current->next;
-		current->content = NULL;
-		current->next = NULL;
 	}
 	if (last)
 	{
 		free(last->next);
 		last->next = NULL;
 	}
+	return (0);
 }
 
 t_list	*lexer(char	*str)
 {
 	t_list	*list;
 
-	list = malloc(sizeof(t_list));
+	list = ft_calloc(1, sizeof(t_list));
 	if (!list)
 		return (NULL);
-	list->content = NULL;
-	list->next = NULL;
-	tokener(str, list);
+	if (tokener(str, list))
+		return (ft_lstclear(&list, free_cmd_tok), NULL);
 	return (list);
 }

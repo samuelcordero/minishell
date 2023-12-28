@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/19 16:18:43 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:15:33 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ void	free_cmd_tok(void *tok)
 	t_cmdtoken	*tofree;
 
 	tofree = tok;
-	free(tofree->str);
-	free(tofree);
+	if (tofree)
+	{
+		if (tofree->str)
+			free(tofree->str);
+		free(tofree);
+	}
 }
 
 char	*get_cwd_str(void)

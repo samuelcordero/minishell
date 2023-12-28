@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 14:16:02 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:09:10 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ static void	get_command_str(t_mshell_sack *sack)
 	{
 		ft_add_history(res, sack);
 		sack->cmd_tree = ft_calloc(1, sizeof(t_cmdtree));
+		if (!sack->cmd_tree)
+		{
+			ft_putendl_fd("minishell: memory error", STDERR_FILENO);
+			ft_printexit(2, sack, 0);
+		}
 		sack->cmd_tree->cmd_str = res;
 		return ;
 	}

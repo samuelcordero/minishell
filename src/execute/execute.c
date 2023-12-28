@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 20:11:06 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:19:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,6 +290,7 @@ static void	logic_expansion(t_cmdtree *tree_node)
 static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
 	char	*tmp;
+	int		status;
 
 	while (ft_has_brackets(tree_node->cmd_str))
 		ft_remove_outer_brackets(tree_node->cmd_str);
@@ -300,11 +301,23 @@ static int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 	if (tree_node->expanded_str && tree_node->expanded_str[0])
 	{
 		tree_node->cmd_tokens = lexer(tree_node->expanded_str);
+		if (!tree_node->cmd_tokens)
+		{
+			ft_putendl_fd("minishell: memory error", STDERR_FILENO);
+			ft_printexit(2, sack, 0);
+		}
 		ft_remove_quotes(tree_node->cmd_tokens);
-		ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);
-		return (ft_exec_and_wait(tree_node, sack));
+		status = ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);
+		if (!status)
+			return (ft_exec_and_wait(tree_node, sack));
+		if (status == 2)
+		{
+			ft_putendl_fd("minishell: memory error", STDERR_FILENO);
+			ft_printexit(2, sack, 0);
+		}
 	}
-	return (0);
+	ft_putendl_fd("minishell: redirection error", STDERR_FILENO);
+	return (2);
 }
 
 /*
