@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:46:28 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 14:31:48 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,11 @@ static char	*ft_get_left_token(char *str)
 		else
 			++i;
 		if ((str[i] == '&' && str[i + 1] == '&')
-			|| (str[i] == '|' && str[i + 1] == '|')
-			|| str[i] == ';')
+			|| (str[i] == '|' && str[i + 1] == '|') || str[i] == ';')
 			last = i;
 	}
-	tmp = ft_substr(str, 0, last);
-	res = ft_strtrim(tmp, " \n\t\v\r");
-	return (free(tmp), res);
+	return (tmp = ft_substr(str, 0, last), res = ft_strtrim(tmp, " \n\t\v\r"),
+		free(tmp), res);
 }
 
 /*
@@ -158,16 +156,14 @@ static char	*ft_get_right_token(char *str)
 		else
 			++i;
 		if ((str[i] == '&' && str[i + 1] == '&')
-			|| (str[i] == '|' && str[i + 1] == '|')
-			|| str[i] == ';')
+			|| (str[i] == '|' && str[i + 1] == '|') || str[i] == ';')
 			last = i;
 	}
 	if ((str[last] == '&' && str[last + 1] == '&')
 		|| (str[last] == '|' && str[last + 1] == '|'))
 		++last;
-	tmp = ft_substr(str, last + 1, SIZE_T_MAX);
-	res = ft_strtrim(tmp, " \n\t\v\r");
-	return (free(tmp), res);
+	return (tmp = ft_substr(str, last + 1, SIZE_T_MAX),
+		res = ft_strtrim(tmp, " \n\t\v\r"), free(tmp), res);
 }
 
 /*

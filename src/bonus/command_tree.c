@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   command_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 11:44:14 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:46:37 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	red_compare(t_list *tkn_lst, t_list **tmp)
+{
+	if (ft_strncmp("<", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
+		((t_redir_tok *)(*tmp)->content)->redir_type = INFILE_MASK;
+	else if (ft_strncmp(">", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
+		((t_redir_tok *)(*tmp)->content)->redir_type = OUTFILE_MASK;
+	else if (ft_strncmp("<<", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
+		((t_redir_tok *)(*tmp)->content)->redir_type = HEREDOC_MASK;
+	else if (ft_strncmp(">>", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
+		((t_redir_tok *)(*tmp)->content)->redir_type = CONCATOUT_MASK;
+}
 
 static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 {
@@ -32,15 +44,9 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 		tmp = current->redirs_lst;
 	}
 	tmp->content = ft_calloc(1, sizeof(t_redir_tok));
-	((t_redir_tok *)tmp->content)->file_name = ft_strdup(((t_cmdtoken *)tkn_lst->next->content)->str);
-	if (ft_strncmp("<", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
-		((t_redir_tok *)tmp->content)->redir_type = INFILE_MASK;
-	else if (ft_strncmp(">", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
-		((t_redir_tok *)tmp->content)->redir_type = OUTFILE_MASK;
-	else if (ft_strncmp("<<", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
-		((t_redir_tok *)tmp->content)->redir_type = HEREDOC_MASK;
-	else if (ft_strncmp(">>", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
-		((t_redir_tok *)tmp->content)->redir_type = CONCATOUT_MASK;
+	((t_redir_tok *)tmp->content)->file_name = ft_strdup(((t_cmdtoken *)
+				tkn_lst->next->content)->str);
+	red_compare(tkn_lst, &tmp);
 	return (0);
 }
 
@@ -62,10 +68,38 @@ static int	ft_count_args(t_list *begin)
 	return (res);
 }
 
+static void	fill_management(t_list *begin, t_cmdtree *tree_node,
+	t_cmd_node *current, t_cmd_node *p_curr)
+{
+	int			i;
+
+	i = 0;
+	if (((t_cmdtoken *)begin->content)->type == ARG)
+		current->args[i++] = ft_strdup(((t_cmdtoken *)begin->content)->str);
+	else if (((t_cmdtoken *)begin->content)->type == FILE_REDIR)
+	{
+		if (set_file_info(begin, current))
+			return (1);
+		begin = begin->next;
+	}
+	else if (((t_cmdtoken *)begin->content)->type == PIPE)
+	{
+		current = ft_calloc(1, sizeof(t_cmd_node));
+		if (!current)
+			return (2);
+		p_curr->next = current;
+		p_curr = current;
+		current->args = ft_calloc(ft_count_args(begin->next) + 1,
+				sizeof(char *));
+		if (!current->args)
+			return (2);
+	}
+}
 /*
 	Given a t_list *begin that represents the begining of a token list,
 	creates a cmd_list parsed for executor inside the given t_cmdtree *tree_node
 */
+
 int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 {
 	t_cmdtoken	*tkn;
@@ -87,29 +121,7 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 	i = 0;
 	while (begin)
 	{
-		tkn = begin->content;
-		if (tkn->type == ARG)
-			current->args[i++] = ft_strdup(tkn->str);
-		else if (tkn->type == FILE_REDIR)
-		{
-			if (set_file_info(begin, current))
-				return (1); //bad syntax, free and return error
-			begin = begin->next;
-		}
-		else if (tkn->type == PIPE)
-		{
-			current->pipe_out = 1;
-			current = ft_calloc(1, sizeof(t_cmd_node));
-			if (!current)
-				return (2);
-			p_curr->next = current;
-			p_curr = current;
-			i = 0;
-			current->args = ft_calloc(ft_count_args(begin->next) + 1,
-					sizeof(char *));
-			if (!current->args)
-				return (2);
-		}
+		fill_management(begin, tree_node, current, p_curr);
 		begin = begin->next;
 	}
 	return (0);

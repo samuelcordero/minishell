@@ -6,7 +6,7 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:02:06 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 14:39:30 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static int	ft_match(char *f_name, char *regex)
 		}
 		if (f_name[i] != regex[j])
 			return (0);
-		i = if_char_unop(f_name[i], i, '+');
-		j = if_char_unop(regex[i], j, '+');
+		i = if_char_unop(f_name[i], i);
+		j = if_char_unop(regex[i], j);
 	}
 	if (f_name[i] || regex[j])
 		return (0);
@@ -48,12 +48,9 @@ static char	**ft_get_files(char *regex)
 	int				ctr;
 	char			*tmp;
 
-	dir_ptr = opendir(".");
-	directory = readdir(dir_ptr);
-	matches  = ft_calloc(1024, sizeof(char *));
+	get_files_init(&dir_ptr, &directory, &matches, &ctr);
 	if (!matches)
 		return (NULL);
-	ctr = -1;
 	while (directory)
 	{
 		if (ft_match(directory->d_name, regex))
@@ -68,8 +65,7 @@ static char	**ft_get_files(char *regex)
 		}
 		directory = readdir(dir_ptr);
 	}
-	closedir(dir_ptr);
-	return (matches);
+	return (closedir(dir_ptr), matches);
 }
 
 static char	*ft_get_regex(char *regex_start, int *i)

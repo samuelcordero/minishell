@@ -6,21 +6,16 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:15:01 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 12:15:19 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 14:40:36 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	if_char_unop(char token, int index, char unop)
+int	if_char_unop(char token, int index)
 {
 	if (token != '\0')
-	{
-		if (token == '+')
-			return (index + 1);
-		if (token == '-')
-			return (index - 1);
-	}
+		return (index + 1);
 	return (index);
 }
 
@@ -37,4 +32,13 @@ int	strlen_and_free(char **tmp, char **tmp2, char **file)
 	}
 	else
 		return (-1);
+}
+
+static void	get_files_init(DIR **dir_ptr, struct dirent **directory,
+							char ***matches, int *ctr)
+{
+	*dir_ptr = opendir(".");
+	*directory = readdir(*dir_ptr);
+	*matches = ft_calloc(1024, sizeof(char *));
+	*ctr = -1;
 }

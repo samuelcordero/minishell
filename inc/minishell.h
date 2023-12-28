@@ -6,7 +6,7 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:45:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 14:39:48 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 				t_mshell_sack *sack, int *last_pid);
 int			ft_file_redirs(t_list *files, int input_fd, int output_fd,
 				char **envp);
+int			ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack,
+				int *outfd);
+int			exec_first_management(t_cmd_node *node, t_mshell_sack *sack,
+				char **path);
 
 //expander
 
@@ -130,13 +134,11 @@ void		ft_free_array(char **array);
 void		free_cmd_tok(void *tok);
 char		*get_cwd_str(void);
 int			ft_isspace(char c);
-void 		ft_memory_err_exit(t_mshell_sack *sack);
-
-
+void		ft_memory_err_exit(t_mshell_sack *sack);
 //wildcards
 
 char		*ft_expand_wildcards(char *str);
-int			if_char_unop(char token, int index, char unop);
+int			if_char_unop(char token, int index);
 int			strlen_and_free(char **tmp, char **tmp2, char **file);
 
 #endif
