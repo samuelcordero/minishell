@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
+#    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/12/28 10:57:51 by sacorder         ###   ########.fr        #
+#    Updated: 2023/12/28 11:30:43 by guortun-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRC =	src/main.c \
 		src/builtins/unset.c \
 		src/bonus/command_tree.c \
 		src/bonus/command_tree_utils.c \
-		src/bonus/wildcards.c
+		src/bonus/wildcards.c \
+		src/bonus/wildcards_utils.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 UNAME := $(shell uname -s)

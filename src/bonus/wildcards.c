@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
 /*   Updated: 2023/12/28 12:02:06 by sacorder         ###   ########.fr       */
@@ -32,11 +32,8 @@ static int	ft_match(char *f_name, char *regex)
 		}
 		if (f_name[i] != regex[j])
 			return (0);
-		if (f_name[i])
-		{
-			++i;
-			++j;
-		}
+		i = if_char_unop(f_name[i], i, '+');
+		j = if_char_unop(regex[i], j, '+');
 	}
 	if (f_name[i] || regex[j])
 		return (0);
@@ -79,7 +76,7 @@ static char	*ft_get_regex(char *regex_start, int *i)
 {
 	int		j;
 	char	*regex;
-	
+
 	j = 0;
 	while (!ft_isspace(regex_start[j]) && regex_start[j] != '\''
 		&& regex_start[j] != '\"' && regex_start[j])
@@ -107,9 +104,7 @@ static char	*ft_join_files(char *str, char **files, int *i, char *regex)
 	{
 		tmp2 = ft_strjoin(tmp, files[ctr]);
 		free(tmp);
-		dist += 1 + ft_strlen(files[ctr]);
-		free(files[ctr]);
-		tmp = tmp2;
+		dist = strlen_and_free(&tmp, &tmp2, &files[ctr]);
 		if (files[ctr + 1])
 		{
 			tmp2 = ft_strjoin(tmp, " ");

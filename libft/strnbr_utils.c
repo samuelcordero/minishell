@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strnbr_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:37:58 by sacorder          #+#    #+#             */
-/*   Updated: 2023/05/01 15:23:02 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 11:16:58 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_put_unsigned_nbr_base(unsigned long nbr, char *base, int pointer_type)
 
 	res = 0;
 	if (!pointer_type)
-	{	
+	{
 		if ((long) nbr == LONG_MIN)
 		{
 			if (write(1, "0", 1) == -1)

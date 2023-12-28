@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:13:12 by sacorder          #+#    #+#             */
-/*   Updated: 2023/10/23 00:21:10 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 11:15:48 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ char	*get_next_line(int fd)
 		remainder[fd] = ft_free(remainder[fd]);
 	if (data.buffer)
 	{
-		remainder[fd] = ft_substr_gnl(data.buffer, (ft_strchr_gnl(data.buffer, '\n')
+		remainder[fd] = ft_substr_gnl(data.buffer,
+				(ft_strchr_gnl(data.buffer, '\n')
 					- data.buffer) + 1, BUFFER_SIZE + 1);
 		data.buffer = ft_free(data.buffer);
 	}
