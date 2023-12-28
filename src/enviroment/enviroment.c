@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:50:05 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:48:12 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 		{
 			ft_putendl_fd("Minishell: couldn't add more envp tuples",
 				STDERR_FILENO);
-			exit(1);
+			ft_memory_err_exit(sack);
 		}
 	}
 	return (0);

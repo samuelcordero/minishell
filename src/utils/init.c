@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/23 02:05:23 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:48:56 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 	if (ft_init_envp(sack, envp))
 	{
 		ft_putendl_fd("minishell: error allocating envp space", STDERR_FILENO);
-		exit(1);
+		ft_memory_err_exit(sack);
 	}
 	ft_fill_envp(sack);
 	sack->cmd_tree = NULL;

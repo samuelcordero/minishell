@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 20:10:14 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:45:41 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ void		ft_free_array(char **array);
 void		free_cmd_tok(void *tok);
 char		*get_cwd_str(void);
 int			ft_isspace(char c);
+void 		ft_memory_err_exit(t_mshell_sack *sack);
+
 
 //wildcards
 

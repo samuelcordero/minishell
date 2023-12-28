@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:15:33 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:49:41 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_free_array(char **array)
 
 	pos = 0;
 	if (!array)
-		exit(-1);
+		return ;
 	while (array[pos])
 		free(array[pos++]);
 	free(array);

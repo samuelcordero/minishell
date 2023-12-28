@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   term_settings.c                                    :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:07:54 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 13:40:05 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:45:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,10 @@ int	ft_set_signal_print(int val)
 		return (1);
 	}
 	return (0);
+}
+
+void ft_memory_err_exit(t_mshell_sack *sack)
+{
+	ft_putendl_fd("minishell: memory error", STDERR_FILENO);
+	ft_printexit(2, sack, 0);
 }
