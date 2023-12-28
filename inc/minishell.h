@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 20:10:14 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:12:06 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int			expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 void		ft_fork(t_cmd_node *node);
 t_cmd_node	*ft_execute_lst(t_cmdtree *tree_node,
 				t_mshell_sack *sack, int *last_pid);
-int			ft_file_redirs(t_list *files, int input_fd, int output_fd, char **envp);
+int			ft_file_redirs(t_list *files, int input_fd, int output_fd,
+				char **envp);
 
 //expander
 
@@ -133,5 +134,7 @@ int			ft_isspace(char c);
 //wildcards
 
 char		*ft_expand_wildcards(char *str);
+int			if_char_unop(char token, int index, char unop);
+int			strlen_and_free(char **tmp, char **tmp2, char **file);
 
 #endif

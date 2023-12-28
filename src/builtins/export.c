@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:53:44 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 10:57:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:53:30 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	ft_print_env(char **envp)
 		{
 			ft_putchar_fd(envp[i][j], STDOUT_FILENO);
 			if (envp[i][j] == '=')
-			{	
+			{
 				flag = 1;
 				ft_putchar_fd('"', STDOUT_FILENO);
 			}

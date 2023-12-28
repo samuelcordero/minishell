@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:50:05 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:17:41 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_add_to_env(t_mshell_sack *sack, char *key_val)
 	else
 		key = ft_strdup(key_val);
 	if ((!ft_strncmp(ft_get_from_env(sack->envp, key, &exists), "", 1)
-		&& exists && ft_strchr(key_val, '='))
+			&& exists && ft_strchr(key_val, '='))
 		|| (exists && ft_strchr(key_val, '=')))
 		ft_search_and_replace_env(sack->envp, key_val, key);
 	else if (!exists)
