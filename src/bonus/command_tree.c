@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/13 23:23:03 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 11:44:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,15 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 	t_cmd_node	*p_curr;
 	int			i;
 
-	current = ft_calloc(1, sizeof(t_cmd_node)); //memory error handling!
+	current = ft_calloc(1, sizeof(t_cmd_node));
+	if (!current)
+		return (2);
 	p_curr = current;
 	tkn = begin->content;
 	tree_node->cmd_list = current;
-	current->args = ft_calloc(ft_count_args(begin) + 1, sizeof(char *)); //error handling
+	current->args = ft_calloc(ft_count_args(begin) + 1, sizeof(char *));
+	if (!current->args)
+		return (2);
 	if (tkn->type == PIPE)
 		begin = begin->next;
 	i = 0;
@@ -86,21 +90,25 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 		tkn = begin->content;
 		if (tkn->type == ARG)
 			current->args[i++] = ft_strdup(tkn->str);
-		else if (tkn->type == FILE_REDIR) // file io check
+		else if (tkn->type == FILE_REDIR)
 		{
 			if (set_file_info(begin, current))
 				return (1); //bad syntax, free and return error
 			begin = begin->next;
 		}
-		else if (tkn->type == PIPE) // pipeout check, allocation for next cmd_list item
+		else if (tkn->type == PIPE)
 		{
 			current->pipe_out = 1;
-			current = ft_calloc(1, sizeof(t_cmd_node)); //error handling
+			current = ft_calloc(1, sizeof(t_cmd_node));
+			if (!current)
+				return (2);
 			p_curr->next = current;
 			p_curr = current;
 			i = 0;
 			current->args = ft_calloc(ft_count_args(begin->next) + 1,
-					sizeof(char *)); //error handling
+					sizeof(char *));
+			if (!current->args)
+				return (2);
 		}
 		begin = begin->next;
 	}

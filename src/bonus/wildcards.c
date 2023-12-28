@@ -6,7 +6,7 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:11:40 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:02:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,21 @@ static char	**ft_get_files(char *regex)
 
 	dir_ptr = opendir(".");
 	directory = readdir(dir_ptr);
-	matches = ft_calloc(1024, sizeof(char *));
+	matches  = ft_calloc(1024, sizeof(char *));
+	if (!matches)
+		return (NULL);
 	ctr = -1;
 	while (directory)
 	{
 		if (ft_match(directory->d_name, regex))
 		{
 			tmp = ft_strjoin("'", directory->d_name);
-			//if (!tmp) error
+			if (!tmp)
+				return (matches);
 			matches[++ctr] = ft_strjoin(tmp, "'");
 			free(tmp);
-			//if (!matches[ctr]) error
+			if (!matches[ctr])
+				return (matches);
 		}
 		directory = readdir(dir_ptr);
 	}
@@ -138,12 +142,13 @@ char	*ft_expand_wildcards(char *str)
 		if (regex)
 		{
 			f_table = ft_get_files(regex);
-			if (f_table[0])
+			if (f_table && f_table[0])
 				str = ft_join_files(str, f_table, &i, regex);
 			else
 				i += ft_strlen(regex) - 1;
 			free(regex);
-			free(f_table);
+			if (f_table)
+				free(f_table);
 		}
 	}
 	return (str);

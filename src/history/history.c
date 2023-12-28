@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:17:16 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:26:57 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:47:35 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ void	ft_init_history_file(t_mshell_sack *sack)
 	}
 	home = ft_strjoin(home, HIST_TMP_BASE);
 	if (!home)
-	{
-		ft_putendl_fd("Minishell: memory error.", STDERR_FILENO);
-		exit(1);
-	}
+		ft_memory_err_exit(sack);
 	sack->history_fd = open(home, O_CREAT | O_RDWR, 0644);
 	free(home);
 }
@@ -43,10 +40,7 @@ void	ft_fill_history(t_mshell_sack *sack)
 	{
 		trim = ft_strtrim(line, "\n");
 		if (!trim)
-		{
-			ft_putendl_fd("Minishell: memory error", STDERR_FILENO);
-			exit(1);
-		}
+			ft_memory_err_exit(sack);
 		add_history(trim);
 		free(line);
 		free(trim);
