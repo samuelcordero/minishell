@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
+#    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/12/27 14:23:27 by guortun-         ###   ########.fr        #
+#    Updated: 2023/12/28 10:57:51 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,13 @@ SRC =	src/main.c \
 		src/utils/utils_2.c \
 		src/utils/init.c \
 		src/utils/syntax_checker.c \
-		src/builtins/builtins.c \
-		src/builtins/builtins_extra.c \
+		src/builtins/builtins_utils.c \
+		src/builtins/cd.c \
+		src/builtins/echo.c \
+		src/builtins/exit.c \
+		src/builtins/export.c \
+		src/builtins/pwd.c \
+		src/builtins/unset.c \
 		src/bonus/command_tree.c \
 		src/bonus/command_tree_utils.c \
 		src/bonus/wildcards.c

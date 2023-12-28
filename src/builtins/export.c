@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_extra.c                                   :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/24 22:58:46 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 15:45:13 by sacorder         ###   ########.fr       */
+/*   Created: 2023/12/28 10:53:44 by sacorder          #+#    #+#             */
+/*   Updated: 2023/12/28 10:57:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_isbuiltin(char *str)
-{
-	if (!ft_strncmp(str, "cd", 3))
-		return (1);
-	else if (!ft_strncmp(str, "echo", 5))
-		return (1);
-	else if (!ft_strncmp(str, "exit", 5))
-		return (1);
-	else if (!ft_strncmp(str, "pwd", 4))
-		return (1);
-	else if (!ft_strncmp(str, "unset", 6))
-		return (1);
-	else if (!ft_strncmp(str, "export", 7))
-		return (1);
-	return (0);
-}
 
 static int	ft_is_valid_key(char	*key_val)
 {
@@ -96,15 +79,4 @@ int	ft_export(t_cmd_node *node, t_mshell_sack *sack)
 			ret = 1;
 	}
 	return (ret);
-}
-
-int	ft_unset(t_cmd_node *node, t_mshell_sack *sack)
-{
-	int	i;
-
-	i = 0;
-	node->is_builtin = 1;
-	while (node->args[++i])
-		ft_remove_env(sack, node->args[i]);
-	return (0);
 }
