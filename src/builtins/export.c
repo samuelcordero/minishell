@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:53:44 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:53:30 by guortun-         ###   ########.fr       */
+/*   Updated: 2023/12/29 13:36:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ static int	ft_is_valid_key(char	*key_val)
 
 	i = -1;
 	has_alpha = 0;
-	while (key_val[++i] && key_val[i] != '=' && key_val[i] != '.'
-		&& key_val[i] != '-' && !ft_isspace(key_val[i]))
+	while (key_val[++i] && key_val[i] != '=' && !ft_isspace(key_val[i]))
 	{
 		if (ft_isalpha(key_val[i]))
 			has_alpha = 1;
+		else if (!ft_isalnum(key_val[i]))
+		{
+			has_alpha = 0;
+			break ;
+		}
 	}
 	if (i != 0 && has_alpha)
 		return (1);
