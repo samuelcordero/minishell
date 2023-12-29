@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 19:35:00 by sacorder         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:41:02 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static int	ft_match(char *f_name, char *regex)
 		}
 		if (f_name[i] != regex[j])
 			return (0);
-		i = if_char_unop(f_name[i], i);
 		j = if_char_unop(f_name[i], j);
+		i = if_char_unop(f_name[i], i);
 	}
 	if (f_name[i] || regex[j])
 		return (0);
