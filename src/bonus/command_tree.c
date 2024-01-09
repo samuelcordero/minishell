@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 19:14:44 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:10:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static int	ft_count_args(t_list *begin)
 	int			res;
 
 	res = 0;
-	tkn = begin->content;
+	if (begin)
+		tkn = begin->content;
 	while (begin && tkn->type != PIPE)
 	{
 		if (tkn->type == ARG)

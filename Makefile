@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2023/12/28 18:35:59 by sacorder         ###   ########.fr        #
+#    Updated: 2024/01/09 11:12:44 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,9 @@ asan:: re
 dbg:: CFLAGS += -g3
 dbg:: LDFLAGS += -g3
 dbg:: re
+
+normi:
+	@norminette src inc libft
 
 re:: fclean 
 re:: all

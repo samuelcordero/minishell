@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:20:15 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 19:31:51 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:13:36 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,20 @@ int	if_mask(char *str, int last)
 		return (WAIT_MASK);
 	return (0);
 }
+
 /*
 	1. try to expand logically
 	2. recursively call left, then right if left exited satisfying requirements
 	3. base case, if not logic, try to expand env variables,
 		tokenize and create cmd list, execute lst and wait
 */
-
 int	expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
 	char		*keyval;
 	char		*nbrstr;
 
-	logic_expansion(tree_node);
+	if (logic_expansion(tree_node))
+		return (ft_expansion_error(tree_node), ft_printexit(2, sack, 1), 2);
 	if (tree_node->left)
 		tree_node->exit_code = expand_execute(tree_node->left, sack);
 	if (tree_node->right)
@@ -93,7 +94,7 @@ char	*ft_remove_brackets(char *str)
 	return (res);
 }
 
-void	logic_expansion(t_cmdtree *tree_node)
+int	logic_expansion(t_cmdtree *tree_node)
 {
 	char	*str;
 
@@ -105,6 +106,10 @@ void	logic_expansion(t_cmdtree *tree_node)
 		tree_node->left->cmd_str = ft_get_left_token(str);
 		tree_node->right = ft_calloc(1, sizeof(t_cmdtree));
 		tree_node->right->cmd_str = ft_get_right_token(str);
+		if ((!tree_node->left->cmd_str || !(*tree_node->left->cmd_str))
+			|| (!tree_node->right->cmd_str || !(*tree_node->right->cmd_str)))
+			return (2);
 	}
 	free(str);
+	return (0);
 }

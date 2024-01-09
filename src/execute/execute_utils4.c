@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:31:36 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 19:14:26 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:13:32 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,16 @@ char	ft_has_brackets(char *str)
 			return (str[i]);
 	}
 	return (0);
+}
+
+void	ft_expansion_error(t_cmdtree *tree_node)
+{
+	ft_putstr_fd("minishell: syntax error near '", STDERR_FILENO);
+	if (tree_node->is_logic == AND_MASK)
+		ft_putstr_fd("&&", STDERR_FILENO);
+	if (tree_node->is_logic == OR_MASK)
+		ft_putstr_fd("||", STDERR_FILENO);
+	if (tree_node->is_logic == WAIT_MASK)
+		ft_putstr_fd(";", STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
 }

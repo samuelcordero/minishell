@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 19:14:15 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:13:44 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int			execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 int			expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack);
 int			ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack);
 char		*ft_remove_brackets(char *str);
-void		logic_expansion(t_cmdtree *tree_node);
+int			logic_expansion(t_cmdtree *tree_node);
 void		ft_remove_outer_brackets(char *str);
 int			get_log_expandible(char *str);
 void		is_quote(char *str, int *i, int *last);
@@ -100,6 +100,7 @@ char		*ft_get_left_token(char *str);
 char		*ft_get_right_token(char *str);
 void		ft_brackets(char *str, int *i);
 char		ft_has_brackets(char *str);
+void		ft_expansion_error(t_cmdtree *tree_node);
 
 //execute_utils (1)
 
