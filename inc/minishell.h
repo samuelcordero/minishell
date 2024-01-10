@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 15:22:38 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:49:42 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void		print_tokens(t_list *tokens);
 //term_settings
 
 int			ft_set_signal_print(int val);
+int			ft_set_echo(int val);
 
 //utils
 
