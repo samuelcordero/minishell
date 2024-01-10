@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 14:47:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:16:54 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	ft_check_syntax_heredoc(t_mshell_sack *sack)
 		return (ft_add_to_env(sack, "?=2"), 0);
 	g_is_exec = 2;
 	if (ft_create_heredocs(&sack->cmd_tree->cmd_str))
-		return (ft_add_to_env(sack, "?=2"), 0);
+		return (g_is_exec = 0, ft_add_to_env(sack, "?=2"), 0);
 	if (!g_is_exec)
 		return (ft_add_to_env(sack, "?=130"), 0);
 	g_is_exec = 0;

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 14:36:49 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:24:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ static char	*get_delim_and_substitute(char **str, int *i, char *new_name)
 	j = *i;
 	while ((*str)[j] && !ft_isspace((*str)[j]) && !ft_isreserved((*str)[j])
 		&& (*str)[j] != '(' && (*str)[j] != ')')
-		++j;
+	{
+		if ((*str)[j] == '\'' || (*str)[j] == '"')
+			state_quote_delimiter(*str, &j, (*str)[j]);
+		else
+			++j;
+	}
 	if (j == *i)
 		return (NULL);
 	delim = ft_substr(*str, *i, j - *i);
@@ -125,6 +130,7 @@ int	ft_heredoc(char **str, int *i, char **f_name)
 	int		pid;
 
 	fd = create_temp_heredoc(str, i, &delim, f_name);
+	ft_str_unquote(&delim);
 	if (fd == -1 || !g_is_exec)
 		return (free(delim), 1);
 	pid = fork();
