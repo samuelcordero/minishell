@@ -6,7 +6,7 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:07:54 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 14:00:37 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:45:34 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,15 @@ void	ft_memory_err_exit(t_mshell_sack *sack)
 {
 	ft_putendl_fd("minishell: memory error", STDERR_FILENO);
 	ft_printexit(2, sack, 0);
+}
+
+void	tmp_management(char **tmp, int *shllvl)
+{
+	ft_putstr_fd("minishell: warning: shell level (", STDERR_FILENO);
+	*tmp = ft_itoa(*shllvl);
+	ft_putstr_fd(*tmp, STDERR_FILENO);
+	free(*tmp);
+	*tmp = NULL;
+	ft_putendl_fd(") too high, resetting to 1", STDERR_FILENO);
+	*shllvl = 1;
 }

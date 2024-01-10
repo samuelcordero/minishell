@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/09 11:13:44 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:40:14 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void		free_cmd_tok(void *tok);
 char		*get_cwd_str(void);
 int			ft_isspace(char c);
 void		ft_memory_err_exit(t_mshell_sack *sack);
+void		tmp_management(char **tmp, int *shllvl);
 
 //wildcards
 

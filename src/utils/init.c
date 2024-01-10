@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/09 12:08:16 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:40:20 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,7 @@ static void	ft_fill_envp(t_mshell_sack *sack)
 
 	shllvl = 1 + ft_atoi(ft_get_from_env(sack->envp, "SHLVL", NULL));
 	if (shllvl >= 1000)
-	{
-		ft_putstr_fd("minishell: warning: shell level (", STDERR_FILENO);
-		tmp = ft_itoa(shllvl);
-		ft_putstr_fd(tmp,STDERR_FILENO);
-		free(tmp);
-		ft_putendl_fd(") too high, resetting to 1", STDERR_FILENO);
-		shllvl = 1;
-	}
+		tmp_management(&tmp, &shllvl);
 	tmp = ft_itoa(shllvl);
 	tmp2 = ft_strjoin("SHLVL=", tmp);
 	ft_add_to_env(sack, tmp2);
