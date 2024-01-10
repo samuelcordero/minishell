@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 13:40:14 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:22:38 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		ft_envp_tidy(t_mshell_sack *sack);
 
 //here_doc
 
-int			ft_heredoc(char **str, int *i);
+int			ft_heredoc(char **str, int *i, char **f_name);
 int			ft_expand_heredoc(int o_fd, t_redir_tok *tok, char **envp);
 
 //history
@@ -84,6 +84,7 @@ void		state_quote_delimiter(char *str, int *i, char delim);
 void		skip_spaces(char *str, int *i, int *start);
 int			ft_remove_quotes(t_list *tokens);
 int			ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack);
+void		ft_str_unquote(char **str);
 
 //execute (2,3,4)
 
@@ -151,6 +152,7 @@ char		*get_cwd_str(void);
 int			ft_isspace(char c);
 void		ft_memory_err_exit(t_mshell_sack *sack);
 void		tmp_management(char **tmp, int *shllvl);
+int			ft_check_f_name(char *str, int *i);
 
 //wildcards
 

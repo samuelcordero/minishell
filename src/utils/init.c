@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 13:40:20 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:13:22 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,18 @@ static void	ft_sig_handler(int signum)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_redisplay();
 	}
-	else if (signum == SIGQUIT && g_is_exec)
+	else if (signum == SIGQUIT && g_is_exec == 1)
 	{
 		ft_putstr_fd("\nQuit (core dumped)", STDERR_FILENO);
 		g_is_exec = 0;
 	}
-	else if (signum == SIGINT && g_is_exec)
+	else if (signum == SIGINT && g_is_exec == 1)
 		g_is_exec = 0;
+	else if (signum == SIGINT && g_is_exec == 2)
+	{
+		g_is_exec = 0;
+		ft_putendl_fd("^C", STDOUT_FILENO);
+	}
 }
 
 static char	*ft_custom_prompt(char **envp)

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 13:46:08 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:24:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_is_exec;
 
 static char	*get_tmp_filename(void)
 {
@@ -43,7 +45,12 @@ static char	*get_delim_and_substitute(char **str, int *i, char *new_name)
 	j = *i;
 	while ((*str)[j] && !ft_isspace((*str)[j]) && !ft_isreserved((*str)[j])
 		&& (*str)[j] != '(' && (*str)[j] != ')')
-		++j;
+	{
+		if ((*str)[j] == '\'' || (*str)[j] == '"')
+			state_quote_delimiter(*str, &j, (*str)[j]);
+		else
+			++j;
+	}
 	if (j == *i)
 		return (NULL);
 	delim = ft_substr(*str, *i, j - *i);
@@ -60,21 +67,19 @@ static char	*get_delim_and_substitute(char **str, int *i, char *new_name)
 	return (*i += ft_strlen(new_name), delim);
 }
 
-static int	create_temp_heredoc(char **str, int *i, char **delim)
+static int	create_temp_heredoc(char **str, int *i, char **delim, char **f_name)
 {
 	int		fd;
-	char	*tmp_name;
 
-	tmp_name = get_tmp_filename();
-	if (!tmp_name)
+	*f_name = get_tmp_filename();
+	if (!*f_name)
 		return (ft_putendl_fd("No heredoc tmp file available!", 2),
 			exit(1), -1);
-	fd = open(tmp_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd = open(*f_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		return (perror(tmp_name), free(tmp_name), exit(1), -1);
+		return (perror(*f_name), free(*f_name), exit(1), -1);
 	*i += 2;
-	*delim = get_delim_and_substitute(str, i, tmp_name);
-	free(tmp_name);
+	*delim = get_delim_and_substitute(str, i, *f_name);
 	if (!*delim)
 	{
 		ft_close(fd);
@@ -116,16 +121,24 @@ int	ft_expand_heredoc(int o_fd, t_redir_tok *tok, char **envp)
 	First finds de delimiter, then creates a tmp file
 	Delimiter is changed to absolute path of tmp file
 */
-int	ft_heredoc(char **str, int *i)
+int	ft_heredoc(char **str, int *i, char **f_name)
 {
 	int		fd;
 	char	*delim;
 	char	*line;
 	char	*prompt;
+	int		pid;
 
-	fd = create_temp_heredoc(str, i, &delim);
-	if (fd == -1)
-		return (1);
+	fd = create_temp_heredoc(str, i, &delim, f_name);
+	ft_str_unquote(&delim);
+	if (fd == -1 || !g_is_exec)
+		return (free(delim), 1);
+	pid = fork();
+	if (pid < 0)
+		return (free(delim), 1);
+	if (pid)
+		return (free(delim), 0);
+	signal(SIGINT, SIG_DFL);
 	line = ft_strjoin("here_doc (", delim);
 	prompt = ft_strjoin(line, ") > ");
 	free(line);
@@ -137,5 +150,5 @@ int	ft_heredoc(char **str, int *i)
 		free(line);
 		line = readline(prompt);
 	}
-	return (free(delim), free(line), free(prompt), ft_close(fd), 0);
+	return (free(delim), free(line), free(prompt), ft_close(fd), free(*f_name), exit(0), 0);
 }

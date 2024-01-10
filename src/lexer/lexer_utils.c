@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 16:58:15 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:22:21 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	skip_spaces(char *str, int *i, int *start)
 /*
 	removes external quotes
 */
-static void	ft_str_unquote(char **str)
+void	ft_str_unquote(char **str)
 {
 	int		i;
 	int		j;

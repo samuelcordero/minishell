@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:07:54 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 13:45:34 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:48:01 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,29 @@ void	tmp_management(char **tmp, int *shllvl)
 	*tmp = NULL;
 	ft_putendl_fd(") too high, resetting to 1", STDERR_FILENO);
 	*shllvl = 1;
+}
+
+int	ft_check_f_name(char *str, int *i)
+{
+	int starting[2];
+
+	starting[0] = *i;
+	if (!ft_strncmp("<<", &str[*i], 2) || !ft_strncmp(">>", &str[*i], 2))
+		*i += 2;
+	else if (!ft_strncmp("<", &str[*i], 1) || !ft_strncmp(">", &str[*i], 1))
+		++(*i);
+	while (str[*i] && ft_isspace(str[*i]))
+		++(*i);
+	starting[1] = *i;
+	while (str[*i] && !ft_isreserved(str[*i]) && !ft_isspace(str[*i]))
+		++(*i);
+	if (starting[1] != *i)
+		return (0);
+	ft_putstr_fd("minishell: syntax error near token '", STDERR_FILENO);
+	if (!ft_strncmp("<<", &str[starting[0]], 2) || !ft_strncmp(">>", &str[starting[0]], 2))
+		write(STDERR_FILENO, &str[starting[0]], 2);
+	else if (!ft_strncmp("<", &str[starting[0]], 1) || !ft_strncmp(">", &str[starting[0]], 1))
+		write(STDERR_FILENO, &str[starting[0]], 1);
+	ft_putendl_fd("'", STDERR_FILENO);
+	return (1);
 }
