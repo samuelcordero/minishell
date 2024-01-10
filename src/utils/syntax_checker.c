@@ -6,11 +6,13 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 20:02:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:10:33 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_is_exec;
 
 static void	ft_print_syntax_error(char *str)
 {
@@ -72,15 +74,26 @@ static int	ft_check_brackets(char *str)
 
 static int	ft_create_heredocs(char **str)
 {
-	int	i;
+	int		i;
+	char	*f_name;
 
 	i = 0;
-	while ((*str)[i])
+	f_name = NULL;
+	while ((*str)[i] && g_is_exec)
 	{
 		if ((*str)[i] == '\'' || (*str)[i] == '"')
 			state_quote_delimiter(*str, &i, (*str)[i]);
 		if (!ft_strncmp("<<", &(*str)[i], 2))
-			ft_heredoc(str, &i);
+			if (ft_heredoc(str, &i, &f_name))
+				return (1);
+		waitpid(-1, NULL, 0);
+		if (f_name)
+		{
+			if (!g_is_exec)
+				unlink(f_name);
+			free(f_name);
+			f_name = NULL;
+		}
 		if ((*str)[i])
 			++i;
 	}
@@ -93,7 +106,11 @@ int	ft_check_syntax_heredoc(t_mshell_sack *sack)
 		return (ft_add_to_env(sack, "?=2"), 0);
 	if (ft_check_brackets(sack->cmd_tree->cmd_str))
 		return (ft_add_to_env(sack, "?=2"), 0);
+	g_is_exec = 2;
 	if (ft_create_heredocs(&sack->cmd_tree->cmd_str))
 		return (ft_add_to_env(sack, "?=2"), 0);
+	if (!g_is_exec)
+		return (ft_add_to_env(sack, "?=130"), 0);
+	g_is_exec = 0;
 	return (1);
 }

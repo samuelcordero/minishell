@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 13:40:14 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:03:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		ft_envp_tidy(t_mshell_sack *sack);
 
 //here_doc
 
-int			ft_heredoc(char **str, int *i);
+int			ft_heredoc(char **str, int *i, char **f_name);
 int			ft_expand_heredoc(int o_fd, t_redir_tok *tok, char **envp);
 
 //history
