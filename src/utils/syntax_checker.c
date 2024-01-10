@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 14:28:54 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:47:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ static int	ft_check_fredirs(char *str)
 
 	i = 0;
 	check = 0;
-	while (str[i] && g_is_exec && !check)
+	while (str[i] && !check)
 	{
 		if (str[i] == '\'' || str[i] == '"')
 			state_quote_delimiter(str, &i, str[i]);
-		if (!ft_strncmp("<<", &str[i], 2) || !ft_strncmp("<", &str[i], 1)
+		else if (!ft_strncmp("<<", &str[i], 2) || !ft_strncmp("<", &str[i], 1)
 			|| !ft_strncmp(">>", &str[i], 2) || !ft_strncmp(">", &str[i], 1))
 			check = ft_check_f_name(str, &i);
 		else

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 14:11:05 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:36:49 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,5 @@ int	ft_heredoc(char **str, int *i, char **f_name)
 		free(line);
 		line = readline(prompt);
 	}
-	return (free(delim), free(line), free(prompt), ft_close(fd), exit(0), 0);
+	return (free(delim), free(line), free(prompt), ft_close(fd), free(*f_name), exit(0), 0);
 }
