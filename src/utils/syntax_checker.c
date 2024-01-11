@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 15:16:54 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 22:30:34 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 extern int	g_is_exec;
 
-static void	ft_print_syntax_error(char *str)
+void	ft_print_syntax_error(char *str)
 {
 	ft_putstr_fd("minishell: syntax error: ", STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
 }
 
-static int	ft_check_quotes(char *str)
+int	ft_check_quotes(char *str)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ static int	ft_check_quotes(char *str)
 	return (0);
 }
 
-static int	ft_check_brackets(char *str)
+int	ft_check_brackets(char *str)
 {
 	int	opening;
 	int	closing;
@@ -72,7 +72,7 @@ static int	ft_check_brackets(char *str)
 	return (0);
 }
 
-static int	ft_create_heredocs(char **str)
+int	ft_create_heredocs(char **str)
 {
 	int		i;
 	char	*f_name;
@@ -100,7 +100,7 @@ static int	ft_create_heredocs(char **str)
 	return (0);
 }
 
-static int	ft_check_fredirs(char *str)
+int	ft_check_fredirs(char *str)
 {
 	int		i;
 	int		check;
@@ -120,21 +120,4 @@ static int	ft_check_fredirs(char *str)
 			return (check);
 	}
 	return (0);
-}
-
-int	ft_check_syntax_heredoc(t_mshell_sack *sack)
-{
-	if (ft_check_quotes(sack->cmd_tree->cmd_str))
-		return (ft_add_to_env(sack, "?=2"), 0);
-	if (ft_check_brackets(sack->cmd_tree->cmd_str))
-		return (ft_add_to_env(sack, "?=2"), 0);
-	if (ft_check_fredirs(sack->cmd_tree->cmd_str))
-		return (ft_add_to_env(sack, "?=2"), 0);
-	g_is_exec = 2;
-	if (ft_create_heredocs(&sack->cmd_tree->cmd_str))
-		return (g_is_exec = 0, ft_add_to_env(sack, "?=2"), 0);
-	if (!g_is_exec)
-		return (ft_add_to_env(sack, "?=130"), 0);
-	g_is_exec = 0;
-	return (1);
 }

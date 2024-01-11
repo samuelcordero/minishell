@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 14:31:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:55:25 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	ft_add_subtokens(char **arr, int *pos, char *str, char **envp)
 	{
 		if (iter->content && ((t_cmdtoken *)iter->content)->str)
 			arr[(*pos)++] = ft_strdup(((t_cmdtoken *)iter->content)->str);
-		else 
+		else
 			arr[(*pos)++] = ft_strdup("");
 		iter = iter->next;
 	}

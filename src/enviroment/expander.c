@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 16:12:09 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:54:36 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*get_key(char *str, int needle_tip)
 	size_t	len;
 
 	if (str[needle_tip] == '$')
-		return (ft_strdup("$")); 
+		return (ft_strdup("$"));
 	if (str[needle_tip] == '?')
 		return (ft_strdup("?"));
 	if (ft_isspace(str[needle_tip]) || !str[needle_tip]
@@ -51,9 +51,9 @@ static char	*expand_str(char *str, int *i, char **envp)
 	tmp = get_key(str, (*i) + 1);
 	needle = ft_strtrim(tmp, " \n\t\r\v");
 	free(tmp);
- 	if (!ft_strncmp(needle, "", 1))
+	if (!ft_strncmp(needle, "", 1))
 		return (free(needle), ++(*i), str);
-	expanded = ft_substr(str, 0, (size_t) (*i));
+	expanded = ft_substr(str, 0, (size_t)(*i));
 	tmp = expanded;
 	if (!ft_strncmp(needle, "$", 2))
 		expanded = ft_strjoin(tmp, "no PID, sorry :C");
