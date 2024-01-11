@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:46:49 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:49:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	get_command_str(t_mshell_sack *sack)
 	char	*tmp;
 	char	*res;
 
+	ft_set_echo(1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	tmp = readline(sack->custom_prompt);

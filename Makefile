@@ -6,7 +6,7 @@
 #    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2024/01/09 11:12:44 by sacorder         ###   ########.fr        #
+#    Updated: 2024/01/11 14:20:32 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC =	src/main.c \
 		src/enviroment/enviroment.c \
 		src/enviroment/enviroment_extra.c \
 		src/enviroment/expander.c \
+		src/enviroment/expander_utils.c \
 		src/execute/execute.c \
 		src/execute/execute_utils.c \
 		src/execute/execute_utils2.c \
@@ -52,8 +53,8 @@ ifeq ($(UNAME), Darwin)
 	# mac, you may need to change flags in order to compile inside the clusters (checkwhere your readline brew installation is)
     LDFLAGS += -L/usr/local/opt/readline/lib
     LDFLAGS += -L/System/Volumes/Data/sgoinfre/students/${USER}/homebrew/opt/readline/lib -lreadline
-    LDFLAGS += -L/opt/homebrew/opt/readline/lib	# macbook guortun
-    CFLAGS += -I/opt/homebrew/opt/readline/include # macbook guortun
+    LDFLAGS += -L/opt/homebrew/opt/readline/lib# macbook guortun
+    CFLAGS += -I/opt/homebrew/opt/readline/include# macbook guortun
     CFLAGS += -I/usr/local/opt/readline/include
     CFLAGS += -I/System/Volumes/Data/sgoinfre/students/${USER}/homebrew/opt/readline/include
 else

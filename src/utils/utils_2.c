@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:07:54 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 14:48:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:48:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,25 @@ int	ft_check_f_name(char *str, int *i)
 		write(STDERR_FILENO, &str[starting[0]], 1);
 	ft_putendl_fd("'", STDERR_FILENO);
 	return (1);
+}
+
+int	ft_set_echo(int val)
+{
+	struct termios	settings;
+
+	if (tcgetattr(STDIN_FILENO, &settings) == -1)
+	{
+		perror("tcgetattr");
+		return (1);
+	}
+	if (val)
+		settings.c_lflag |= ECHO;
+	else
+		settings.c_lflag &= ~ECHO;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &settings) == -1)
+	{
+		perror("tcsetattr");
+		return (1);
+	}
+	return (0);
 }
