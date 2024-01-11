@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 12:59:48 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:47:05 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ char	*ft_expand(char *line, char **envp, char expand_all)
 	char	in_quotes;
 	char	*expanded;
 
-	i = -1;
+	i = 0;
 	expanded = ft_strdup(line);
 	in_quotes = 0;
-	while (expanded[++i])
+	while (expanded[i])
 	{
 		if (expanded[i] == '\"')
 			in_quotes = !in_quotes;
@@ -91,7 +91,9 @@ char	*ft_expand(char *line, char **envp, char expand_all)
 			state_quote_delimiter(expanded, &i, '\'');
 		if (expanded[i] == '$')
 			expanded = expand_str(expanded, i, envp);
-		if (!expanded || !expanded[i])
+		else
+			++i;
+		if (!expanded)
 			break ;
 	}
 	return (expanded);
