@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:15:01 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 18:36:57 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:43:13 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,13 @@ void	get_files_init(DIR **dir_ptr, struct dirent **directory,
 	*directory = readdir(*dir_ptr);
 	*matches = ft_calloc(1024, sizeof(char *));
 	*ctr = -1;
+}
+
+int	regex_iterator(char *regex, char *f_name, int *j, int i)
+{
+	while (regex[*j] == '*')
+		++*j;
+	if (f_name[i] || (regex[*j]))
+		return (0);
+	return (1);
 }

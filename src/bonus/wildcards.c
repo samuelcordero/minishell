@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 14:33:22 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:42:47 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ static int	ft_match(char *f_name, char *regex)
 		j = if_char_unop(f_name[i], j);
 		i = if_char_unop(f_name[i], i);
 	}
-	while (regex[j] == '*')
-		++j;
-	if (f_name[i] || (regex[j]))
+	if (!regex_iterator(regex, f_name, &j, i))
 		return (0);
 	return (1);
 }

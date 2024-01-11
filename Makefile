@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
+#    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2024/01/11 14:20:32 by sacorder         ###   ########.fr        #
+#    Updated: 2024/01/11 22:25:39 by guortun-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,11 +29,13 @@ SRC =	src/main.c \
 		src/lexer/lexer.c \
 		src/lexer/lexer_utils.c \
 		src/heredoc/heredoc.c \
+		src/heredoc/heredoc_utils.c \
 		src/history/history.c \
 		src/utils/utils.c \
 		src/utils/utils_2.c \
 		src/utils/init.c \
 		src/utils/syntax_checker.c \
+		src/utils/syntax_utils.c \
 		src/builtins/builtins_utils.c \
 		src/builtins/cd.c \
 		src/builtins/echo.c \

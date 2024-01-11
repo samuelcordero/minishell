@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 13:00:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 22:54:26 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void		ft_envp_tidy(t_mshell_sack *sack);
 
 int			ft_heredoc(char **str, int *i, char **f_name);
 int			ft_expand_heredoc(int o_fd, t_redir_tok *tok, char **envp);
+void		delim_subs(char *str, int j, char *tmp, char *tmp2);
+void		heredoc_management(char *line, char *prompt, char *delim, int *fd);
 
 //history
 
@@ -135,6 +137,11 @@ void		ft_dup2(int oldfd, int newfd);
 //syntax_checker
 
 int			ft_check_syntax_heredoc(t_mshell_sack *sack);
+void		ft_print_syntax_error(char *str);
+int			ft_check_quotes(char *str);
+int			ft_check_brackets(char *str);
+int			ft_create_heredocs(char **str);
+int			ft_check_fredirs(char *str);
 
 //path_finder
 
@@ -170,5 +177,6 @@ int			strlen_and_free(char **tmp, char **tmp2, char **file);
 
 void		get_files_init(DIR **dir_ptr, struct dirent **directory,
 				char ***matches, int *ctr);
+int			regex_iterator(char *regex, char *f_name, int *j, int i);
 
 #endif
