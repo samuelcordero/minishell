@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 14:47:05 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:29:19 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ static char	*get_key(char *str, int needle_tip)
 {
 	size_t	len;
 
-	if (str[needle_tip] == '$' || ft_isspace(str[needle_tip])
-		|| !str[needle_tip] || str[needle_tip] == '"')
-		return (ft_strdup("$"));
+	if (str[needle_tip] == '$')
+		return (ft_strdup("$")); 
 	if (str[needle_tip] == '?')
 		return (ft_strdup("?"));
+	if (ft_isspace(str[needle_tip]) || !str[needle_tip]
+		|| str[needle_tip] == '"')
+		return (ft_strdup(""));
 	len = ft_strchr(&str[needle_tip], ' ') - &str[needle_tip];
 	if (len > (size_t)(ft_strchr(&str[needle_tip], '"') - &str[needle_tip]))
 		len = ft_strchr(&str[needle_tip], '"') - &str[needle_tip];
@@ -39,27 +41,27 @@ static char	*get_key(char *str, int needle_tip)
 	return (ft_substr(str, needle_tip, len));
 }
 
-static char	*expand_str(char *str, int i, char **envp)
+static char	*expand_str(char *str, int *i, char **envp)
 {
 	char	*needle;
 	char	*expanded;
 	char	*extract;
 	char	*tmp;
 
-	tmp = get_key(str, i + 1);
+	tmp = get_key(str, (*i) + 1);
 	needle = ft_strtrim(tmp, " \n\t\r\v");
 	free(tmp);
-	if (!ft_strncmp(needle, "$", 2))
-		return (free(needle), str);
-	expanded = ft_substr(str, 0, (size_t) i);
+ 	if (!ft_strncmp(needle, "", 1))
+		return (free(needle), ++(*i), str);
+	expanded = ft_substr(str, 0, (size_t) (*i));
 	tmp = expanded;
-	if (str[i + 1] == '$')
+	if (!ft_strncmp(needle, "$", 2))
 		expanded = ft_strjoin(tmp, "no PID, sorry :C");
 	else
 		expanded = ft_strjoin(tmp, ft_get_from_env(envp, needle, NULL));
 	free(tmp);
 	tmp = expanded;
-	extract = ft_substr(str, i + 1 + ft_strlen(needle), SIZE_T_MAX);
+	extract = ft_substr(str, (*i) + 1 + ft_strlen(needle), SIZE_T_MAX);
 	expanded = ft_strjoin(expanded, extract);
 	free(tmp);
 	free(extract);
@@ -90,7 +92,7 @@ char	*ft_expand(char *line, char **envp, char expand_all)
 		if (expanded[i] == '\'' && !in_quotes && !expand_all)
 			state_quote_delimiter(expanded, &i, '\'');
 		if (expanded[i] == '$')
-			expanded = expand_str(expanded, i, envp);
+			expanded = expand_str(expanded, &i, envp);
 		else
 			++i;
 		if (!expanded)
