@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:20:15 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/09 11:13:36 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 11:33:46 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,11 @@ int	expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 */
 int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 {
-	char	*tmp;
 	int		status;
 
 	while (ft_has_brackets(tree_node->cmd_str))
 		ft_remove_outer_brackets(tree_node->cmd_str);
-	tmp = ft_strtrim(tree_node->cmd_str, " \t\n\r\v");
-	tree_node->expanded_str = ft_expand(tmp, sack->envp, 0);
-	free(tmp);
+	tree_node->expanded_str = ft_strtrim(tree_node->cmd_str, " \t\n\r\v");
 	tree_node->expanded_str = ft_expand_wildcards(tree_node->expanded_str);
 	if (tree_node->expanded_str && tree_node->expanded_str[0])
 	{

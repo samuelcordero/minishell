@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 20:41:13 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 12:59:48 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,16 @@ char	*ft_expand(char *line, char **envp, char expand_all)
 			break ;
 	}
 	return (expanded);
+}
+
+int	ft_expand_tokens(t_cmd_node *cmd_list, t_mshell_sack *sack)
+{
+	while (cmd_list)
+	{
+		cmd_list->args = ft_expand_arg_arr(cmd_list->args, sack->envp);
+		if (!cmd_list->args)
+			return (ft_memory_err_exit(sack), 1);
+		cmd_list = cmd_list->next;
+	}
+	return (0);
 }

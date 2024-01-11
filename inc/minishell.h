@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 15:49:42 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 13:00:25 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,11 @@ int			ft_no_path(t_cmd_node *node, int close, int fd);
 //expander
 
 char		*ft_expand(char *line, char **envp, char expand_all);
+int			ft_expand_tokens(t_cmd_node *cmd_list, t_mshell_sack *sack);
+
+//expander_utils
+
+char		**ft_expand_arg_arr(char **args, char **envp);
 
 //redirect_utils
 
