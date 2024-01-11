@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 13:18:09 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:31:11 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static void	ft_add_subtokens(char **arr, int *pos, char *str, char **envp)
 	iter = list;
 	while (iter)
 	{
-		arr[(*pos)++] = ft_strdup(((t_cmdtoken *)iter->content)->str);
+		if (iter->content && ((t_cmdtoken *)iter->content)->str)
+			arr[(*pos)++] = ft_strdup(((t_cmdtoken *)iter->content)->str);
+		else 
+			arr[(*pos)++] = ft_strdup("");
 		iter = iter->next;
 	}
 	ft_lstclear(&list, free_cmd_tok);
@@ -54,7 +57,7 @@ char	**ft_expand_arg_arr(char **args, char **envp)
 	aux = 0;
 	while (args[++ctr])
 		if (ft_strchr(args[ctr], '$'))
-			aux += ft_count_subtokens(args[ctr], envp);
+			aux += ft_count_subtokens(args[ctr], envp) - 1;
 	aux += ctr;
 	res = ft_calloc(aux + 1, sizeof(char *));
 	if (!res)
