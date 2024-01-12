@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:20:15 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/11 11:33:46 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:54:24 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,15 @@ int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 	while (ft_has_brackets(tree_node->cmd_str))
 		ft_remove_outer_brackets(tree_node->cmd_str);
 	tree_node->expanded_str = ft_strtrim(tree_node->cmd_str, " \t\n\r\v");
-	tree_node->expanded_str = ft_expand_wildcards(tree_node->expanded_str);
-	if (tree_node->expanded_str && tree_node->expanded_str[0])
-	{
-		tree_node->cmd_tokens = lexer(tree_node->expanded_str);
-		if (!tree_node->cmd_tokens)
-			ft_memory_err_exit(sack);
-		ft_remove_quotes(tree_node->cmd_tokens);
-		status = ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);
-		if (!status)
-			return (ft_exec_and_wait(tree_node, sack));
-		if (status == 2)
-			ft_memory_err_exit(sack);
-	}
+	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
+	ft_expand_list(tree_node->cmd_tokens, sack);
+	if (!tree_node->cmd_tokens)
+		ft_memory_err_exit(sack);
+	status = ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);
+	if (!status)
+		return (ft_exec_and_wait(tree_node, sack));
+	if (status == 2)
+		ft_memory_err_exit(sack);
 	ft_putendl_fd("minishell: redirection error", STDERR_FILENO);
 	return (2);
 }

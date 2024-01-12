@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 13:11:51 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/12 13:55:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 	t_cmd_node	*last;
 
 	ft_set_signal_print(1);
-	if (ft_expand_tokens(tree_node->cmd_list, sack))
-		return (1);
 	std_backup[0] = dup(STDIN_FILENO);
 	std_backup[1] = dup(STDOUT_FILENO);
 	g_is_exec = 1;

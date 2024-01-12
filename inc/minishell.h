@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 22:54:26 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:02:07 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,12 @@ int			ft_no_path(t_cmd_node *node, int close, int fd);
 //expander
 
 char		*ft_expand(char *line, char **envp, char expand_all);
-int			ft_expand_tokens(t_cmd_node *cmd_list, t_mshell_sack *sack);
+int			ft_expand_list(t_list *list, t_mshell_sack *sack);
 
 //expander_utils
 
-char		**ft_expand_arg_arr(char **args, char **envp);
+void		ft_expand_env_list(t_list *list, t_mshell_sack *sack);
+void		ft_expand_wcard_list(t_list *list, t_mshell_sack *sack);
 
 //redirect_utils
 
