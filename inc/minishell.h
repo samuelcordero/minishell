@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/12 14:02:07 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:16:03 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,14 +170,14 @@ int			ft_check_f_name(char *str, int *i);
 
 //wildcards
 
+t_list		*ft_get_files(char *regex);
 char		*ft_expand_wildcards(char *str);
 int			if_char_unop(char token, int index);
 int			strlen_and_free(char **tmp, char **tmp2, char **file);
 
 //wildcards_utils
 
-void		get_files_init(DIR **dir_ptr, struct dirent **directory,
-				char ***matches, int *ctr);
+void		get_files_init(DIR **dir_ptr, struct dirent **directory);
 int			regex_iterator(char *regex, char *f_name, int *j, int i);
 
 #endif

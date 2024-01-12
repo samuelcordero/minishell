@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/12 14:46:02 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:48:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static int	ft_count_args(t_list *begin)
 static int	fill_management(t_list **begin, t_cmd_node **current,
 		t_cmd_node **p_curr, int *i)
 {
-	if (((t_cmdtoken *)(*begin)->content)->type == ARG || ((t_cmdtoken *)(*begin)->content)->type == EXP_ARG)
+	if (((t_cmdtoken *)(*begin)->content)->type == ARG
+		|| ((t_cmdtoken *)(*begin)->content)->type == EXP_ARG)
 		(*current)->args[(*i)++] = ft_strdup(((t_cmdtoken *)
 					(*begin)->content)->str);
 	else if (((t_cmdtoken *)(*begin)->content)->type == FILE_REDIR)
