@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 22:54:26 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:08:18 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void		ft_envp_tidy(t_mshell_sack *sack);
 
 int			ft_heredoc(char **str, int *i, char **f_name);
 int			ft_expand_heredoc(int o_fd, t_redir_tok *tok, char **envp);
-void		delim_subs(char *str, int j, char *tmp, char *tmp2);
-void		heredoc_management(char *line, char *prompt, char *delim, int *fd);
+void		delim_subs(char **str, int j, char *tmp, char *tmp2);
+void		heredoc_management(char **line, char *prompt, char *delim, int *fd);
 
 //history
 
@@ -122,11 +122,13 @@ int			ft_no_path(t_cmd_node *node, int close, int fd);
 //expander
 
 char		*ft_expand(char *line, char **envp, char expand_all);
-int			ft_expand_tokens(t_cmd_node *cmd_list, t_mshell_sack *sack);
+int			ft_expand_list(t_list *list, t_mshell_sack *sack);
 
 //expander_utils
 
-char		**ft_expand_arg_arr(char **args, char **envp);
+void		ft_expand_env_list(t_list *list, t_mshell_sack *sack);
+void		ft_expand_wcard_list(t_list *list, t_mshell_sack *sack);
+void		ft_unquote_list(t_list *list);
 
 //redirect_utils
 
@@ -169,14 +171,14 @@ int			ft_check_f_name(char *str, int *i);
 
 //wildcards
 
+t_list		*ft_get_files(char *regex);
 char		*ft_expand_wildcards(char *str);
 int			if_char_unop(char token, int index);
 int			strlen_and_free(char **tmp, char **tmp2, char **file);
 
 //wildcards_utils
 
-void		get_files_init(DIR **dir_ptr, struct dirent **directory,
-				char ***matches, int *ctr);
+void		get_files_init(DIR **dir_ptr, struct dirent **directory);
 int			regex_iterator(char *regex, char *f_name, int *j, int i);
 
 #endif

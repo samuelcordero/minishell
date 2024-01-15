@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/21 13:54:17 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:05:45 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define ARG 0
 # define FILE_REDIR 1
 # define PIPE 2
+# define EXP_ARG 3
 # define AND_MASK 0b1
 # define OR_MASK 0b10
 # define WAIT_MASK 0b100

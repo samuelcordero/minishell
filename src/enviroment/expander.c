@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 21:54:36 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:05:54 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,18 @@ char	*ft_expand(char *line, char **envp, char expand_all)
 	return (expanded);
 }
 
-int	ft_expand_tokens(t_cmd_node *cmd_list, t_mshell_sack *sack)
+int	ft_expand_list(t_list *list, t_mshell_sack *sack)
 {
-	while (cmd_list)
+	t_cmdtoken	*content;
+
+	while (list)
 	{
-		cmd_list->args = ft_expand_arg_arr(cmd_list->args, sack->envp);
-		if (!cmd_list->args)
-			return (ft_memory_err_exit(sack), 1);
-		cmd_list = cmd_list->next;
+		content = list->content;
+		if (ft_strchr(content->str, '$') && content->type != EXP_ARG)
+			ft_expand_env_list(list, sack);
+		if (ft_strchr(content->str, '*'))
+			ft_expand_wcard_list(list, sack);
+		list = list->next;
 	}
 	return (0);
 }

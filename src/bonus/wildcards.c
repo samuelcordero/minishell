@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 21:42:47 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:53:58 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,45 @@ static int	ft_match(char *f_name, char *regex)
 	return (1);
 }
 
-static char	**ft_get_files(char *regex)
+t_list	*ft_get_files(char *regex)
 {
 	DIR				*dir_ptr;
 	struct dirent	*directory;
-	char			**matches;
-	int				ctr;
 	char			*tmp;
+	t_list			*file_list;
+	t_list			*iters[2];
 
-	get_files_init(&dir_ptr, &directory, &matches, &ctr);
-	if (!matches)
-		return (NULL);
+	tmp = ft_strdup(regex);
+	ft_str_unquote(&tmp);
+	get_files_init(&dir_ptr, &directory);
+	file_list = NULL;
+	if (!directory)
+		return (free(tmp), NULL);	
+	file_list = ft_calloc(1, sizeof(t_list));
+	iters[0] = file_list;
+	iters[1] = iters[0];
 	while (directory)
 	{
 		if (ft_match(directory->d_name, regex))
 		{
-			tmp = ft_strjoin("'", directory->d_name);
-			if (!tmp)
-				return (matches);
-			matches[++ctr] = ft_strjoin(tmp, "'");
-			free(tmp);
-			if (!matches[ctr])
-				return (matches);
+			iters[0]->content = ft_calloc(1, sizeof(t_cmdtoken));
+			((t_cmdtoken *)iters[0]->content)->str = ft_strdup(directory->d_name);
+			((t_cmdtoken *)iters[0]->content)->type = 3;
+			iters[0]->next = ft_calloc(1, sizeof(t_list));
+			iters[1] = iters[0];
+			iters[0] = iters[0]->next;
 		}
 		directory = readdir(dir_ptr);
 	}
-	return (closedir(dir_ptr), matches);
+	free(tmp);
+	iters[1]->next = NULL;
+	if (iters[0] == iters[1])
+		file_list = NULL;
+	ft_lstclear(&iters[0], free_cmd_tok);
+	return (closedir(dir_ptr), file_list);
 }
 
-static char	*ft_get_regex(char *regex_start, int *i)
+/* static char	*ft_get_regex(char *regex_start, int *i)
 {
 	int		j;
 	char	*regex;
@@ -113,40 +123,4 @@ static char	*ft_join_files(char *str, char **files, int *i, char *regex)
 	res = ft_strjoin(tmp, tmp2);
 	*i += dist - 2;
 	return (free(str), free(tmp), free(tmp2), res);
-}
-
-/*
-	1. find * regex
-	2. get file table from regex
-	3. join substring until regex with file table,
-		then join substring past regex
-	this is done in a loop until the end of the string
-*/
-char	*ft_expand_wildcards(char *str)
-{
-	char	**f_table;
-	char	*regex;
-	int		i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '\"' || str[i] == '\'')
-			state_quote_delimiter(str, &i, str[i]);
-		while (ft_isspace(str[i]))
-			++i;
-		regex = ft_get_regex(&str[i], &i);
-		if (regex)
-		{
-			f_table = ft_get_files(regex);
-			if (f_table && f_table[0])
-				str = ft_join_files(str, f_table, &i, regex);
-			else
-				i += ft_strlen(regex) - 1;
-			free(regex);
-			if (f_table)
-				free(f_table);
-		}
-	}
-	return (str);
-}
+} */
