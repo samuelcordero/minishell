@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 22:30:34 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:10:21 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

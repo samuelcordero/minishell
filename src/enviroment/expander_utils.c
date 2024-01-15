@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/12 15:50:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/15 13:43:06 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,15 @@ void	ft_expand_wcard_list(t_list *list, t_mshell_sack *sack)
 	{
 		ft_add_subtokens_wcards(list, tmp);
 		ft_lstclear(&tmp, free_cmd_tok);
+	}
+}
+
+void	ft_unquote_list(t_list *list)
+{
+	while (list)
+	{
+		if (((t_cmdtoken *)list->content)->type != EXP_ARG)
+			ft_str_unquote(&((t_cmdtoken *)list->content)->str);
+		list = list->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 22:55:05 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:08:40 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*get_delim_and_substitute(char **str, int *i, char *new_name)
 	delim = ft_substr(*str, *i, j - *i);
 	tmp = ft_substr(*str, 0, *i);
 	tmp2 = ft_strjoin(tmp, new_name);
-	delim_subs(*str, j, tmp, tmp2);
+	delim_subs(str, j, tmp, tmp2);
 	return (*i += ft_strlen(new_name), delim);
 }
 
@@ -136,7 +136,9 @@ int	ft_heredoc(char **str, int *i, char **f_name)
 	prompt = ft_strjoin(line, ") > ");
 	free(line);
 	line = readline(prompt);
-	heredoc_management(line, prompt, delim, &fd);
-	return (free(delim), free(line), free(prompt),
+	heredoc_management(&line, prompt, delim, &fd);
+	if (line)
+		free(line);
+	return (free(delim), free(prompt),
 		ft_close(fd), free(*f_name), exit(0), 0);
 }
