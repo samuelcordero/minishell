@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 15:49:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:33:40 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (ft_check_syntax_heredoc(&m_sack))
 				expand_execute(m_sack.cmd_tree, &m_sack);
+			if (DEBUG)
+				print_cmdtree(m_sack.cmd_tree);
 			m_sack.cmd_tree = ft_free_cmdtree(m_sack.cmd_tree);
 		}
 		else if (m_sack.eof)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/15 14:08:18 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:16:37 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,4 +181,6 @@ int			strlen_and_free(char **tmp, char **tmp2, char **file);
 void		get_files_init(DIR **dir_ptr, struct dirent **directory);
 int			regex_iterator(char *regex, char *f_name, int *j, int i);
 
+// DEBUG
+void	print_cmdtree(t_cmdtree *head);
 #endif
