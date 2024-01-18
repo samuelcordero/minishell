@@ -6,13 +6,13 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/15 13:43:06 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:49:29 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_add_subtokens_env(char *str, t_list *list)
+/* static void	ft_add_subtokens_env(char *str, t_list *list)
 {
 	t_list	*tmp_list;
 	t_list	*iter;
@@ -53,9 +53,9 @@ void	ft_expand_env_list(t_list *list, t_mshell_sack *sack)
 		ft_add_subtokens_env(tmp, list);
 	}
 	free(tmp);
-}
+} */
 
-static void	ft_add_subtokens_wcards(t_list *list, t_list *tmp)
+/* static void	ft_add_subtokens_wcards(t_list *list, t_list *tmp)
 {
 	t_list	*ref;
 
@@ -73,9 +73,9 @@ static void	ft_add_subtokens_wcards(t_list *list, t_list *tmp)
 		}
 	}
 	list->next = ref;
-}
+} */
 
-void	ft_expand_wcard_list(t_list *list, t_mshell_sack *sack)
+/* void	ft_expand_wcard_list(t_list *list, t_mshell_sack *sack)
 {
 	t_cmdtoken	*content;
 	t_list		*tmp;
@@ -88,9 +88,9 @@ void	ft_expand_wcard_list(t_list *list, t_mshell_sack *sack)
 		ft_add_subtokens_wcards(list, tmp);
 		ft_lstclear(&tmp, free_cmd_tok);
 	}
-}
+} */
 
-void	ft_unquote_list(t_list *list)
+/* void	ft_unquote_list(t_list *list)
 {
 	while (list)
 	{
@@ -98,4 +98,4 @@ void	ft_unquote_list(t_list *list)
 			ft_str_unquote(&((t_cmdtoken *)list->content)->str);
 		list = list->next;
 	}
-}
+} */

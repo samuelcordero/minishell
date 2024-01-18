@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/16 12:16:37 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:57:53 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ void		state_quote_delimiter(char *str, int *i, char delim);
 void		skip_spaces(char *str, int *i, int *start);
 int			ft_remove_quotes(t_list *tokens);
 int			ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack);
-void		ft_str_unquote(char **str);
+void		ft_str_unquote(char *str);
+
+//retokenizer
+
+int			retokenize(t_list *curr, int type, int start, int *new_len, int len);
 
 //execute (2,3,4)
 
@@ -123,12 +127,20 @@ int			ft_no_path(t_cmd_node *node, int close, int fd);
 
 char		*ft_expand(char *line, char **envp, char expand_all);
 int			ft_expand_list(t_list *list, t_mshell_sack *sack);
+void		expand_list(t_list *curr, t_mshell_sack *sack);
 
 //expander_utils
 
 void		ft_expand_env_list(t_list *list, t_mshell_sack *sack);
 void		ft_expand_wcard_list(t_list *list, t_mshell_sack *sack);
 void		ft_unquote_list(t_list *list);
+
+//xpander_utils2
+
+void		wildcard_state(t_list *curr, int *i, t_mshell_sack *sack);
+void		env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack);
+void		double_quote_state(t_list *curr, int *i, t_mshell_sack *sack);
+void		single_quote_state(t_list *curr, int *i);
 
 //redirect_utils
 
@@ -171,7 +183,7 @@ int			ft_check_f_name(char *str, int *i);
 
 //wildcards
 
-t_list		*ft_get_files(char *regex);
+char		*ft_get_files(char *regex);
 char		*ft_expand_wildcards(char *str);
 int			if_char_unop(char token, int index);
 int			strlen_and_free(char **tmp, char **tmp2, char **file);

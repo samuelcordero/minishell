@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_defines.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/16 17:43:39 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:53:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # define OUTFILE_MASK 0b10
 # define HEREDOC_MASK 0b100
 # define CONCATOUT_MASK 0b1000
-# define ARG 0
-# define FILE_REDIR 1
-# define PIPE 2
-# define EXP_ARG 3
+# define FILE_REDIR 0
+# define PIPE 1
+# define LOGIC 2
+# define ARG 3
+# define E_EXP_ARG 4
+# define W_EXP_ARG 5
 # define AND_MASK 0b1
 # define OR_MASK 0b10
 # define WAIT_MASK 0b100
