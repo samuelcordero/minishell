@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 13:54:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:15:03 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 	files = ft_get_files(regex);
 	free(regex);
 	if (!files)
-		return ;
+		return (tok->type = W_EXP_ARG, (void) 0);
 	tmp = ft_substr(tok->str, 0, k);
 	regex = ft_strjoin(tmp, files);
 	free(files);
