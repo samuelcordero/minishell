@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:20:15 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/15 13:19:00 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:03:41 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 	tree_node->expanded_str = ft_strtrim(tree_node->cmd_str, " \t\n\r\v");
 	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
 	ft_expand_list(tree_node->cmd_tokens, sack);
-	ft_unquote_list(tree_node->cmd_tokens);
 	if (!tree_node->cmd_tokens)
 		ft_memory_err_exit(sack);
 	status = ft_fill_cmdlist(tree_node->cmd_tokens, tree_node);

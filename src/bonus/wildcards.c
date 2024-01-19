@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/12 15:53:58 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:20:01 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,42 +41,33 @@ static int	ft_match(char *f_name, char *regex)
 	return (1);
 }
 
-t_list	*ft_get_files(char *regex)
+char	*ft_get_files(char *regex)
 {
 	DIR				*dir_ptr;
 	struct dirent	*directory;
+	char			*file_list;
 	char			*tmp;
-	t_list			*file_list;
-	t_list			*iters[2];
 
-	tmp = ft_strdup(regex);
-	ft_str_unquote(&tmp);
 	get_files_init(&dir_ptr, &directory);
-	file_list = NULL;
-	if (!directory)
-		return (free(tmp), NULL);	
-	file_list = ft_calloc(1, sizeof(t_list));
-	iters[0] = file_list;
-	iters[1] = iters[0];
+	file_list = ft_strdup("");
+	if (!directory || !file_list)
+		return (NULL);
 	while (directory)
 	{
 		if (ft_match(directory->d_name, regex))
 		{
-			iters[0]->content = ft_calloc(1, sizeof(t_cmdtoken));
-			((t_cmdtoken *)iters[0]->content)->str = ft_strdup(directory->d_name);
-			((t_cmdtoken *)iters[0]->content)->type = 3;
-			iters[0]->next = ft_calloc(1, sizeof(t_list));
-			iters[1] = iters[0];
-			iters[0] = iters[0]->next;
+			tmp = ft_strjoin(file_list, directory->d_name);
+			free(file_list);
+			file_list = ft_strjoin(tmp, " ");
+			free(tmp);
 		}
 		directory = readdir(dir_ptr);
 	}
-	free(tmp);
-	iters[1]->next = NULL;
-	if (iters[0] == iters[1])
-		file_list = NULL;
-	ft_lstclear(&iters[0], free_cmd_tok);
-	return (closedir(dir_ptr), file_list);
+	if (!file_list[0])
+		return (free(file_list), closedir(dir_ptr), NULL);
+	tmp = ft_strtrim(file_list, " \n\t\r\v");
+	free(file_list);
+	return (closedir(dir_ptr), tmp);
 }
 
 /* static char	*ft_get_regex(char *regex_start, int *i)

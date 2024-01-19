@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:50:36 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/15 14:08:40 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:57:05 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	ft_heredoc(char **str, int *i, char **f_name)
 	int		pid;
 
 	fd = create_temp_heredoc(str, i, &delim, f_name);
-	ft_str_unquote(&delim);
+	ft_str_unquote(delim);
 	if (fd == -1 || !g_is_exec)
 		return (free(delim), 1);
 	pid = fork();

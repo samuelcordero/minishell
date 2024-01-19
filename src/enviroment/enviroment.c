@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:48:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:18:41 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ char	*ft_get_from_env(char **envp, char	*key, int *exists)
 	int		i;
 
 	i = -1;
+	if (!ft_strncmp(key, "", 1))
+		return ("$");
+	if (!ft_strncmp(key, "$", 2))
+		return ("no PID, sorry :C");
 	while (envp && envp[++i])
 	{
 		if (!ft_strncmp(envp[i], key, ft_strlen(key)))

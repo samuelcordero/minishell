@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
+#    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2024/01/16 12:04:48 by guortun-         ###   ########.fr        #
+#    Updated: 2024/01/18 12:26:52 by sacorder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC =	src/main.c \
 		src/enviroment/enviroment_extra.c \
 		src/enviroment/expander.c \
 		src/enviroment/expander_utils.c \
+		src/enviroment/expander_utils2.c \
 		src/execute/execute.c \
 		src/execute/execute_utils.c \
 		src/execute/execute_utils2.c \
@@ -28,6 +29,7 @@ SRC =	src/main.c \
 		src/execute/path_finder.c \
 		src/lexer/lexer.c \
 		src/lexer/lexer_utils.c \
+		src/lexer/retokenizer.c \
 		src/heredoc/heredoc.c \
 		src/heredoc/heredoc_utils.c \
 		src/history/history.c \
