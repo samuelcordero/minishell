@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/19 18:39:54 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:54:04 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 	free(tmp[1]);
 	free(tmp[2]);
 	free(tok->str);
-	ft_printf("now is (%s)", tmp[0]);
 	tok->str = tmp[0];
 	if (check_w_cards)
 		retokenize(curr, E_EXP_ARG, *i, &len_tmp, len);
