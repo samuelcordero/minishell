@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 12:56:50 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:51:32 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ void	state_quote_delimiter(char *str, int *i, char delim)
 		++(*i);
 }
 
-void	skip_spaces(char *str, int *i, int *start)
+void	skip_spaces(char *str, int *i, int *start, int mode)
 {
 	while (ft_isspace(str[*i]) && str[*i])
 		++(*i);
-	*start = *i;
+	if (mode)
+		*start = *i;
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 11:54:03 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:52:40 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	tokener(char *str, t_list *list)
 	last = NULL;
 	while (str[i])
 	{
-		skip_spaces(str, &i, & start);
+		skip_spaces(str, &i, & start, 1);
 		last = current;
 		current->content = get_next_token(str, start, &i);
 		current->next = ft_calloc(1, sizeof(t_list));

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 13:45:45 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:51:53 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	retokenize(t_list *curr, int type, int start, int *new_len, int len)
 	next = curr->next;
 	while (tmp && tmp[i])
 	{
-		skip_spaces(tmp, &i, &tok_start);
+		skip_spaces(tmp, &i, &tok_start, 0);
 		last = curr;
 		curr->content = get_next_token(tmp, tok_start, &i, type, len);
 		if (!*new_len)
@@ -58,7 +58,7 @@ int	retokenize(t_list *curr, int type, int start, int *new_len, int len)
 		curr->next = ft_calloc(1, sizeof(t_list));
 		if (!curr->content || !curr->next)
 			return (1);
-		skip_spaces(tmp, &i, &tok_start);
+		skip_spaces(tmp, &i, &tok_start, 1);
 		curr = curr->next;
 	}
 	if (last && last->next)
