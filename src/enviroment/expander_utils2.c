@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/19 18:54:04 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:37:37 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 	while (tok->str[j] && !ft_isspace(tok->str[j]))
 		++j;
 	regex = ft_substr(tok->str, k, j - k);
-	DEBUG_STR(regex);
+	debug_hub(NULL, "regex", regex);
 	files = ft_get_files(regex);
 	free(regex);
 	if (!files)
@@ -65,8 +65,10 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 
 	j = *i + 1;
 	tok = curr->content;
-	while (tok->str[j] && !ft_isspace(tok->str[j]) && tok->str[j] != '"' && tok->str[j] != '*'
-			&& !ft_isreserved(tok->str[j]) && tok->str[j] != '\'' && tok->str[j] != '$')
+	while (tok->str[j] && !ft_isspace(*tok->str) && tok->str[j] != '"'
+		&& tok->str[j] != '*'
+		&& !ft_isreserved(tok->str[j]) && tok->str[j] != '\''
+		&& tok->str[j] != '$')
 		++j;
 	if (j == *i + 1 && tok->str[j] == '$')
 		++j;
@@ -97,7 +99,7 @@ void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
 
 	j = *i;
 	tok = curr->content;
-	while (tok->str[j + 1]) //quita la primera comilla y mueve todo el string a la izquierda
+	while (tok->str[j + 1])
 	{
 		tok->str[j] = tok->str[j + 1];
 		++j;
@@ -109,7 +111,7 @@ void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
 		++(*i);
 	}
 	j = *i;
-	while (tok->str[j] && tok->str[j + 1]) //mueve el string a la izquierda desde la segunda comilla simple
+	while (tok->str[j] && tok->str[j + 1])
 	{
 		tok->str[j] = tok->str[j + 1];
 		++j;
@@ -124,7 +126,7 @@ void	single_quote_state(t_list *curr, int *i)
 
 	j = *i;
 	tok = curr->content;
-	while (tok->str[j + 1]) //quita la primera comilla y mueve todo el string a la izquierda
+	while (tok->str[j + 1])
 	{
 		tok->str[j] = tok->str[j + 1];
 		++j;
@@ -132,7 +134,7 @@ void	single_quote_state(t_list *curr, int *i)
 	while (tok->str[*i] != '\'' && tok->str[*i])
 		++(*i);
 	j = *i;
-	while (tok->str[j] && tok->str[j + 1]) //mueve el string a la izquierda desde la segunda comilla simple
+	while (tok->str[j] && tok->str[j + 1])
 	{
 		tok->str[j] = tok->str[j + 1];
 		++j;

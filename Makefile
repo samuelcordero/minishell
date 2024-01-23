@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+         #
+#    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2024/01/18 12:26:52 by sacorder         ###   ########.fr        #
+#    Updated: 2024/01/23 13:57:43 by guortun-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ SRC =	src/main.c \
 		src/bonus/command_tree_utils.c \
 		src/bonus/wildcards.c \
 		src/bonus/wildcards_utils.c \
-		src/DEBUG/debug.c
+		src/DEBUG/debug.c \
+		src/DEBUG/debug_2.c
 OBJ = $(SRC:.c=.o)
 CC = gcc
 UNAME := $(shell uname -s)
