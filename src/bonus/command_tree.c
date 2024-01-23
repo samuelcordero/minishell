@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 11:49:57 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:19:07 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static int	fill_management(t_list **begin, t_cmd_node **current,
 	}
 	else if (((t_cmdtoken *)(*begin)->content)->type == PIPE)
 	{
+		if (!(*begin)->next || ((t_cmdtoken *)(*begin)->next->content)->type == PIPE)
+			return (1);
 		(*current) = ft_calloc(1, sizeof(t_cmd_node));
 		if (!(*current))
 			return (2);
@@ -118,7 +120,7 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 	if (!current->args)
 		return (2);
 	if (tkn->type == PIPE)
-		begin = begin->next;
+		return (1);
 	ctr[0] = 0;
 	while (begin)
 	{
