@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/16 12:33:40 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:07:31 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ void	leaks(void)
 	system("leaks minishell");
 }
 
+void	ft_setsigint(t_mshell_sack *sack)
+{
+	ft_add_to_env(sack, "?=130");
+	g_is_exec = 0;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_mshell_sack	m_sack;
@@ -61,6 +67,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		get_command_str(&m_sack);
+		if (g_is_exec == 3)
+			ft_setsigint(&m_sack);
 		if (m_sack.cmd_tree && !m_sack.eof)
 		{
 			if (ft_check_syntax_heredoc(&m_sack))
