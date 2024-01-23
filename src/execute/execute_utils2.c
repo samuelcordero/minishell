@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 14:12:29 by guortun-          #+#    #+#             */
-/*   Updated: 2023/12/28 19:30:20 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:27:20 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	exec_first_management(t_cmd_node *node, t_mshell_sack *sack, char **path)
 	ft_dup2(node->pipe_fds[1], STDOUT_FILENO);
 	ft_close(node->pipe_fds[0]);
 	ft_close(node->pipe_fds[1]);
-	if (ft_isbuiltin(node->args[0]))
+	if (node->is_builtin)
 		ft_execbuiltin(node, sack, 0);
 	ft_envp_tidy(sack);
 	if (execve(*path, node->args, sack->envp) == -1)
@@ -40,7 +40,8 @@ static int	ft_exec_mid_cmd(t_cmd_node *node, t_mshell_sack *sack,
 		return (ft_close(inputfd), ft_close(node->pipe_fds[1]),
 			*outfd = node->pipe_fds[0], node->exit_code = 0, 1);
 	path = extract_exec_path(sack, node);
-	if (!path && !ft_isbuiltin(node->args[0]))
+	node->is_builtin = ft_isbuiltin(node->args[0]);
+	if (!path && !node->is_builtin)
 		return (ft_no_path(node, 1, node->pipe_fds[1]),
 			ft_close(inputfd), *outfd = node->pipe_fds[0], 1);
 	ft_fork(node);
@@ -67,12 +68,13 @@ static int	ft_exec_last_cmd(t_cmd_node *node, t_mshell_sack *sack, int inputfd)
 	if (!path && !ft_isbuiltin(node->args[0]))
 		return (ft_no_path(node, 1, STDOUT_FILENO), ft_close(inputfd), 0);
 	ft_fork(node);
+	node->is_builtin = ft_isbuiltin(node->args[0]);
 	if (node->pid)
 		ft_close(inputfd);
 	if (!node->pid)
 	{
 		ft_dup2(inputfd, STDIN_FILENO);
-		if (ft_isbuiltin(node->args[0]))
+		if (node->is_builtin)
 			ft_execbuiltin(node, sack, 0);
 		ft_envp_tidy(sack);
 		if (execve(path, node->args, sack->envp) == -1)
