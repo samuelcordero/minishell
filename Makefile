@@ -6,7 +6,7 @@
 #    By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/05 13:14:44 by sacorder          #+#    #+#              #
-#    Updated: 2024/01/23 13:57:43 by guortun-         ###   ########.fr        #
+#    Updated: 2024/01/24 13:47:12 by guortun-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC =	src/main.c \
 		src/enviroment/expander.c \
 		src/enviroment/expander_utils.c \
 		src/enviroment/expander_utils2.c \
+		src/enviroment/expander_utils3.c \
 		src/execute/execute.c \
 		src/execute/execute_utils.c \
 		src/execute/execute_utils2.c \

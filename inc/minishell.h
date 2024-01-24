@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 12:54:52 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:55:49 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void		*ft_free_cmdtree(t_cmdtree *tree);
 
 char		*ft_get_from_env(char **envp, char	*key, int *exists);
 int			ft_add_to_env(t_mshell_sack *sack, char *key_val);
+char		*get_value_from_env(char **envp, char *key, int *exists);
 
 //enviroment_extra
 
@@ -128,6 +129,8 @@ int			ft_no_path(t_cmd_node *node, int close, int fd);
 char		*ft_expand(char *line, char **envp, char expand_all);
 int			ft_expand_list(t_list *list, t_mshell_sack *sack);
 void		expand_list(t_list *curr, t_mshell_sack *sack);
+void		process_selected_lines(t_cmdtoken *tok, int *j);
+void		tmp_man(int j, char *tmp[3], t_cmdtoken *tok);
 
 //expander_utils
 

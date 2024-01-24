@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment_extra.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:55:51 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/22 14:53:43 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:57:38 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,32 @@ void	ft_envp_tidy(t_mshell_sack *sack)
 				sack->envp[j] = sack->envp[j + 1];
 		}
 	}
+}
+
+char	*get_value_from_env(char **envp, char *key, int *exists)
+{
+	char	*ret;
+	int		i;
+
+	i = -1;
+	while (envp && envp[++i])
+	{
+		if (!ft_strncmp(envp[i], key, ft_strlen(key)))
+		{
+			if (envp[i][ft_strlen(key)] == '=')
+			{
+				ret = envp[i] + ft_strlen(key) + 1;
+				if (exists)
+					*exists = 1;
+				return (ret);
+			}
+			if (!envp[i][ft_strlen(key)])
+			{
+				if (exists)
+					*exists = 1;
+				return ("");
+			}
+		}
+	}
+	return ("");
 }
