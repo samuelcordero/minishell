@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:41:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,82 +14,46 @@
 
 void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 {
-	int			j;
-	int			k;
+	int			cont[2];
 	t_cmdtkn	*tok;
 	char		*regex;
 	char		*files;
 	char		*tmp;
 
-	j = *i + 1;
-	k = *i;
+	cont[0] = *i + 1;
+	cont[1] = *i;
 	tok = curr->content;
-	while (k > 0 && !ft_isspace(tok->str[k]))
-		--k;
-	while (ft_isspace(tok->str[k]))
-		++k;
-	while (tok->str[j] && !ft_isspace(tok->str[j]))
+	while (cont[1] > 0 && !ft_isspace(tok->str[cont[1]]))
+		--cont[1];
+	while (ft_isspace(tok->str[cont[1]]))
+		++cont[1];
+	while (tok->str[cont[0]] && !ft_isspace(tok->str[cont[0]]))
 	{
-		if (tok->str[j] == '\'')
-			single_quote_state(curr, &j);
-		else if (tok->str[j] == '"')
-			double_quote_state(curr, &j, sack);
+		if (tok->str[cont[0]] == '\'')
+			single_quote_state(curr, &cont[0]);
+		else if (tok->str[cont[0]] == '"')
+			double_quote_state(curr, &cont[0], sack);
 		else
-			++j;
+			++cont[0];
 	}
-	j = *i;
-	while (tok->str[j] && !ft_isspace(tok->str[j]))
-		++j;
-	regex = ft_substr(tok->str, k, j - k);
-	debug_hub(NULL, "regex", regex);
+	cont[0] = *i;
+	while (tok->str[cont[0]] && !ft_isspace(tok->str[cont[0]]))
+		++cont[0];
+	regex = ft_substr(tok->str, cont[1], cont[0] - cont[1]);
 	files = ft_get_files(regex);
 	free(regex);
 	if (!files)
 		return (tok->type = W_EXP_ARG, (void) 0);
-	tmp = ft_substr(tok->str, 0, k);
+	tmp = ft_substr(tok->str, 0, cont[1]);
 	regex = ft_strjoin(tmp, files);
 	free(files);
-	files = ft_strjoin(regex, &(tok->str[j]));
+	files = ft_strjoin(regex, &(tok->str[cont[0]]));
+	free(regex);
 	free(tok->str);
 	tok->str = files;
-	retokenize(curr, W_EXP_ARG, k, &j, ft_strlen(files) + *i);
-}
-
-void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
-{
-	int			j;
-	t_cmdtkn	*tok;
-	char		*tmp[3];
-	int			len;
-	int			len_tmp;
-
-	j = *i + 1;
-	tok = curr->content;
-	while (tok->str[j] && !ft_isspace(*tok->str) && tok->str[j] != '"'
-		&& tok->str[j] != '*'
-		&& !ft_isreserved(tok->str[j]) && tok->str[j] != '\''
-		&& tok->str[j] != '$')
-		++j;
-	if (j == *i + 1 && tok->str[j] == '$')
-		++j;
-	tmp[0] = ft_substr(tok->str, *i + 1, j - (*i + 1));
-	len = ft_strlen(ft_get_from_env(sack->envp, tmp[0], NULL)) + *i;
-	tmp[1] = ft_substr(tok->str, 0, *i);
-	tmp[2] = ft_strjoin(tmp[1], ft_get_from_env(sack->envp, tmp[0], NULL));
-	free(tmp[0]);
-	free(tmp[1]);
-	tmp[1] = ft_substr(tok->str, j, SIZE_T_MAX);
-	tmp[0] = ft_strjoin(tmp[2], tmp[1]);
-	free(tmp[1]);
-	free(tmp[2]);
-	free(tok->str);
-	tok->str = tmp[0];
-	if (check_w_cards)
-		retokenize(curr, E_EXP_ARG, *i, &len_tmp, len);
+	retokenize(curr, W_EXP_ARG, cont[1], &cont[0], ft_strlen(files) + *i);
 	if (tok != curr->content)
 		free_cmd_tok(tok);
-	tok = curr->content;
-	tok->type = E_EXP_ARG;
 }
 
 void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
@@ -140,33 +104,4 @@ void	single_quote_state(t_list *curr, int *i)
 		++j;
 	}
 	tok->str[j - 1] = '\0';
-}
-
-void	expand_list(t_list *curr, t_mshell_sack *sack)
-{
-	t_cmdtkn	*tok;
-	int			i;
-	int			pre_type;
-
-	tok = curr->content;
-	i = 0;
-	pre_type = tok->type;
-	while (tok->str[i])
-	{
-		if (tok->str[i] == '\'' && pre_type == ARG)
-			single_quote_state(curr, &i);
-		else if (tok->str[i] == '"' && pre_type == ARG)
-			double_quote_state(curr, &i, sack);
-		else if (tok->str[i] == '*' && pre_type == E_EXP_ARG)
-			return (wildcard_state(curr, &i, sack), (void)0);
-		else if (tok->str[i] == '$' && pre_type == ARG)
-			env_state(curr, &i, 1, sack);
-		else
-			++i;
-		tok = curr->content;
-	}
-	if (pre_type == E_EXP_ARG)
-		tok->type = W_EXP_ARG;
-	if (pre_type == ARG)
-		tok->type = E_EXP_ARG;
 }
