@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:20:15 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/17 17:03:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:05:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,16 @@ int	expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 	char		*keyval;
 	char		*nbrstr;
 
+	sack->cont = 1;
 	if (logic_expansion(tree_node))
 		return (ft_expansion_error(tree_node), ft_printexit(2, sack, 1), 2);
 	if (tree_node->left)
 		tree_node->exit_code = expand_execute(tree_node->left, sack);
 	if (tree_node->right)
-		if ((tree_node->exit_code == 0 && tree_node->is_logic == AND_MASK)
-			|| (tree_node->exit_code != 0 && tree_node->is_logic == OR_MASK)
-			|| (tree_node->is_logic == WAIT_MASK))
+		if (((tree_node->exit_code == 0 && tree_node->is_logic == AND_MASK)
+				|| (tree_node->exit_code != 0 && tree_node->is_logic == OR_MASK)
+				|| (tree_node->is_logic == WAIT_MASK))
+			&& sack->cont)
 			tree_node->exit_code = expand_execute(tree_node->right, sack);
 	if (!tree_node->is_logic)
 		tree_node->exit_code = ft_parse_and_exec(tree_node, sack);
@@ -74,6 +76,7 @@ int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 	if (status == 2)
 		ft_memory_err_exit(sack);
 	ft_putendl_fd("minishell: redirection error", STDERR_FILENO);
+	sack->cont = 0;
 	return (2);
 }
 

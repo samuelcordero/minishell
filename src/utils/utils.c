@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:49:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_free_array(char **array)
 
 void	free_cmd_tok(void *tok)
 {
-	t_cmdtoken	*tofree;
+	t_cmdtkn	*tofree;
 
 	tofree = tok;
 	if (tofree)

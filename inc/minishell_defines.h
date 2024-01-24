@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_defines.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 16:12:26 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_cmdtoken
 {
 	char	*str;
 	int		type;
-}	t_cmdtoken;
+}	t_cmdtkn;
 
 typedef struct s_redir_tok
 {
@@ -70,6 +70,7 @@ typedef struct s_cmd_node
 	int					exit_code;
 	char				is_builtin;
 	int					pipe_fds[2];
+	char				*path;
 }	t_cmd_node;
 
 typedef struct s_cmdtree
@@ -94,6 +95,7 @@ typedef struct s_mshell_sack
 	long		env_elems;
 	char		*custom_prompt;
 	char		eof;
+	char		cont;
 }	t_mshell_sack;
 
 #endif

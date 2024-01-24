@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
 /*   Updated: 2024/01/24 13:55:49 by guortun-         ###   ########.fr       */
@@ -91,8 +91,7 @@ void		ft_str_unquote(char *str);
 
 //retokenizer
 
-int			retokenize(t_list *curr, int type,
-				int start, int *new_len, int len);
+int			retokenize(t_list *curr, int type, int start, int *lngths);
 
 //execute (2,3,4)
 

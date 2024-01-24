@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/10 14:13:22 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:10:34 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ extern int	g_is_exec;
 
 static void	ft_sig_handler(int signum)
 {
-	if (signum == SIGINT && !g_is_exec)
+	if (signum == SIGINT && (!g_is_exec || g_is_exec == 3))
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		ft_putendl_fd("\n^C", STDERR_FILENO);
 		rl_redisplay();
+		g_is_exec = 3;
 	}
 	else if (signum == SIGQUIT && g_is_exec == 1)
 	{
@@ -33,7 +34,7 @@ static void	ft_sig_handler(int signum)
 	else if (signum == SIGINT && g_is_exec == 2)
 	{
 		g_is_exec = 0;
-		ft_putendl_fd("^C", STDOUT_FILENO);
+		ft_putendl_fd("^C", STDERR_FILENO);
 	}
 }
 
@@ -107,8 +108,12 @@ static void	ft_fill_envp(t_mshell_sack *sack)
 */
 void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 {
-	(void)argc;
 	(void)argv;
+	if (argc != 1)
+	{
+		ft_putendl_fd("minishell: no args supported", STDERR_FILENO);
+		exit(1);
+	}
 	ft_bzero(sack, sizeof(t_mshell_sack));
 	if (ft_init_envp(sack, envp))
 	{
