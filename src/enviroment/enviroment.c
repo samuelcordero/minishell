@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 13:18:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:17:57 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 
 char	*ft_get_from_env(char **envp, char	*key, int *exists)
 {
-	char	*ret;
 	int		i;
 
 	i = -1;
@@ -89,16 +88,14 @@ char	*ft_get_from_env(char **envp, char	*key, int *exists)
 		{
 			if (envp[i][ft_strlen(key)] == '=')
 			{
-				ret = envp[i] + ft_strlen(key) + 1;
 				if (exists)
 					*exists = 1;
-				return (ret);
+				return (envp[i] + ft_strlen(key) + 1);
 			}
 			if (!envp[i][ft_strlen(key)])
 			{
 				if (exists)
 					*exists = 1;
-				return ("");
 			}
 		}
 	}

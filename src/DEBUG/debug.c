@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 12:51:47 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/23 20:01:23 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	ternary(char is_builtin)
 void	print_tokens(t_list *tokens)
 {
 	t_list		*current;
-	t_cmdtoken	*ccontent;
+	t_cmdtkn	*ccontent;
 	int			counter;
 
 	current = tokens;
 	counter = 0;
 	while (current)
 	{
-		ccontent = (t_cmdtoken *)current->content;
+		ccontent = (t_cmdtkn *)current->content;
 		debug_hub(NULL, "counter", &counter);
 		if (ccontent)
 		{

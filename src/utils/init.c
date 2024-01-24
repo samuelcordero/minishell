@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 13:15:39 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:10:34 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	init(t_mshell_sack *sack, char **envp, int argc, char **argv)
 {
 	(void)argv;
 	if (argc != 1)
-	{	
+	{
 		ft_putendl_fd("minishell: no args supported", STDERR_FILENO);
 		exit(1);
 	}

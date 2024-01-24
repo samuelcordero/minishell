@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 11:05:47 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ int	ft_expand_list(t_list *list, t_mshell_sack *sack)
 {
 	while (list)
 	{
-		if (((t_cmdtoken *)list->content)->type == ARG)
+		if (((t_cmdtkn *)list->content)->type == ARG)
 			expand_list(list, sack);
-		else if (((t_cmdtoken *)list->content)->type == E_EXP_ARG)
+		else if (((t_cmdtkn *)list->content)->type == E_EXP_ARG)
 			expand_list(list, sack);
 		else
 			list = list->next;

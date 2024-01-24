@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/19 18:51:53 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	*get_token(char *str, int start, int end, int type)
 {
-	t_cmdtoken	*token;
+	t_cmdtkn	*token;
 
-	token = ft_calloc(1, sizeof(t_cmdtoken));
+	token = ft_calloc(1, sizeof(t_cmdtkn));
 	if (!token)
 		return (NULL);
 	token->str = ft_substr(str, start, end - start);
@@ -45,7 +45,7 @@ int	retokenize(t_list *curr, int type, int start, int *new_len, int len)
 
 	i = start;
 	last = NULL;
-	tmp = ft_strdup(((t_cmdtoken *)curr->content)->str);
+	tmp = ft_strdup(((t_cmdtkn *)curr->content)->str);
 	tok_start = 0;
 	next = curr->next;
 	while (tmp && tmp[i])
@@ -66,7 +66,7 @@ int	retokenize(t_list *curr, int type, int start, int *new_len, int len)
 		free(last->next);
 		last->next = next;
 		if (i > len && type == W_EXP_ARG)
-			((t_cmdtoken *)last->content)->type = ARG;
+			((t_cmdtkn *)last->content)->type = ARG;
 	}
 	if (tmp)
 		free(tmp);

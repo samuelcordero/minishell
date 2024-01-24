@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:11:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/19 18:51:32 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_str_unquote(char *str)
 
 int	ft_remove_quotes(t_list *tokens)
 {
-	t_cmdtoken	*content;
+	t_cmdtkn	*content;
 
 	while (tokens)
 	{

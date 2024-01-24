@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 18:19:07 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:13:43 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static void	red_compare(t_list *tkn_lst, t_list **tmp)
 {
-	if (ft_strncmp("<", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
+	if (ft_strncmp("<", ((t_cmdtkn *)tkn_lst->content)->str, 2) == 0)
 		((t_redir_tok *)(*tmp)->content)->redir_type = INFILE_MASK;
-	else if (ft_strncmp(">", ((t_cmdtoken *)tkn_lst->content)->str, 2) == 0)
+	else if (ft_strncmp(">", ((t_cmdtkn *)tkn_lst->content)->str, 2) == 0)
 		((t_redir_tok *)(*tmp)->content)->redir_type = OUTFILE_MASK;
-	else if (ft_strncmp("<<", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
+	else if (ft_strncmp("<<", ((t_cmdtkn *)tkn_lst->content)->str, 3) == 0)
 		((t_redir_tok *)(*tmp)->content)->redir_type = HEREDOC_MASK;
-	else if (ft_strncmp(">>", ((t_cmdtoken *)tkn_lst->content)->str, 3) == 0)
+	else if (ft_strncmp(">>", ((t_cmdtkn *)tkn_lst->content)->str, 3) == 0)
 		((t_redir_tok *)(*tmp)->content)->redir_type = CONCATOUT_MASK;
 }
 
@@ -44,7 +44,7 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 		tmp = current->redirs_lst;
 	}
 	tmp->content = ft_calloc(1, sizeof(t_redir_tok));
-	((t_redir_tok *)tmp->content)->file_name = ft_strdup(((t_cmdtoken *)
+	((t_redir_tok *)tmp->content)->file_name = ft_strdup(((t_cmdtkn *)
 				tkn_lst->next->content)->str);
 	red_compare(tkn_lst, &tmp);
 	return (0);
@@ -52,7 +52,7 @@ static int	set_file_info(t_list *tkn_lst, t_cmd_node *current)
 
 static int	ft_count_args(t_list *begin)
 {
-	t_cmdtoken	*tkn;
+	t_cmdtkn	*tkn;
 	int			res;
 
 	res = 0;
@@ -69,28 +69,28 @@ static int	ft_count_args(t_list *begin)
 	return (res);
 }
 
-static int	fill_management(t_list **begin, t_cmd_node **current,
+static int	fill_management(t_list **bgn, t_cmd_node **current,
 		t_cmd_node **p_curr, int *i)
 {
-	if (((t_cmdtoken *)(*begin)->content)->type >= ARG)
-		(*current)->args[(*i)++] = ft_strdup(((t_cmdtoken *)
-					(*begin)->content)->str);
-	else if (((t_cmdtoken *)(*begin)->content)->type == FILE_REDIR)
+	if (((t_cmdtkn *)(*bgn)->content)->type >= ARG)
+		(*current)->args[(*i)++] = ft_strdup(((t_cmdtkn *)
+					(*bgn)->content)->str);
+	else if (((t_cmdtkn *)(*bgn)->content)->type == FILE_REDIR)
 	{
-		if (set_file_info((*begin), (*current)))
+		if (set_file_info((*bgn), (*current)))
 			return (1);
-		(*begin) = (*begin)->next;
+		(*bgn) = (*bgn)->next;
 	}
-	else if (((t_cmdtoken *)(*begin)->content)->type == PIPE)
+	else if (((t_cmdtkn *)(*bgn)->content)->type == PIPE)
 	{
-		if (!(*begin)->next || ((t_cmdtoken *)(*begin)->next->content)->type == PIPE)
+		if (!(*bgn)->next || ((t_cmdtkn *)(*bgn)->next->content)->type == PIPE)
 			return (1);
 		(*current) = ft_calloc(1, sizeof(t_cmd_node));
 		if (!(*current))
 			return (2);
 		(*p_curr)->next = (*current);
 		(*p_curr) = (*current);
-		(*current)->args = ft_calloc(ft_count_args((*begin)->next) + 1,
+		(*current)->args = ft_calloc(ft_count_args((*bgn)->next) + 1,
 				sizeof(char *));
 		(*i) = 0;
 		if (!(*current)->args)
@@ -105,7 +105,7 @@ static int	fill_management(t_list **begin, t_cmd_node **current,
 
 int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 {
-	t_cmdtoken	*tkn;
+	t_cmdtkn	*tkn;
 	t_cmd_node	*current;
 	t_cmd_node	*p_curr;
 	int			ctr[2];
@@ -141,11 +141,11 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 	(*tree)->left = tmp;
 	if (!(*needle)->next)
 		return (1);
-	if (!ft_strncmp(((t_cmdtoken *)((*needle)->content))->str, ";", 2))
+	if (!ft_strncmp(((t_cmdtkn *)((*needle)->content))->str, ";", 2))
 		(*tree)->is_logic = WAIT_MASK;
-	else if (!ft_strncmp(((t_cmdtoken *)((*needle)->content))->str, "&&", 3))
+	else if (!ft_strncmp(((t_cmdtkn *)((*needle)->content))->str, "&&", 3))
 		(*tree)->is_logic = AND_MASK;
-	else if (!ft_strncmp(((t_cmdtoken *)((*needle)->content))->str, "||", 3))
+	else if (!ft_strncmp(((t_cmdtkn *)((*needle)->content))->str, "||", 3))
 		(*tree)->is_logic = OR_MASK;
 	(*needle) = (*needle)->next;
 	return (ft_parse_tree(&((*tree)->right), needle));
@@ -153,7 +153,7 @@ int	ft_fill_cmdlist(t_list *begin, t_cmdtree *tree_node)
 
 int	ft_parse_tree(t_cmdtree **tree, t_list **tokenlist)
 {
-	t_cmdtoken	*tkn;
+	t_cmdtkn	*tkn;
 	t_list		*needle;
 
 	if (!(*tokenlist))

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/19 18:52:40 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	*get_token(char *str, int start, int end)
 {
-	t_cmdtoken	*token;
+	t_cmdtkn	*token;
 
-	token = ft_calloc(1, sizeof(t_cmdtoken));
+	token = ft_calloc(1, sizeof(t_cmdtkn));
 	if (!token)
 		return (NULL);
 	token->str = ft_substr(str, start, end - start);

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:20:15 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/23 18:17:19 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:05:08 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	expand_execute(t_cmdtree *tree_node, t_mshell_sack *sack)
 		tree_node->exit_code = expand_execute(tree_node->left, sack);
 	if (tree_node->right)
 		if (((tree_node->exit_code == 0 && tree_node->is_logic == AND_MASK)
-			|| (tree_node->exit_code != 0 && tree_node->is_logic == OR_MASK)
-			|| (tree_node->is_logic == WAIT_MASK))
+				|| (tree_node->exit_code != 0 && tree_node->is_logic == OR_MASK)
+				|| (tree_node->is_logic == WAIT_MASK))
 			&& sack->cont)
 			tree_node->exit_code = expand_execute(tree_node->right, sack);
 	if (!tree_node->is_logic)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 16:37:37 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 {
 	int			j;
 	int			k;
-	t_cmdtoken	*tok;
+	t_cmdtkn	*tok;
 	char		*regex;
 	char		*files;
 	char		*tmp;
@@ -58,7 +58,7 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 {
 	int			j;
-	t_cmdtoken	*tok;
+	t_cmdtkn	*tok;
 	char		*tmp[3];
 	int			len;
 	int			len_tmp;
@@ -95,7 +95,7 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
 {
 	int			j;
-	t_cmdtoken	*tok;
+	t_cmdtkn	*tok;
 
 	j = *i;
 	tok = curr->content;
@@ -122,7 +122,7 @@ void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
 void	single_quote_state(t_list *curr, int *i)
 {
 	int			j;
-	t_cmdtoken	*tok;
+	t_cmdtkn	*tok;
 
 	j = *i;
 	tok = curr->content;
@@ -144,7 +144,7 @@ void	single_quote_state(t_list *curr, int *i)
 
 void	expand_list(t_list *curr, t_mshell_sack *sack)
 {
-	t_cmdtoken	*tok;
+	t_cmdtkn	*tok;
 	int			i;
 	int			pre_type;
 
