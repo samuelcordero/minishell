@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/17 17:20:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:05:13 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,32 @@
 
 static int	ft_match(char *f_name, char *regex)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
+	int	cont[2];
+	
+	ft_memset(cont, 0, sizeof(int) * 2);
 	if (!ft_strncmp(".", f_name, 2) || !ft_strncmp("..", f_name, 3)
 		|| (f_name[0] == '.' && regex[0] != '.'))
 		return (0);
-	while (f_name[i] && regex[j])
+	while (f_name[cont[0]] && regex[cont[1]])
 	{
-		if (regex[j] == '*')
+		if (regex[cont[1]] == '*')
 		{
-			while (regex[j] == '*')
-				++j;
-			while (f_name[i] && f_name[i] != regex[j])
-				++i;
+			while (regex[cont[1]] == '*')
+				++cont[1];
+			while (f_name[cont[0]] && f_name[cont[0]] != regex[cont[1]])
+				++cont[0];
 		}
-		if (f_name[i] != regex[j])
+		if (f_name[cont[0]] != regex[cont[1]])
 			return (0);
-		j = if_char_unop(f_name[i], j);
-		i = if_char_unop(f_name[i], i);
+		cont[1] = if_char_unop(f_name[cont[0]], cont[1]);
+		cont[0] = if_char_unop(f_name[cont[0]], cont[0]);
+		if (!regex[cont[1]] && f_name[cont[0]])
+		{
+			while (regex[cont[1]] != '*')
+				--cont[1];
+		}
 	}
-	if (!regex_iterator(regex, f_name, &j, i))
+	if (!regex_iterator(regex, f_name, &cont[1], cont[0]))
 		return (0);
 	return (1);
 }
