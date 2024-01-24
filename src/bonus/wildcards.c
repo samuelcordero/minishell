@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 14:05:13 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:04:23 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_match(char *f_name, char *regex)
 {
 	int	cont[2];
-	
+
 	ft_memset(cont, 0, sizeof(int) * 2);
 	if (!ft_strncmp(".", f_name, 2) || !ft_strncmp("..", f_name, 3)
 		|| (f_name[0] == '.' && regex[0] != '.'))
@@ -31,13 +31,7 @@ static int	ft_match(char *f_name, char *regex)
 		}
 		if (f_name[cont[0]] != regex[cont[1]])
 			return (0);
-		cont[1] = if_char_unop(f_name[cont[0]], cont[1]);
-		cont[0] = if_char_unop(f_name[cont[0]], cont[0]);
-		if (!regex[cont[1]] && f_name[cont[0]])
-		{
-			while (regex[cont[1]] != '*')
-				--cont[1];
-		}
+		w_card_sup(cont, f_name, regex);
 	}
 	if (!regex_iterator(regex, f_name, &cont[1], cont[0]))
 		return (0);

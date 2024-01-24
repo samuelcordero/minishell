@@ -6,17 +6,27 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:15:01 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/12 15:15:57 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:05:27 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	if_char_unop(char token, int index)
+static void	if_char_unop(char token, int *index)
 {
 	if (token != '\0')
-		return (index + 1);
-	return (index);
+		++(*index);
+}
+
+void	w_card_sup(int *cont, char *f_name, char*regex)
+{
+	if_char_unop(f_name[cont[0]], &cont[1]);
+	if_char_unop(f_name[cont[0]], &cont[0]);
+	if (!regex[cont[1]] && f_name[cont[0]])
+	{
+		while (regex[cont[1]] != '*')
+			--cont[1];
+	}
 }
 
 int	strlen_and_free(char **tmp, char **tmp2, char **file)

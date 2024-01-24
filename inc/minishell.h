@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 13:55:49 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:05:12 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ int			ft_no_path(t_cmd_node *node, int close, int fd);
 char		*ft_expand(char *line, char **envp, char expand_all);
 int			ft_expand_list(t_list *list, t_mshell_sack *sack);
 void		expand_list(t_list *curr, t_mshell_sack *sack);
-void		process_selected_lines(t_cmdtoken *tok, int *j);
-void		tmp_man(int j, char *tmp[3], t_cmdtoken *tok);
+void		process_selected_lines(t_cmdtkn *tok, int *j);
+void		tmp_man(int j, char *tmp[3], t_cmdtkn *tok);
 
 //expander_utils
 
@@ -189,7 +189,7 @@ int			ft_check_f_name(char *str, int *i);
 
 char		*ft_get_files(char *regex);
 char		*ft_expand_wildcards(char *str);
-int			if_char_unop(char token, int index);
+void		w_card_sup(int *conts, char *f_name, char*regex);
 int			strlen_and_free(char **tmp, char **tmp2, char **file);
 
 //wildcards_utils
