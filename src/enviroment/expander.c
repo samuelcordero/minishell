@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 00:34:15 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 12:05:51 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:05:47 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,29 +101,6 @@ char	*ft_expand(char *line, char **envp, char expand_all)
 	return (expanded);
 }
 
-/*
-	incorporar máquina de estados 
-	S0: buscar chars
-		si * wildcard state
-		si " double quote state
-		si ' single quote state
-		si $ env state
-	wildcard state:
-		reconoce regex, busca files que hacen match, 
-		vuelve a S0 cuando avanza todo el wildcard
-	double quote state: ok
-		mueve el string para quitar las comillas
-		no vuelve a S0 hasta que encuentre una doble comilla
-		si encuentra env, pasa a estado env
-	single quote state: ok
-		mueve el string para quitar las comillas
-		no vuelve a S0 hasta que encuentre una comilla simple
-	env state:
-		reconoce variable tipo $NAME
-		reemplaza el valor de la variable en el str
-		vuelve a s0 cuando se avanza la longitud del valor $NAME
-		si antes se encuentra un wildcard, se pasa a s0 si no venimos del estado de comillas
-*/
 int	ft_expand_list(t_list *list, t_mshell_sack *sack)
 {
 	while (list)
@@ -137,19 +114,3 @@ int	ft_expand_list(t_list *list, t_mshell_sack *sack)
 	}
 	return (0);
 }
-
-/* int	ft_expand_list(t_list *list, t_mshell_sack *sack)
-{
-	t_cmdtoken	*content;
-
-	while (list)
-	{
-		content = list->content;
-		if (ft_strchr(content->str, '$') && content->type != EXP_ARG)
-			ft_expand_env_list(list, sack);
-		if (ft_strchr(content->str, '*'))
-			ft_expand_wcard_list(list, sack);
-		list = list->next;
-	}
-	return (0);
-} */

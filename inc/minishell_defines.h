@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_defines.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 18:15:29 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:12:26 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,47 +42,7 @@
 # define RST "\033[0m"
 # define BOLD "\033[1m"
 
-#define DEBUG 2
-
-
-#ifdef DEBUG
-    #if DEBUG == 0 // ENTER/EXIT
-        #define DEBUG_TRACE_ENTER
-        #define DEBUG_TRACE_EXIT
-		#define DEBUG_CHAR(var)(void)(var)
-		#define DEBUG_STR(var)(void)(var)
-		#define DEBUG_INT(var)(void)(var)
-    #elif DEBUG == 1 // ENTER/EXIT
-        #define DEBUG_TRACE_ENTER printf("Entering %s\n", __func__);
-        #define DEBUG_TRACE_EXIT printf("Leaving %s\n", __func__);
-		#define DEBUG_CHAR(var)(void)(var)
-		#define DEBUG_STR(var)(void)(var)
-		#define DEBUG_INT(var)(void)(var)
-    #elif DEBUG == 2 // VAR
-        #define DEBUG_CHAR(var) printf("%s%s%s = %c\n", GREEN, #var, RST, var);
-        #define DEBUG_STR(var) printf("%s%s%s = %s\n", GREEN, #var, RST, var);
-        #define DEBUG_INT(var) printf("%s%s%s = %d\n", GREEN, #var, RST, var);
-        #define DEBUG_TRACE_ENTER
-        #define DEBUG_TRACE_EXIT
-		
-    #else
-        #error "DEBUG level not supported"
-		#define DEBUG_TRACE_ENTER
-        #define DEBUG_TRACE_EXIT
-		#define DEBUG_INT(var)
-		#define DEBUG_CHAR(var)
-		#define DEBUG_STR(var)
-    #endif
-#else
-    #define DEBUG_TRACE_ENTER
-    #define DEBUG_TRACE_EXIT
-	#define DEBUG_INT(var)
-	#define DEBUG_CHAR(var)
-	#define DEBUG_STR(var)
-#endif
-
-
-
+# define DEBUG 0
 //NOT POSIX :c
 # ifndef ECHOCTL
 #  define ECHOCTL 0000400

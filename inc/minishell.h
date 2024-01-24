@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/19 18:52:11 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:02:35 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void		ft_str_unquote(char *str);
 
 //retokenizer
 
-int			retokenize(t_list *curr, int type, int start, int *new_len, int len);
+int			retokenize(t_list *curr, int type,
+				int start, int *new_len, int len);
 
 //execute (2,3,4)
 
@@ -138,7 +139,8 @@ void		ft_unquote_list(t_list *list);
 //xpander_utils2
 
 void		wildcard_state(t_list *curr, int *i, t_mshell_sack *sack);
-void		env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack);
+void		env_state(t_list *curr, int *i, int check_w_cards,
+				t_mshell_sack *sack);
 void		double_quote_state(t_list *curr, int *i, t_mshell_sack *sack);
 void		single_quote_state(t_list *curr, int *i);
 
@@ -194,5 +196,8 @@ void		get_files_init(DIR **dir_ptr, struct dirent **directory);
 int			regex_iterator(char *regex, char *f_name, int *j, int i);
 
 // DEBUG
-void	print_cmdtree(t_cmdtree *head);
+void		print_cmdtree(t_cmdtree *head);
+void		debug_hub(const char *functionName,
+				const char *varname, void *var);
+void		print_variable(const char *varname, void *var, char type);
 #endif

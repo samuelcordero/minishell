@@ -1,16 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/23 12:51:47 by guortun-          #+#    #+#             */
+/*   Updated: 2024/01/23 20:01:23 by guortun-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static void ternary(char is_builtin)
+static void	ternary(char is_builtin)
 {
-	DEBUG_TRACE_ENTER
+	debug_hub(__func__, NULL, NULL);
 	if (is_builtin)
-	{
-		DEBUG_INT(is_builtin);
-	}
+		debug_hub(NULL, "is_builtin", &is_builtin);
 	else
-	{
-		DEBUG_INT(is_builtin);
-	}
+		debug_hub(NULL, "is_builtin", &is_builtin);
 	printf("\n-----------\n\n");
 }
 
@@ -25,15 +33,15 @@ void	print_tokens(t_list *tokens)
 	while (current)
 	{
 		ccontent = (t_cmdtoken *)current->content;
-		DEBUG_INT(counter);
+		debug_hub(NULL, "counter", &counter);
 		if (ccontent)
 		{
-			DEBUG_STR(ccontent->str);
-			DEBUG_INT(ccontent->type);
+			debug_hub(NULL, "ccontent->str", ccontent->str);
+			debug_hub(NULL, "ccontent->type", &ccontent->type);
 		}
 		else
-			DEBUG_STR("NULL\n");
-		DEBUG_STR("--------------\n\n");
+			debug_hub(NULL, "NULL\n", NULL);
+		debug_hub(NULL, "--------------\n\n", NULL);
 		counter++;
 		current = current->next;
 	}
@@ -41,8 +49,8 @@ void	print_tokens(t_list *tokens)
 
 static void	print_cmd_node(t_cmd_node *lst)
 {
-	t_list		*redirs_lst;
-	int			i;
+	t_list	*redirs_lst;
+	int		i;
 
 	if (lst)
 		printf("\n\nCommand list:\n\n");
@@ -55,14 +63,15 @@ static void	print_cmd_node(t_cmd_node *lst)
 		while (redirs_lst)
 		{
 			printf("File redir type: %i, filename %s\n",
-			(int)((t_redir_tok *)redirs_lst->content)->redir_type,
-			((t_redir_tok *)redirs_lst->content)->file_name);
+				(int)((t_redir_tok *)redirs_lst->content)->redir_type,
+				((t_redir_tok *)redirs_lst->content)->file_name);
 			redirs_lst = redirs_lst->next;
 		}
 		ternary(lst->is_builtin);
 		lst = lst->next;
 	}
 }
+
 void	print_cmdtree(t_cmdtree *head)
 {
 	if ((int)head->is_logic == OR_MASK)
@@ -82,4 +91,22 @@ void	print_cmdtree(t_cmdtree *head)
 		print_cmdtree(head->right);
 	}
 	print_cmd_node(head->cmd_list);
+}
+
+void	debug_hub(const char *functionName, const char *varname, void *var)
+{
+	if (DEBUG == 0)
+		return ;
+	else if (DEBUG == 1)
+	{
+		if (functionName == NULL)
+			return ;
+		printf("Checkpoint of %s\n", functionName);
+	}
+	else if (DEBUG == 2)
+	{
+		if (var == NULL)
+			return ;
+		print_variable(varname, var, DEBUG);
+	}
 }
