@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 12:35:34 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:01:33 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 {
 	int			j;
 	t_cmdtkn	*tok;
-	int			len;
-	int			len_tmp;
+	int			lengths[2];
 	char		*tmp[3];
 
 	j = *i + 1;
+	lengths[1] = 0;
 	tok = curr->content;
 	while (tok->str[j] && !ft_isspace(*tok->str) && tok->str[j] != '"'
 		&& !ft_isreserved(tok->str[j]) && tok->str[j] != '\''
@@ -70,12 +70,12 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 	if (j == *i + 1 && tok->str[j] == '$')
 		++j;
 	tmp[0] = ft_substr(tok->str, *i + 1, j - (*i + 1));
-	len = ft_strlen(ft_get_from_env(sack->envp, tmp[0], NULL)) + *i;
+	lengths[0] = ft_strlen(ft_get_from_env(sack->envp, tmp[0], NULL)) + *i;
 	tmp[1] = ft_substr(tok->str, 0, *i);
 	tmp[2] = ft_strjoin(tmp[1], ft_get_from_env(sack->envp, tmp[0], NULL));
 	tok->str = ft_join_env(tok, j, tmp);
 	if (check_w_cards)
-		retokenize(curr, E_EXP_ARG, *i, &len_tmp, len);
+		retokenize(curr, E_EXP_ARG, *i, lengths);
 	if (tok != curr->content)
 		free_cmd_tok(tok);
 	tok = curr->content;
