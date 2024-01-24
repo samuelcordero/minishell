@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/18 13:18:41 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:58:28 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,36 +73,13 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 	return (0);
 }
 
-char	*ft_get_from_env(char **envp, char	*key, int *exists)
+char	*ft_get_from_env(char **envp, char *key, int *exists)
 {
-	char	*ret;
-	int		i;
-
-	i = -1;
 	if (!ft_strncmp(key, "", 1))
 		return ("$");
 	if (!ft_strncmp(key, "$", 2))
 		return ("no PID, sorry :C");
-	while (envp && envp[++i])
-	{
-		if (!ft_strncmp(envp[i], key, ft_strlen(key)))
-		{
-			if (envp[i][ft_strlen(key)] == '=')
-			{
-				ret = envp[i] + ft_strlen(key) + 1;
-				if (exists)
-					*exists = 1;
-				return (ret);
-			}
-			if (!envp[i][ft_strlen(key)])
-			{
-				if (exists)
-					*exists = 1;
-				return ("");
-			}
-		}
-	}
-	return ("");
+	return (get_value_from_env(envp, key, exists));
 }
 
 int	ft_add_to_env(t_mshell_sack *sack, char *key_val)

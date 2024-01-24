@@ -6,7 +6,7 @@
 /*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 16:37:37 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:48:53 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,26 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 	retokenize(curr, W_EXP_ARG, k, &j, ft_strlen(files) + *i);
 }
 
+void	process_selected_lines(t_cmdtoken *tok, int *j)
+{
+	while (tok->str[*j] && !ft_isspace(*tok->str) && tok->str[*j] != '"'
+		&& tok->str[*j] != '*'
+		&& !ft_isreserved(tok->str[*j]) && tok->str[*j] != '\''
+		&& tok->str[*j] != '$')
+		++(*j);
+}
+
+void	tmp_man(int j, char *tmp[3], t_cmdtoken *tok)
+{
+	free(tmp[0]);
+	free(tmp[1]);
+	tmp[1] = ft_substr(tok->str, j, SIZE_T_MAX);
+	tmp[0] = ft_strjoin(tmp[2], tmp[1]);
+	free(tmp[1]);
+	free(tmp[2]);
+	free(tok->str);
+}
+
 void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 {
 	int			j;
@@ -65,24 +85,14 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 
 	j = *i + 1;
 	tok = curr->content;
-	while (tok->str[j] && !ft_isspace(*tok->str) && tok->str[j] != '"'
-		&& tok->str[j] != '*'
-		&& !ft_isreserved(tok->str[j]) && tok->str[j] != '\''
-		&& tok->str[j] != '$')
-		++j;
+	process_selected_lines(tok, &j);
 	if (j == *i + 1 && tok->str[j] == '$')
 		++j;
 	tmp[0] = ft_substr(tok->str, *i + 1, j - (*i + 1));
 	len = ft_strlen(ft_get_from_env(sack->envp, tmp[0], NULL)) + *i;
 	tmp[1] = ft_substr(tok->str, 0, *i);
 	tmp[2] = ft_strjoin(tmp[1], ft_get_from_env(sack->envp, tmp[0], NULL));
-	free(tmp[0]);
-	free(tmp[1]);
-	tmp[1] = ft_substr(tok->str, j, SIZE_T_MAX);
-	tmp[0] = ft_strjoin(tmp[2], tmp[1]);
-	free(tmp[1]);
-	free(tmp[2]);
-	free(tok->str);
+	tmp_man(j, tmp, tok);
 	tok->str = tmp[0];
 	if (check_w_cards)
 		retokenize(curr, E_EXP_ARG, *i, &len_tmp, len);
@@ -90,83 +100,4 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 		free_cmd_tok(tok);
 	tok = curr->content;
 	tok->type = E_EXP_ARG;
-}
-
-void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
-{
-	int			j;
-	t_cmdtoken	*tok;
-
-	j = *i;
-	tok = curr->content;
-	while (tok->str[j + 1])
-	{
-		tok->str[j] = tok->str[j + 1];
-		++j;
-	}
-	while (tok->str[*i] != '"' && tok->str[*i])
-	{
-		if (tok->str[*i] == '$')
-			env_state(curr, i, 0, sack);
-		++(*i);
-	}
-	j = *i;
-	while (tok->str[j] && tok->str[j + 1])
-	{
-		tok->str[j] = tok->str[j + 1];
-		++j;
-	}
-	tok->str[j - 1] = '\0';
-}
-
-void	single_quote_state(t_list *curr, int *i)
-{
-	int			j;
-	t_cmdtoken	*tok;
-
-	j = *i;
-	tok = curr->content;
-	while (tok->str[j + 1])
-	{
-		tok->str[j] = tok->str[j + 1];
-		++j;
-	}
-	while (tok->str[*i] != '\'' && tok->str[*i])
-		++(*i);
-	j = *i;
-	while (tok->str[j] && tok->str[j + 1])
-	{
-		tok->str[j] = tok->str[j + 1];
-		++j;
-	}
-	tok->str[j - 1] = '\0';
-}
-
-void	expand_list(t_list *curr, t_mshell_sack *sack)
-{
-	t_cmdtoken	*tok;
-	int			i;
-	int			pre_type;
-
-	tok = curr->content;
-	i = 0;
-	pre_type = tok->type;
-	while (tok->str[i])
-	{
-		if (tok->str[i] == '\'' && pre_type == ARG)
-			single_quote_state(curr, &i);
-		else if (tok->str[i] == '"' && pre_type == ARG)
-			double_quote_state(curr, &i, sack);
-		else if (tok->str[i] == '*' && pre_type == E_EXP_ARG)
-			return (wildcard_state(curr, &i, sack), (void)0);
-		else if (tok->str[i] == '$' && pre_type == ARG)
-			env_state(curr, &i, 1, sack);
-		else
-			++i;
-		tok = curr->content;
-	}
-	if (pre_type == E_EXP_ARG)
-		tok->type = W_EXP_ARG;
-	if (pre_type == ARG)
-		tok->type = E_EXP_ARG;
 }
