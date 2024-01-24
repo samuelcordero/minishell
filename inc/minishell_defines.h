@@ -94,6 +94,7 @@ typedef struct s_mshell_sack
 	long		env_elems;
 	char		*custom_prompt;
 	char		eof;
+	char		cont;
 }	t_mshell_sack;
 
 #endif

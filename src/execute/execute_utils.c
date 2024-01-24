@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:19:31 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 18:38:21 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:26:17 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ int	ft_exec_first_cmd(t_cmd_node *node, t_mshell_sack *sack, int *outfd)
 		return (ft_close(node->pipe_fds[1]), *outfd = node->pipe_fds[0],
 			node->exit_code = 0, 1);
 	path = extract_exec_path(sack, node);
-	if (!path && !ft_isbuiltin(node->args[0]))
+	node->is_builtin = ft_isbuiltin(node->args[0]);
+	if (!path && !node->is_builtin)
 		return (ft_no_path(node, 1, node->pipe_fds[1]),
 			*outfd = node->pipe_fds[0], 0);
 	ft_fork(node);
