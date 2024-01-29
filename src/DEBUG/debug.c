@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 12:51:47 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:02:47 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static void	ternary(char is_builtin)
 {
-	debug_hub(__func__, NULL, NULL);
+	int	b;
+
+	b = (int) is_builtin;
+	debug_hub(__func__, NULL, NULL, 2);
 	if (is_builtin)
-		debug_hub(NULL, "is_builtin", &is_builtin);
+		debug_hub(NULL, "is_builtin", &b, 3);
 	else
-		debug_hub(NULL, "is_builtin", &is_builtin);
+		debug_hub(NULL, "is_builtin", &b, 3);
 	printf("\n-----------\n\n");
 }
 
@@ -33,15 +36,15 @@ void	print_tokens(t_list *tokens)
 	while (current)
 	{
 		ccontent = (t_cmdtkn *)current->content;
-		debug_hub(NULL, "counter", &counter);
+		debug_hub(NULL, "counter", &counter, 3);
 		if (ccontent)
 		{
-			debug_hub(NULL, "ccontent->str", ccontent->str);
-			debug_hub(NULL, "ccontent->type", &ccontent->type);
+			debug_hub(NULL, "ccontent->str", ccontent->str, 2);
+			debug_hub(NULL, "ccontent->type", &ccontent->type, 3);
 		}
 		else
-			debug_hub(NULL, "NULL\n", NULL);
-		debug_hub(NULL, "--------------\n\n", NULL);
+			debug_hub(NULL, "NULL\n", NULL, 2);
+		debug_hub(NULL, "--------------\n\n", NULL, 2);
 		counter++;
 		current = current->next;
 	}
@@ -93,7 +96,7 @@ void	print_cmdtree(t_cmdtree *head)
 	print_cmd_node(head->cmd_list);
 }
 
-void	debug_hub(const char *functionName, const char *varname, void *var)
+void	debug_hub(const char *functionName, const char *varname, void *var, int type)
 {
 	if (DEBUG == 0)
 		return ;
@@ -107,6 +110,6 @@ void	debug_hub(const char *functionName, const char *varname, void *var)
 	{
 		if (var == NULL)
 			return ;
-		print_variable(varname, var, DEBUG);
+		print_variable(varname, var, type);
 	}
 }

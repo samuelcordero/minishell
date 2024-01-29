@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:15:01 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/12 13:55:59 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:53:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static	int	ft_wait_all(int last_pid, t_cmd_node *last)
 /*
 	Executes the cmd_list inside the node,
 	then waits for the completion of those processes.
-	Also creates a backup of STDIN/OUT before pipes that is restored post execution.
+	Also creates a backup of STDIN/OUT before pipes that
+	is restored post execution.
 */
 int	ft_exec_and_wait(t_cmdtree *tree_node, t_mshell_sack *sack)
 {

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 15:05:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:00:58 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,6 @@ int			regex_iterator(char *regex, char *f_name, int *j, int i);
 // DEBUG
 void		print_cmdtree(t_cmdtree *head);
 void		debug_hub(const char *functionName,
-				const char *varname, void *var);
+				const char *varname, void *var, int type);
 void		print_variable(const char *varname, void *var, char type);
 #endif

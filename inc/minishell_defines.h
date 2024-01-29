@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:55:37 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@
 # define RST "\033[0m"
 # define BOLD "\033[1m"
 
-# define DEBUG 0
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 //NOT POSIX :c
 # ifndef ECHOCTL
 #  define ECHOCTL 0000400

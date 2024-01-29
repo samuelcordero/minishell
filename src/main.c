@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 11:46:10 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:54:43 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	g_is_exec;
 
 /*
 	Tries to read a line, with EOF protection
-	Also trims spaces, and stores the str inside a cmd_tree node and in the history
+	Also trims spaces, and stores the str inside a cmd_tree
+	node and in the history
 */
 static void	get_command_str(t_mshell_sack *sack)
 {
@@ -62,7 +63,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_mshell_sack	m_sack;
 
-	atexit(leaks);
 	rl_initialize();
 	init(&m_sack, envp, argc, argv);
 	while (1)
