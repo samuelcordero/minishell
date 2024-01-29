@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 12:24:28 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:39:32 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	expand_list(t_list *curr, t_mshell_sack *sack)
 	pre_type = tok->type;
 	while (tok->str[i])
 	{
-		if (tok->str[i] == '\'' && pre_type == ARG)
+		if (tok->str[i] == '\'' && pre_type == ARG && ARG == tok->type)
 			single_quote_state(curr, &i);
-		else if (tok->str[i] == '"' && pre_type == ARG)
+		else if (tok->str[i] == '"' && pre_type == ARG && ARG == tok->type)
 			double_quote_state(curr, &i, sack);
 		else if (tok->str[i] == '*' && pre_type == E_EXP_ARG)
 			return (wildcard_state(curr, &i, sack), (void)0);
