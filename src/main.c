@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/23 13:07:31 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:46:10 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_mshell_sack	m_sack;
 
+	atexit(leaks);
 	rl_initialize();
 	init(&m_sack, envp, argc, argv);
 	while (1)

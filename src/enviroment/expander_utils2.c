@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 11:37:36 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:45:13 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ static void	remove_line_numbers(t_cmdtkn *tok,
 	}
 }
 
-static void	merge_strings(t_cmdtkn *tok, int *cont, char *files, char *regex)
+static void	merge_strings(t_cmdtkn *tok, int *cont, char **files, char **regex)
 {
 	char	*tmp;
 
 	tmp = ft_substr(tok->str, 0, cont[2]);
-	regex = ft_strjoin(tmp, files);
-	free(files);
+	*regex = ft_strjoin(tmp, *files);
+	free(*files);
 	free(tmp);
-	files = ft_strjoin(regex, &(tok->str[cont[1]]));
-	free(regex);
+	*files = ft_strjoin(*regex, &(tok->str[cont[1]]));
+	free(*regex);
 	free(tok->str);
 }
 
@@ -62,7 +62,7 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 	free(regex);
 	if (!files)
 		return (tok->type = W_EXP_ARG, (void) 0);
-	merge_strings(tok, cont, files, regex);
+	merge_strings(tok, cont, &files, &regex);
 	tok->str = files;
 	cont[0] = ft_strlen(files) + *i;
 	retokenize(curr, W_EXP_ARG, cont[2], cont);
