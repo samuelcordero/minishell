@@ -3,26 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 13:48:53 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:37:36 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
+static void	remove_line_numbers(t_cmdtkn *tok,
+		int *cont, t_list *curr, t_mshell_sack *sack)
 {
-	int			cont[3];
-	t_cmdtkn	*tok;
-	char		*regex;
-	char		*files;
-	char		*tmp;
-
-	cont[1] = *i + 1;
-	cont[2] = *i;
-	tok = curr->content;
 	while (cont[2] > 0 && !ft_isspace(tok->str[cont[2]]))
 		--cont[2];
 	while (ft_isspace(tok->str[cont[2]]))
@@ -36,6 +28,32 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 		else
 			++cont[1];
 	}
+}
+
+static void	merge_strings(t_cmdtkn *tok, int *cont, char *files, char *regex)
+{
+	char	*tmp;
+
+	tmp = ft_substr(tok->str, 0, cont[2]);
+	regex = ft_strjoin(tmp, files);
+	free(files);
+	free(tmp);
+	files = ft_strjoin(regex, &(tok->str[cont[1]]));
+	free(regex);
+	free(tok->str);
+}
+
+void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
+{
+	int			cont[3];
+	t_cmdtkn	*tok;
+	char		*regex;
+	char		*files;
+
+	cont[1] = *i + 1;
+	cont[2] = *i;
+	tok = curr->content;
+	remove_line_numbers(tok, cont, curr, sack);
 	cont[1] = *i;
 	while (tok->str[cont[1]] && !ft_isspace(tok->str[cont[1]]))
 		++cont[1];
@@ -44,12 +62,7 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 	free(regex);
 	if (!files)
 		return (tok->type = W_EXP_ARG, (void) 0);
-	tmp = ft_substr(tok->str, 0, cont[2]);
-	regex = ft_strjoin(tmp, files);
-	free(files);
-	files = ft_strjoin(regex, &(tok->str[cont[1]]));
-	free(regex);
-	free(tok->str);
+	merge_strings(tok, cont, files, regex);
 	tok->str = files;
 	cont[0] = ft_strlen(files) + *i;
 	retokenize(curr, W_EXP_ARG, cont[2], cont);

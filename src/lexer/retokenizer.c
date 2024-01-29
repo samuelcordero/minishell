@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   retokenizer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 13:11:18 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:12:44 by guortun-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,45 @@ static void	*get_next_token(char *str, int type, int *conts, int len)
 	return (get_token(str, conts[1], conts[0], type));
 }
 
-int	retokenize(t_list *curr, int type, int start, int *lngths)
+static void	update_last_node(t_list **last_next, int *conts,
+	int type, int *lngths)
 {
 	t_list	*last;
-	int		conts[2];
-	char	*tmp;
 	t_list	*next;
 
+	last = last_next[0];
+	next = last_next[1];
+	if (last && last->next)
+	{
+		free(last->next);
+		last->next = next;
+		if (conts[0] > lngths[0] && type == W_EXP_ARG)
+			((t_cmdtkn *)last->content)->type = ARG;
+	}
+}
+
+static	void	free_tmp(char *tmp)
+{
+	if (tmp)
+		free(tmp);
+}
+
+int	retokenize(t_list *curr, int type, int start, int *lngths)
+{
+	int		conts[2];
+	char	*tmp;
+	t_list	*last_next[2];
+
 	conts[0] = start;
-	last = NULL;
+	last_next[0] = NULL;
+	last_next[1] = NULL;
 	tmp = ft_strdup(((t_cmdtkn *)curr->content)->str);
 	conts[1] = 0;
-	next = curr->next;
+	last_next[1] = curr->next;
 	while (tmp && tmp[conts[0]])
 	{
 		skip_spaces(tmp, &conts[0], &conts[1], 0);
-		last = curr;
+		last_next[0] = curr;
 		curr->content = get_next_token(tmp, type, conts, lngths[0]);
 		if (!lngths[1])
 			lngths[1] = conts[0];
@@ -60,14 +83,6 @@ int	retokenize(t_list *curr, int type, int start, int *lngths)
 		skip_spaces(tmp, &conts[0], &conts[1], 1);
 		curr = curr->next;
 	}
-	if (last && last->next)
-	{
-		free(last->next);
-		last->next = next;
-		if (conts[0] > lngths[0] && type == W_EXP_ARG)
-			((t_cmdtkn *)last->content)->type = ARG;
-	}
-	if (tmp)
-		free(tmp);
-	return (0);
+	update_last_node(last_next, conts, type, lngths);
+	return (free_tmp(tmp), 0);
 }
