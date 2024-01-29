@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 13:01:33 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:24:28 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	expand_list(t_list *curr, t_mshell_sack *sack)
 		tok->type = E_EXP_ARG;
 }
 
-static char	*ft_join_env(t_cmdtkn *tok, int j, char **tmp)
+static char	*ft_join_env(t_cmdtkn *tok, int j, char **tmp, int *i)
 {
 	free(tmp[0]);
 	free(tmp[1]);
@@ -50,6 +50,7 @@ static char	*ft_join_env(t_cmdtkn *tok, int j, char **tmp)
 	free(tmp[1]);
 	free(tmp[2]);
 	free(tok->str);
+	++(*i);
 	return (tmp[0]);
 }
 
@@ -73,7 +74,7 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 	lengths[0] = ft_strlen(ft_get_from_env(sack->envp, tmp[0], NULL)) + *i;
 	tmp[1] = ft_substr(tok->str, 0, *i);
 	tmp[2] = ft_strjoin(tmp[1], ft_get_from_env(sack->envp, tmp[0], NULL));
-	tok->str = ft_join_env(tok, j, tmp);
+	tok->str = ft_join_env(tok, j, tmp, i);
 	if (check_w_cards)
 		retokenize(curr, E_EXP_ARG, *i, lengths);
 	if (tok != curr->content)

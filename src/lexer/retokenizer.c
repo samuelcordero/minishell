@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   retokenizer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 11:12:44 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:21:43 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	*get_next_token(char *str, int type, int *conts, int len)
 }
 
 static void	update_last_node(t_list **last_next, int *conts,
-	int type, int *lngths)
+	int *lngths)
 {
 	t_list	*last;
 	t_list	*next;
@@ -47,7 +47,7 @@ static void	update_last_node(t_list **last_next, int *conts,
 	{
 		free(last->next);
 		last->next = next;
-		if (conts[0] > lngths[0] && type == W_EXP_ARG)
+		if (conts[0] > lngths[0])
 			((t_cmdtkn *)last->content)->type = ARG;
 	}
 }
@@ -83,6 +83,6 @@ int	retokenize(t_list *curr, int type, int start, int *lngths)
 		skip_spaces(tmp, &conts[0], &conts[1], 1);
 		curr = curr->next;
 	}
-	update_last_node(last_next, conts, type, lngths);
+	update_last_node(last_next, conts, lngths);
 	return (free_tmp(tmp), 0);
 }

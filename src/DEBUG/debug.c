@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 12:51:47 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/29 12:02:47 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:23:32 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void	print_cmdtree(t_cmdtree *head)
 	print_cmd_node(head->cmd_list);
 }
 
-void	debug_hub(const char *functionName, const char *varname, void *var, int type)
+void	debug_hub(const char *functionName, const char *varname,
+		void *var, int type)
 {
 	if (DEBUG == 0)
 		return ;
