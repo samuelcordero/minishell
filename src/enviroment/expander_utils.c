@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/31 18:50:37 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:23:12 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 	j = *i;
 	lengths[1] = 0;
 	tok = curr->content;
-	while (tok->str[j + 1] && !ft_isspace(tok->str[j + 1]) && tok->str[j + 1] != '"'
+	while (tok->str[j + 1] && tok->str[j + 1] != '"' && tok->str[j + 1] != '$'
 		&& !ft_isreserved(tok->str[j + 1]) && tok->str[j + 1] != '\''
-		&& tok->str[j + 1] != '$' && tok->str[j + 1] != '*')
+		&& tok->str[j + 1] != '*' && !ft_isspace(tok->str[j + 1]))
 		++j;
 	tmp[0] = ft_substr(tok->str, *i + 1, j - *i);
 	if (!ft_strncmp(tmp[0], "", 1))

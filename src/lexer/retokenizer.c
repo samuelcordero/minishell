@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:44:47 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 12:21:43 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/31 19:19:34 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static void	*get_next_token(char *str, int type, int *conts, int len)
 		++(conts[0]);
 	while (str[conts[0]] && conts[0] >= len)
 		++(conts[0]);
-	if (conts[0] >= len)
-		ft_str_unquote(&str[len]);
 	return (get_token(str, conts[1], conts[0], type));
 }
 
