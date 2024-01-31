@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 13:00:44 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:57:32 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
 
 	j = *i;
 	tok = curr->content;
-	while (tok->str[j + 1])
+	while (tok->str[j])
 	{
 		tok->str[j] = tok->str[j + 1];
 		++j;
@@ -86,7 +86,8 @@ void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
 	{
 		if (tok->str[*i] == '$')
 			env_state(curr, i, 0, sack);
-		++(*i);
+		else
+			++(*i);
 	}
 	j = *i;
 	while (tok->str[j] && tok->str[j + 1])
@@ -94,7 +95,7 @@ void	double_quote_state(t_list *curr, int *i, t_mshell_sack *sack)
 		tok->str[j] = tok->str[j + 1];
 		++j;
 	}
-	tok->str[j - 1] = '\0';
+	tok->str[j] = '\0';
 }
 
 void	single_quote_state(t_list *curr, int *i)

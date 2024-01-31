@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:41 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 11:54:43 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:37:14 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static void	get_command_str(t_mshell_sack *sack)
 		free(res);
 }
 
-void	leaks(void)
+/* void	leaks(void)
 {
 	system("leaks minishell");
-}
+} */
 
 void	ft_setsigint(t_mshell_sack *sack)
 {
