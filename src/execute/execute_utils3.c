@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 16:20:15 by guortun-          #+#    #+#             */
-/*   Updated: 2024/01/24 12:05:08 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 		return (ft_exec_and_wait(tree_node, sack));
 	if (status == 2)
 		ft_memory_err_exit(sack);
-	ft_putendl_fd("minishell: redirection error", STDERR_FILENO);
+	ft_putendl_fd("µShell: redirection error", STDERR_FILENO);
 	sack->cont = 0;
 	return (2);
 }

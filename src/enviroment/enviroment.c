@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 23:48:33 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 13:58:28 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	ft_add_env_new(t_mshell_sack *sack, char *key_val)
 	{
 		if (ft_realloc_and_add_envp(sack, key_val))
 		{
-			ft_putendl_fd("Minishell: couldn't add more envp tuples",
+			ft_putendl_fd("µShell: couldn't add more envp tuples",
 				STDERR_FILENO);
 			ft_memory_err_exit(sack);
 		}

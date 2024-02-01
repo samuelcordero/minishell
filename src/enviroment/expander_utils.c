@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:59:26 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/31 19:23:12 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:24:36 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	expand_list(t_list *curr, t_mshell_sack *sack)
 	tok = curr->content;
 	i = 0;
 	pre_type = tok->type;
-	while (tok->str[i])
+	while (i < (int) ft_strlen(tok->str))
 	{
 		if (tok->str[i] == '\'' && pre_type == ARG)
 			single_quote_state(curr, &i);
 		else if (tok->str[i] == '"' && pre_type == ARG)
 			double_quote_state(curr, &i, sack);
 		else if (tok->str[i] == '*' && pre_type == E_EXP_ARG)
-			return (wildcard_state(curr, &i, sack), (void)0);
+			return (wildcard_state(curr, &i), (void)0);
 		else if (tok->str[i] == '$' && pre_type == ARG)
 			env_state(curr, &i, 1, sack);
 		else
@@ -76,8 +76,7 @@ void	env_state(t_list *curr, int *i, int check_w_cards, t_mshell_sack *sack)
 	tok->str = ft_join_env(tok, j, tmp, sack);
 	if (check_w_cards)
 		retokenize(curr, E_EXP_ARG, *i, lengths);
-	else if (lengths[0] != *i)
-		*i = lengths[0];
+	*i = lengths[0];
 	if (tok != curr->content)
 		free_cmd_tok(tok);
 	((t_cmdtkn *) curr->content)->type = E_EXP_ARG;

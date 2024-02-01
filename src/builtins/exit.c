@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:54:10 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 12:52:10 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	ft_msh_exit(t_cmd_node *node, t_mshell_sack *sack, char print)
 	{
 		if (!ft_check_exit_arg(node->args[1]))
 		{
-			ft_putendl_fd("MiniShell: exit: numeric arg required",
+			ft_putendl_fd("µShell: exit: numeric arg required",
 				STDERR_FILENO);
 			ft_printexit(2, sack, print);
 		}
 		if (node->args[2] != NULL)
 		{
-			ft_putendl_fd("MiniShell: exit: too many arguments", STDERR_FILENO);
+			ft_putendl_fd("µShell: exit: too many arguments", STDERR_FILENO);
 			return (1);
 		}
 		ft_printexit(ft_atoi(node->args[1]), sack, print);

@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:53:44 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/29 13:36:57 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:54 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_is_valid_key(char	*key_val)
 	}
 	if (i != 0 && has_alpha)
 		return (1);
-	ft_putstr_fd("minishell: export: not a valid id: '", STDERR_FILENO);
+	ft_putstr_fd("µShell: export: not a valid id: '", STDERR_FILENO);
 	ft_putstr_fd(key_val, STDERR_FILENO);
 	ft_putendl_fd("'", STDERR_FILENO);
 	return (0);

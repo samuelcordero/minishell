@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:53:50 by sacorder          #+#    #+#             */
-/*   Updated: 2023/12/28 18:39:01 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_change_dir(t_cmd_node *node, t_mshell_sack *sack)
 	{
 		if (node->args[2] != NULL)
 		{
-			ft_putendl_fd("MiniShell: cd: too many arguments", STDERR_FILENO);
+			ft_putendl_fd("µShell: cd: too many arguments", STDERR_FILENO);
 			return (1);
 		}
 		path = node->args[1];

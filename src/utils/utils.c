@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 22:31:34 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/24 12:12:30 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*get_cwd_str(void)
 	nullable = getcwd(cwd, sizeof(cwd));
 	if (!nullable)
 	{
-		perror("MiniShell: update cwd error");
+		perror("µShell: update cwd error");
 		return (NULL);
 	}
 	return (ft_strdup(cwd));

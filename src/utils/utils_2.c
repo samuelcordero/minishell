@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guortun- <guortun-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:07:54 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/11 21:56:57 by guortun-         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	ft_set_signal_print(int val)
 
 void	ft_memory_err_exit(t_mshell_sack *sack)
 {
-	ft_putendl_fd("minishell: memory error", STDERR_FILENO);
+	ft_putendl_fd("µShell: memory error", STDERR_FILENO);
 	ft_printexit(2, sack, 0);
 }
 
 void	tmp_management(char **tmp, int *shllvl)
 {
-	ft_putstr_fd("minishell: warning: shell level (", STDERR_FILENO);
+	ft_putstr_fd("µShell: warning: shell level (", STDERR_FILENO);
 	*tmp = ft_itoa(*shllvl);
 	ft_putstr_fd(*tmp, STDERR_FILENO);
 	free(*tmp);
@@ -66,13 +66,13 @@ int	ft_check_f_name(char *str, int *i)
 		++(*i);
 	if (starting[1] != *i)
 		return (0);
-	ft_putstr_fd("minishell: syntax error near token '", STDERR_FILENO);
+	ft_putstr_fd("µShell: syntax error near token '", STDERR_FILENO);
 	if (!ft_strncmp("<<", &str[starting[0]], 2)
 		|| !ft_strncmp(">>", &str[starting[0]], 2))
-		write(STDERR_FILENO, &str[starting[0]], 2);
+		(void) (write(STDERR_FILENO, &str[starting[0]], 2) + 1);
 	else if (!ft_strncmp("<", &str[starting[0]], 1)
 		|| !ft_strncmp(">", &str[starting[0]], 1))
-		write(STDERR_FILENO, &str[starting[0]], 1);
+		(void) (write(STDERR_FILENO, &str[starting[0]], 1) + 1);
 	ft_putendl_fd("'", STDERR_FILENO);
 	return (1);
 }

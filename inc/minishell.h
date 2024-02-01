@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:16:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 12:00:58 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:24:10 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void		ft_unquote_list(t_list *list);
 
 //xpander_utils2
 
-void		wildcard_state(t_list *curr, int *i, t_mshell_sack *sack);
+void		wildcard_state(t_list *curr, int *i);
 void		env_state(t_list *curr, int *i, int check_w_cards,
 				t_mshell_sack *sack);
 void		double_quote_state(t_list *curr, int *i, t_mshell_sack *sack);

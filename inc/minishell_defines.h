@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:46:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/29 11:55:37 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define WAIT_MASK 0b100
 # define H_DOC_TMP_BASE "/tmp/.dash_tmp_heredoc_"
 # define HIST_TMP_BASE "/.dash_history"
-# define HIST_ERROR_MSG "Minishell: HOME is not set, history unavailable."
+# define HIST_ERROR_MSG "µShell: HOME is not set, history unavailable."
 # ifndef SIZE_T_MAX
 #  define SIZE_T_MAX UINT_MAX
 # endif

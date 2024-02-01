@@ -6,28 +6,21 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:41:30 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/31 19:23:25 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 02:23:59 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	remove_line_numbers(t_cmdtkn *tok,
-		int *cont, t_list *curr, t_mshell_sack *sack)
+		int *cont)
 {
 	while (cont[2] > 0 && !ft_isspace(tok->str[cont[2]]))
 		--cont[2];
 	while (ft_isspace(tok->str[cont[2]]))
 		++cont[2];
 	while (tok->str[cont[1]] && !ft_isspace(tok->str[cont[1]]))
-	{
-		if (tok->str[cont[1]] == '\'')
-			single_quote_state(curr, &cont[1]);
-		else if (tok->str[cont[1]] == '"')
-			double_quote_state(curr, &cont[1], sack);
-		else
-			++cont[1];
-	}
+		++cont[1];
 }
 
 static void	merge_strings(t_cmdtkn *tok, int *cont, char **files, char **regex)
@@ -43,7 +36,7 @@ static void	merge_strings(t_cmdtkn *tok, int *cont, char **files, char **regex)
 	free(tok->str);
 }
 
-void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
+void	wildcard_state(t_list *curr, int *i)
 {
 	int			cont[3];
 	t_cmdtkn	*tok;
@@ -53,7 +46,7 @@ void	wildcard_state(t_list *curr, int *i, t_mshell_sack *sack)
 	cont[1] = *i + 1;
 	cont[2] = *i;
 	tok = curr->content;
-	remove_line_numbers(tok, cont, curr, sack);
+	remove_line_numbers(tok, cont);
 	cont[1] = *i;
 	while (tok->str[cont[1]] && !ft_isspace(tok->str[cont[1]]))
 		++cont[1];
@@ -105,7 +98,7 @@ void	single_quote_state(t_list *curr, int *i)
 
 	j = *i;
 	tok = curr->content;
-	while (tok->str[j + 1])
+	while (tok->str[j])
 	{
 		tok->str[j] = tok->str[j + 1];
 		++j;
@@ -118,5 +111,5 @@ void	single_quote_state(t_list *curr, int *i)
 		tok->str[j] = tok->str[j + 1];
 		++j;
 	}
-	tok->str[j - 1] = '\0';
+	tok->str[j] = '\0';
 }

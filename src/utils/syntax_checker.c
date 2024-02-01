@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:28:35 by sacorder          #+#    #+#             */
-/*   Updated: 2024/01/15 14:10:21 by sacorder         ###   ########.fr       */
+/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int	g_is_exec;
 
 void	ft_print_syntax_error(char *str)
 {
-	ft_putstr_fd("minishell: syntax error: ", STDERR_FILENO);
+	ft_putstr_fd("µShell: syntax error: ", STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
 }
 
