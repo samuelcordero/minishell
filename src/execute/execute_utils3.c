@@ -67,6 +67,8 @@ int	ft_parse_and_exec(t_cmdtree *tree_node, t_mshell_sack *sack)
 		ft_remove_outer_brackets(tree_node->cmd_str);
 	tree_node->expanded_str = ft_strtrim(tree_node->cmd_str, " \t\n\r\v");
 	tree_node->cmd_tokens = lexer(tree_node->expanded_str);
+	if (!tree_node->cmd_tokens->content)
+		return (0);
 	ft_expand_list(tree_node->cmd_tokens, sack);
 	if (!tree_node->cmd_tokens)
 		ft_memory_err_exit(sack);
@@ -106,6 +108,11 @@ int	logic_expansion(t_cmdtree *tree_node)
 			|| (!tree_node->right->cmd_str || !(*tree_node->right->cmd_str)))
 			return (2);
 	}
-	free(str);
+	if (ft_strncmp(str, tree_node->cmd_str, ft_strlen(str))) {
+		free(tree_node->cmd_str);
+		tree_node->cmd_str = str;
+	}
+	else
+		free(str);
 	return (0);
 }
