@@ -6,7 +6,7 @@
 /*   By: sacorder <sacorder@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 20:49:10 by sacorder          #+#    #+#             */
-/*   Updated: 2024/02/01 01:05:52 by sacorder         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:23:44 by sacorder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern int	g_is_exec;
 
 static void	ft_sig_handler(int signum)
 {
+	//rintf("global is %d\n", g_is_exec);
 	if (signum == SIGINT && (!g_is_exec || g_is_exec == 3))
 	{
 		rl_on_new_line();
@@ -29,8 +30,6 @@ static void	ft_sig_handler(int signum)
 		ft_putstr_fd("\nQuit (core dumped)", STDERR_FILENO);
 		g_is_exec = 0;
 	}
-	else if (signum == SIGINT && g_is_exec == 1)
-		g_is_exec = 0;
 	else if (signum == SIGINT && g_is_exec == 2)
 	{
 		g_is_exec = 0;
